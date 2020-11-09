@@ -10,10 +10,16 @@ const commentSchema = new Schema({
     type: String,
   },
   pingId: {
+    // which ping the comment belongs to
     type: Schema.Types.ObjectId,
   },
   userId: {
+    // who posted the comment
     type: Schema.Types.ObjectId,
+  },
+  hashtagsList: {
+    // list of hashtags contained in the ping
+    type: [String],
   },
 })
 

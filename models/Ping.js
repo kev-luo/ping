@@ -15,22 +15,29 @@ const pingSchema = new Schema({
     type: String,
   },
   locationStamp: {
+    // where the ping was posted from
     type: String,
   },
   timeStamp: {
     type: Date,
     default: Date.now,
   },
-  userSupportList: {
-    type: [Schema.Types.ObjectId],
-  },
+  userSupportList: [
+    // list of users who've supported this ping
+    {
+      user: { type: Schema.Types.ObjectId },
+      supportStatus: { type: Boolean }
+    }
+  ],
   comments: {
+    // list of comments associated with this ping
     type: [Schema.Types.ObjectId],
   },
   totalSupport: {
     type: Number,
   },
   hashtagsList: {
+    // list of hashtags contained in the ping
     type: [String],
   },
   userId: {
