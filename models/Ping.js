@@ -11,29 +11,30 @@ const pingSchema = new Schema({
     type: String,
     trim: true,
   },
-  image: {
-
+  imageUrl: {
+    type: String,
   },
   locationStamp: {
-
+    type: String,
   },
   timeStamp: {
-
+    type: Date,
+    default: Date.now,
   },
   userSupportList: {
-
+    type: [Schema.Types.ObjectId],
   },
   comments: {
-
+    type: [Schema.Types.ObjectId],
   },
   totalSupport: {
-
+    type: Number,
   },
   hashtagsList: {
-
+    type: [String],
   },
   userId: {
-
+    type: Schema.Types.ObjectId,
   },
 })
 
