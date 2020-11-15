@@ -37,7 +37,7 @@ input RegisterInput {
 }
 type Query {
     getPings: [Ping]
-    getPings(pingId: ID!): Ping
+    getPing(pingId: ID!): Ping
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
