@@ -55,7 +55,7 @@ type Mutation {
     deleteComment(pingId: ID!, commentId: ID!): Ping!
     supportPing(pingId: ID!): Ping!
     # TODO: test case oauth
-    me: User
+    me: OauthUser
 }
 type Subscription {
     newPing: Ping!
