@@ -1,23 +1,31 @@
 require('dotenv').config();
-const express = require('express');
-const path = require('path');
 const mongoose = require('mongoose');
-const app = express();
+const { ApolloServer } = require('apollo-server');
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/pings_db", {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('connected to db');
-})
-
-app.use(express.json());
-app.use(express.urlencoded({ extended:true }))
-app.use(express.static(path.join(__dirname, 'public')))
-
-app.use('/', require('./routes/html'));
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers');
 
 const port = process.env.PORT || 8080;
 
-app.listen(port, () => console.log(`listening on port ${port}`))
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({ req })
+})
+
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/pings_db", {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log('connected to db');
+    return server.listen({ port: PORT })
+  })
+  .then(res => {
+    console.log(`Server running at ${ res.url }`)
+  })
+  .catch(err => {
+    console.error(err);
+  })
