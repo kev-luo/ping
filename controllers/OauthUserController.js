@@ -5,6 +5,8 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 
 const findOrCreateUser = async(token) => {
   const googleUser = await verifyAuthToken(token);
+  const user = await checkIfUserExists(googleUser.email);
+  return user ? user : createNewUser(googleUser);
 }
 
 const verifyAuthToken = async(token) => {
@@ -18,3 +20,13 @@ const verifyAuthToken = async(token) => {
     console.error('Error verifying auth token', err);
   }
 }
+
+const checkIfUserExists = async(email) => await OauthUser.findOne({ email }).exec();
+
+const createNewUser = googleUser => {
+  const { name, email, picture } = googleUser;
+  const oauthUser = { name, email, picture };
+  return new OauthUser(oauthUser).save();
+}
+
+module.exports = findOrCreateUser;
