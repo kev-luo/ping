@@ -22,7 +22,10 @@ const pingSchema = new Schema({
   comments: [
     {
       body: String,
-      username: String,
+      author: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
       createdAt: String,
       commentHash: {
         type: [String]
