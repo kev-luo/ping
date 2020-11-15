@@ -2,33 +2,32 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  location: {
-    type: String,
+  name: {
+    type: String
   },
-  totalSupport: {
-    type: Number,
+  picture: {
+    type: String
   },
   email: {
     type: String,
-    unique: true,
   },
   username: {
     type: String,
-    trim: true,
   },
   password: {
     type: String,
-    trim: true,
-    required: "Password is Required",
   },
-  profilePicUrl: {
-    type: String
+  longitude: {
+    type: Number,
+  },
+  latitude: {
+    type: Number,
   },
   locationList: {
     // list of locations that user has posted a ping from
     type: [String]
   },
-})
+});
 
 const User = mongoose.model("User", userSchema);
 
