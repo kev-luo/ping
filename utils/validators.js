@@ -1,3 +1,5 @@
+// backend validation for registration and login
+
 module.exports.validateRegisterInput = (username, email, password, confirmPassword) => {
   const errors = {};
 
@@ -23,3 +25,17 @@ module.exports.validateRegisterInput = (username, email, password, confirmPasswo
   }
 }
 
+module.exports.validateLoginInput = (username, password) => {
+  const errors = {};
+
+  if(username.trim() === '') {
+    errors.username = 'Username must not be empty';
+  }
+  if(password.trim() === '') {
+    errors.password = 'Password must not be empty';
+  }
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1
+  }
+}
