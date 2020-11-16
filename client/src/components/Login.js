@@ -13,7 +13,7 @@ export default function Login() {
     //   isSignedIn={ true }
     // />
     <>
-      <Typography variant="h6">Register</Typography>
+      <Typography variant="h6">Login</Typography>
       <form>
         <TextField
           label="Username"
