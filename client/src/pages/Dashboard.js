@@ -1,9 +1,10 @@
 import React from 'react';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from '../components/Nav';
 import Feed from '../components/Feed';
+import Login from '../components/Login';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,19 +29,13 @@ export default function Dashboard() {
         <Grid container spacing={3}>
           <Grid item xs={4}>
             <Paper className={classes.paper}>
-              <Typography>
-                ProfileProfileProfileProfileProfileProfileProfileProfileProfile
-                ProProfileProfileProfileProfileProfileProfileProfileProfileProfilefile
-                ProfProfileProfileProfileProfileProfileProfileProfileProfileProfileile
-                ProProfileProfileProfileProfileProfileProfileProfileProfileProfilefile
-                PrProfileProfileProfileProfileProfileProfileProfileProfileProfileofile
-                PrProfileProfileProfileProfileProfileProfileProfileProfileProfileofile
-                PrProfileProfileProfileProfileProfileProfileProfileProfileProfileofile
-              </Typography>
+              <Login />
             </Paper>
           </Grid>
           <Grid item xs={8}>
-            <Paper className={classes.paper}><Feed /></Paper>
+            <Paper className={classes.paper}>
+              <Feed />
+            </Paper>
           </Grid>
           <Grid item xs={4}>
             <Paper className={classes.paper}>Map</Paper>
