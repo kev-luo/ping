@@ -22,10 +22,7 @@ const pingSchema = new Schema({
   comments: [
     {
       body: String,
-      author: {
-        type: Schema.Types.ObjectId,
-        ref: "users"
-      },
+      username: String,
       createdAt: String,
       commentHash: {
         type: [String]
@@ -42,9 +39,8 @@ const pingSchema = new Schema({
     // list of hashtags contained in the ping
     type: [String],
   },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "users"
+  user: {
+    type: String
   },
 })
 

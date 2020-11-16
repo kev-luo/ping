@@ -5,7 +5,7 @@ type Ping {
     id: ID!
     body: String!
     createdAt: String!
-    username: String! 
+    user: String!
     comments: [Comment]!
     support: [Support]!
     supportCount: Int!
@@ -45,17 +45,17 @@ input RegisterInput {
 type Query {
     getPings: [Ping]
     getPing(pingId: ID!): Ping
+    me: OauthUser
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
     createPing(body: String!): Ping!
-    deletePing(pingID: ID!): String!
+    deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping!
     deleteComment(pingId: ID!, commentId: ID!): Ping!
     supportPing(pingId: ID!): Ping!
     # TODO: test case oauth
-    me: OauthUser
 }
 type Subscription {
     newPing: Ping!

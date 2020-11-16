@@ -27,6 +27,9 @@ const userSchema = new Schema({
     // list of locations that user has posted a ping from
     type: [String]
   },
+  createdAt: {
+    type: String,
+  }
 });
 
 const User = mongoose.model("User", userSchema);
