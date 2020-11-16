@@ -66,6 +66,15 @@ module.exports = {
                 })
             }
 
+            const userEmail = await User.findOne({ email });
+            if(userEmail) {
+              throw new UserInputError("email is taken", {
+                errors: {
+                  email: "This email is taken"
+                }
+              })
+            }
+
             password = await bcrypt.hash(password, 12);
             const newUser = new User({
                 email,

@@ -4,8 +4,8 @@ const commentsResolvers = require("./comments");
 const oauthUsersResolvers = require('./oauthUsers');
 
 module.exports = {
-    Post: {
-        likeCount: (parent) => parent.likes.length,
+    Ping: {
+        supportCount: (parent) => parent.support.length,
         commentCount: (parent) => parent.comments.length
     },
     Query: {

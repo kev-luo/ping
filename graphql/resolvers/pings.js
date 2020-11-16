@@ -39,8 +39,7 @@ module.exports = {
 
             const newPing = new Ping({
                 body,
-                user: user.id,
-                username: user.username,
+                user: user.username,
                 createdAt: new Date().toISOString()
             });
 
@@ -55,10 +54,12 @@ module.exports = {
         async deletePing(_, { pingId }, context) {
             console.log("delete ping");
             const user = checkAuth(context);
+            console.log(user);
 
             try {
                 const ping = await Ping.findById(pingId);
-                if (user.username === ping.username) {
+                console.log(ping);
+                if (user.username === ping.user) {
                     await ping.deleteOne();
                     return "ping deleted succesfully";
                 } else {
@@ -90,8 +91,8 @@ module.exports = {
         }
     },
     Subscription: {
-        newPost: {
-            subscribe: (_,_, { pubsub }) => pubsub.asyncIterator("NEW_PING")
+        newPing: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PING")
         }
     }
 }
