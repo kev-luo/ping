@@ -45,11 +45,14 @@ input RegisterInput {
 type Query {
     getPings: [Ping]
     getPing(pingId: ID!): Ping
+    getUsers: [User]
+    getUser(userId: ID!): User
     me: OauthUser
 }
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    updateUser(newImage: String!): User!
     deleteUser(username: String!, password: String!): String!
     createPing(body: String!): Ping!
     deletePing(pingId: ID!): String!
