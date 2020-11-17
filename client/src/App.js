@@ -1,9 +1,13 @@
 import React from 'react';
 import Dashboard from './pages/Dashboard';
 
+import { AuthProvider } from './utils/useAuthContext';
+
 function App() {
   return (
-    <Dashboard />
+    <AuthProvider>
+      <Dashboard />
+    </AuthProvider>
   );
 }
 

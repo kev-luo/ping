@@ -1,7 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, AppBar, Toolbar, Typography, InputBase, fade } from '@material-ui/core';
+import { Paper, AppBar, Toolbar, Typography, InputBase, fade, Button } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { BiExit } from 'react-icons/bi';
+
+import { useAuthContext } from '../utils/useAuthContext';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -28,11 +31,15 @@ const useStyles = makeStyles(theme => ({
   input: {
     paddingLeft: '3em',
     color: 'inherit',
+  },
+  logout: {
+    marginLeft: theme.spacing(1)
   }
 }))
 
 export default function Nav() {
   const classes = useStyles();
+  const context = useAuthContext();
   return (
     <Paper elevation={3}>
       <AppBar position="static">
@@ -46,6 +53,18 @@ export default function Nav() {
             </div>
             <InputBase placeholder="Search..." className={classes.input}/>
           </div>
+          {context.user && (
+            <Button
+              variant="contained"
+              color="default"
+              endIcon={<BiExit />}
+              size="small"
+              className={classes.logout}
+              onClick={context.logout}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </Paper>

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function ProfileBox() {
+export default function Ping() {
   return (
     <div>
-      I'm a profile 
+      
     </div>
   )
 }
