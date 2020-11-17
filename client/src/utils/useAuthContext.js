@@ -25,7 +25,14 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         user: payload
-      }
+      };
+    case "LOGOUT":
+      return {
+        ...state,
+        user: null,
+      };
+    default: 
+      return state;
   }
 }
 
@@ -38,9 +45,14 @@ function AuthProvider(props) {
     dispatch({ type: "LOGIN", payload: userData })
   }
 
+  function logout() {
+    localStorage.removeItem('jwtToken');
+    dispatch({ type: "LOGOUT" })
+  }
+
   return(
     <AuthContext.Provider 
-      value={{ user: state.user, login }}
+      value={{ user: state.user, login, logout }}
       {...props}
     />
   )
