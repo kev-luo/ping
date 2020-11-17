@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useMutation } from '@apollo/client';
 // import { GraphQLClient } from 'graphql-request';
 // import { GoogleLogin } from 'react-google-login';
 import { Typography, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useForm } from '../utils/useForm';
+import { LOGIN_USER } from '../utils/graphql';
 
 const useStyles = makeStyles(themes => ({
   root: {
@@ -19,14 +21,25 @@ const useStyles = makeStyles(themes => ({
 
 export default function Login() {
   const classes = useStyles();
+  const [errors, setErrors] = useState({});
   const initialState = {
     username: '',
     password: '',
   }
-  const { handleChange, handleSubmit, values } = useForm(loginUser, initialState);
+  const { handleChange, handleSubmit, values } = useForm(loginCb, initialState);
 
-  function loginUser() {
-    console.log('hello');
+  const [loginUser] = useMutation(LOGIN_USER, {
+    variables: values,
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    update(_, result) {
+      console.log(result);
+    }
+  })
+
+  function loginCb() {
+    loginUser();
   }
   return (
     // <GoogleLogin 
@@ -45,7 +58,7 @@ export default function Login() {
           fullWidth
           value={values.username}
           onChange={handleChange}
-          error={false}
+          error={errors.username ? true : false}
           helperText={""}
         />
         <TextField
@@ -56,10 +69,11 @@ export default function Login() {
           fullWidth
           value={values.password}
           onChange={handleChange}
-          error={false}
+          error={errors.password ? true : false}
           helperText={""}
         />
         <Button
+          type="submit"
           variant="contained"
           color="primary"
           style={{ margin: "1rem 5px"}}
