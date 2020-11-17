@@ -3,7 +3,7 @@ import { useState} from 'react'
 export const useForm = (callback, initialState = {}) => {
   const [values, setValues] = useState(initialState);
 
-  const onChange = event => {
+  const handleChange = event => {
     const { name, value } = event.target;
 
     setValues({
@@ -12,11 +12,12 @@ export const useForm = (callback, initialState = {}) => {
     })
   }
 
-  const onSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    callback();
+    // callback();
+    console.log(values);
   }
 
-  return { onChange, onSubmit, values }
+  return { handleChange, handleSubmit, values }
 }

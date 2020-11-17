@@ -34,7 +34,7 @@ export default function Feed() {
       { loading || (
         data.getPings && data.getPings.map(ping => {
           return(
-            <Paper className={classes.paper}>
+            <Paper key={ping.id} className={classes.paper}>
               <Grid container wrap="nowrap" spacing={2} alignItems="center">
                 <Grid item >
                   <Avatar className={classes.pic}>Pic</Avatar>
