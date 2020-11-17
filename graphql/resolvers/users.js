@@ -22,6 +22,37 @@ function generateToken(user) {
 }
 
 module.exports = {
+    Query: {
+        async getUsers() {
+            console.log("get users");
+
+            try {
+                const users = await User.find({}).sort({username: 1})
+                return users;
+            } catch (err) {
+                throw new Error(err);
+            }
+        },
+        async getUser(_, { userId }, context) {
+            console.log("get user");
+            const user = checkAuth(context);
+
+            if(!user) {
+                return "please log in or sign up to view this user"
+            }
+
+            try {
+                const lookAtUser = await User.findById(userId);
+                if(lookAtUser) {
+                    return lookAtUser;
+                } else {
+                    throw new Error("user not found")
+                }
+            } catch(err) {
+                throw new Error(err)
+            }
+        }
+    },
     Mutation: {
         async login(_, { username, password }) {
             const { errors, valid } = validateLoginInput(username, password);
@@ -93,18 +124,33 @@ module.exports = {
                 token
             };
         },
+        async updateUser(
+            _,
+            {
+                newImage
+            },
+            context
+        ) {
+            console.log("update user");
+            const user = checkAuth(context);
+            console.log(user);
+           
+            //ADD IN CODE TO UPDATE IMAGE
+                //should return a user object - check typeDefs for structure reference
+
+            return updatedUser
+        },
         async deleteUser( _, { password }, context) {
             console.log("delete user");
             const user = checkAuth(context);
-            console.log(user);
+            const userDeep = await User.findById(user.id);
+            console.log(user, userDeep);
 
             const { errors, valid } = validateDeleteUser(password);
             if (!valid) {
                 throw new UserInputError("wrong credentials", { errors });
             }
       
-            const userDeep = await User.findById(user.id);
-
             const match = await bcrypt.compare(password, userDeep.password);
             if (!match) {
                 errors.general = "wrong credentials";
@@ -112,19 +158,15 @@ module.exports = {
             }
 
             if(match){
-
                 try {
-
                     await Ping.deleteMany({"user":user.username});
                     await User.deleteOne({"_id": user.id});
-                    
                  } catch (err) {
                     throw new Error (err);
                  }
-
                 return "deleted user"
             } else {
-                return "u are not the user"
+                return "You are not the user"
             }
         }
     }
