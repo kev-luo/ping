@@ -37,7 +37,6 @@ function reducer(state, { type, payload }) {
 }
 
 function AuthProvider(props) {
-
   const [state, dispatch] = useReducer(reducer, initialState);
 
   function login(userData) {

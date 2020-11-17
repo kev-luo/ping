@@ -6,6 +6,8 @@ import Nav from "../components/Nav";
 import Feed from "../components/Feed";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import ProfileBox from '../components/ProfileBox';
+import { useAuthContext } from '../utils/useAuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+  const context = useAuthContext();
   return (
     <div className={classes.root}>
       <Nav />
@@ -40,8 +43,11 @@ export default function Dashboard() {
                 style={{ backgroundColor: "#fcf8f2" }}
                 className={classes.paper}
               >
-                <Login />
-                {/* <Register /> */}
+                {context.user ? (
+                  <ProfileBox />
+                ) : (
+                  <Login />
+                )}
               </Paper>
             </Grid>
             <Grid item>
