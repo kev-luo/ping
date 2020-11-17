@@ -2,4 +2,4 @@
 - might want to make a validator to check if the email account already exists
 - delete user, get user, update user
 - ensure email is unique
-- 
+- ping icons don't stay in box if width shrinks
