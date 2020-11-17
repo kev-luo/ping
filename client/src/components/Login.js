@@ -6,6 +6,7 @@ import { Typography, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useForm } from '../utils/useForm';
+import { useAuthContext } from '../utils/useAuthContext';
 import { LOGIN_USER } from '../utils/graphql';
 
 const useStyles = makeStyles(themes => ({
@@ -21,6 +22,7 @@ const useStyles = makeStyles(themes => ({
 
 export default function Login() {
   const classes = useStyles();
+  const context = useAuthContext();
   const [errors, setErrors] = useState({});
   const initialState = {
     username: '',
@@ -34,7 +36,7 @@ export default function Login() {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     update(_, result) {
-      console.log(result);
+      context.login(result.data.login)
     }
   })
 
