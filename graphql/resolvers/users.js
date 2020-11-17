@@ -93,18 +93,33 @@ module.exports = {
                 token
             };
         },
+        async updateUser(
+            _,
+            {
+                newImage
+            },
+            context
+        ) {
+            console.log("update user");
+            const user = checkAuth(context);
+            console.log(user);
+           
+            //ADD IN CODE TO UPDATE IMAGE
+                //should return a user object - check typeDefs for structure reference
+
+            return updatedUser
+        },
         async deleteUser( _, { password }, context) {
             console.log("delete user");
             const user = checkAuth(context);
-            console.log(user);
+            const userDeep = await User.findById(user.id);
+            console.log(user, userDeep);
 
             const { errors, valid } = validateDeleteUser(password);
             if (!valid) {
                 throw new UserInputError("wrong credentials", { errors });
             }
       
-            const userDeep = await User.findById(user.id);
-
             const match = await bcrypt.compare(password, userDeep.password);
             if (!match) {
                 errors.general = "wrong credentials";
@@ -112,19 +127,15 @@ module.exports = {
             }
 
             if(match){
-
                 try {
-
                     await Ping.deleteMany({"user":user.username});
                     await User.deleteOne({"_id": user.id});
-                    
                  } catch (err) {
                     throw new Error (err);
                  }
-
                 return "deleted user"
             } else {
-                return "u are not the user"
+                return "You are not the user"
             }
         }
     }
