@@ -45,6 +45,7 @@ input RegisterInput {
 type Query {
     getPings: [Ping]
     getPing(pingId: ID!): Ping
+    getUsers: [User]
     me: OauthUser
 }
 type Mutation {
