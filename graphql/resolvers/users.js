@@ -1,10 +1,13 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { validateRegisterInput, validateLoginInput } = require("../../utils/validators");
+const { validateRegisterInput, validateLoginInput, validateDeleteUser } = require("../../utils/validators");
 const SECRET_KEY = process.env.SECRET_KEY;
 const User = require("../../models/User");
+const Ping = require("../../models/Ping");
 const { UserInputError } = require("apollo-server");
+
+const checkAuth = require("../../utils/check-auth");
 
 function generateToken(user) {
     return jwt.sign(
@@ -90,8 +93,39 @@ module.exports = {
                 token
             };
         },
-        // async deleteUser(
+        async deleteUser( _, { password }, context) {
+            console.log("delete user");
+            const user = checkAuth(context);
+            console.log(user);
 
-        // )
+            const { errors, valid } = validateDeleteUser(password);
+            if (!valid) {
+                throw new UserInputError("wrong credentials", { errors });
+            }
+      
+            const userDeep = await User.findById(user.id);
+
+            const match = await bcrypt.compare(password, userDeep.password);
+            if (!match) {
+                errors.general = "wrong credentials";
+                throw new UserInputError("wrong credentials", { errors })
+            }
+
+            if(match){
+
+                try {
+
+                    await Ping.deleteMany({"user":user.username});
+                    await User.deleteOne({"_id": user.id});
+                    
+                 } catch (err) {
+                    throw new Error (err);
+                 }
+
+                return "deleted user"
+            } else {
+                return "u are not the user"
+            }
+        }
     }
 }
