@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Nav from '../components/Nav';
 import Feed from '../components/Feed';
 import Login from '../components/Login';
+import Register from '../components/Register';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +32,8 @@ export default function Dashboard() {
           <Grid item container direction="column" xs={4} justify="space-between" >
             <Grid item>
               <Paper style={{backgroundColor: 'grey'}} className={classes.paper}>
-                <Login />
+                {/* <Login /> */}
+                <Register />
               </Paper>
             </Grid>
             <Grid item>
