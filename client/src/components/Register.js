@@ -1,43 +1,45 @@
-import React, { useState } from 'react'
-import { useMutation } from '@apollo/client';
-import { Typography, TextField, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { Typography, TextField, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { useForm } from '../utils/useForm';
-import { REGISTER_USER } from '../utils/graphql';
+import { useForm } from "../utils/useForm";
+import { REGISTER_USER } from "../utils/graphql";
 
-const useStyles = makeStyles(themes => ({
+const useStyles = makeStyles((themes) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    '& > *': {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    "& > *": {
       flexGrow: 1,
-      margin: themes.spacing(1,1),
-    }
-  }
-}))
+      margin: themes.spacing(0.5, 1),
+    },
+  },
+}));
 
-export default function Register() {
+export default function Register(props) {
   const classes = useStyles();
   const [errors, setErrors] = useState({});
   const initialState = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  }
-  const { handleChange, handleSubmit, values } = useForm(registerUser, initialState);
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const { handleChange, handleSubmit, values } = useForm(
+    registerUser,
+    initialState
+  );
   const [addUser] = useMutation(REGISTER_USER, {
-    variable: { values },
+    variables: values,
     onError(err) {
-      console.log(err.graphQLErrors);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     update(_, result) {
-      console.log(result);
-    }
-  })
+      props.history.push("/");
+    },
+  });
 
   function registerUser() {
     addUser();
@@ -52,7 +54,7 @@ export default function Register() {
           name="username"
           value={values.username}
           error={errors.username ? true : false}
-          helperText={errors.username && errors.username}
+          helperText={errors.username}
           onChange={handleChange}
         />
         <TextField
@@ -61,6 +63,7 @@ export default function Register() {
           name="email"
           value={values.email}
           error={errors.email ? true : false}
+          helperText={errors.email}
           onChange={handleChange}
         />
         <TextField
@@ -69,6 +72,7 @@ export default function Register() {
           name="password"
           value={values.password}
           error={errors.password ? true : false}
+          helperText={errors.password}
           onChange={handleChange}
           fullWidth
         />
@@ -78,6 +82,7 @@ export default function Register() {
           name="confirmPassword"
           value={values.confirmPassword}
           error={errors.confirmPassword ? true : false}
+          helperText={errors.confirmPassword}
           onChange={handleChange}
           fullWidth
         />
@@ -85,10 +90,11 @@ export default function Register() {
           variant="contained"
           color="primary"
           type="submit"
+          style={{ marginTop: "1rem" }}
         >
           Sign-Up
         </Button>
       </form>
     </>
-  )
+  );
 }

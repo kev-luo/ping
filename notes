@@ -3,3 +3,4 @@
 - delete user, get user, update user
 - ensure email is unique
 - ping icons don't stay in box if width shrinks
+- change login to email or username instead of just username

@@ -1,28 +1,28 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const FETCH_PINGS_QUERY = gql`
-{
-  getPings {
-    id
-    body
-    createdAt
-    user
-    comments {
+  {
+    getPings {
       id
-      createdAt
-      username
       body
-    }
-    support {
-      id
       createdAt
-      username
+      user
+      comments {
+        id
+        createdAt
+        username
+        body
+      }
+      support {
+        id
+        createdAt
+        username
+      }
+      supportCount
+      commentCount
     }
-    supportCount
-    commentCount
   }
-}
-`
+`;
 
 export const REGISTER_USER = gql`
   mutation register(
@@ -46,4 +46,4 @@ export const REGISTER_USER = gql`
       token
     }
   }
-`
+`;
