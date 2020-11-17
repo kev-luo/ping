@@ -1,8 +1,9 @@
 import React from 'react';
+import moment from 'moment';
 import { useQuery } from '@apollo/client';
 import { Grid, Paper, Avatar, Typography, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaRegComment, FaRegHeart } from 'react-icons/fa';
+import { FaRegComment, FaRegHeart, FaThemeisle } from 'react-icons/fa';
 import { FiImage } from 'react-icons/fi';
 import { AiOutlineDelete } from 'react-icons/ai';
 
@@ -18,6 +19,10 @@ const useStyles = makeStyles(theme => ({
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
+  date: {
+    color: theme.palette.text.secondary,
+    fontSize: 12
+  }
 }))
 
 export default function Feed() {
@@ -38,22 +43,24 @@ export default function Feed() {
                   <FiImage size={32}/>
                 </Grid>
                 <Grid item xs >
-                  <Typography>{ping.body}</Typography>
+                    <Typography variant="subtitle2">{ping.user}
+                    <span className={classes.date}> {moment(ping.createdAt).fromNow()}</span></Typography>
+                  <Typography variant="body2">{ping.body}</Typography>
                 </Grid>
-                <Grid item xs={2} container wrap="nowrap">
+                <Grid item xs={2} container >
                   <Grid item>
                     <IconButton>
-                      <FaRegHeart />
+                      <FaRegHeart style={{color:'red'}} size={15}/>
                     </IconButton>
                   </Grid>
                   <Grid item>
                     <IconButton>
-                      <FaRegComment />
+                      <FaRegComment style={{color:'blue'}} size={15} />
                     </IconButton>
                   </Grid>
                   <Grid item>
                     <IconButton>
-                      <AiOutlineDelete size={26}/>
+                      <AiOutlineDelete style={{color:'gray'}} size={17}/>
                     </IconButton>
                   </Grid>
                 </Grid>

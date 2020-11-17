@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Nav from '../components/Nav';
@@ -31,18 +31,18 @@ export default function Dashboard() {
 
           <Grid item container direction="column" xs={4} justify="space-between" >
             <Grid item>
-              <Paper style={{backgroundColor: 'grey'}} className={classes.paper}>
+              <Paper style={{backgroundColor: '#fcf8f2'}} className={classes.paper}>
                 {/* <Login /> */}
                 <Register />
               </Paper>
             </Grid>
             <Grid item>
-              <Paper style={{backgroundColor: 'grey'}} className={classes.paper}>Map</Paper>
+              <Paper style={{backgroundColor: '#fcf8f2'}} className={classes.paper}>Map</Paper>
             </Grid>
           </Grid>
 
           <Grid item xs={8}>
-            <Paper style={{backgroundColor: 'grey', height: '80vh', overflow: 'auto'}} className={classes.paper}>
+            <Paper style={{backgroundColor: '#fcf8f2', height: '80vh', overflow: 'auto'}} className={classes.paper}>
               <Feed />
             </Paper>
           </Grid>
@@ -53,19 +53,3 @@ export default function Dashboard() {
     </div>
   )
 }
-
-{/* <Grid container spacing={3}>
-  <Grid item xs={4}>
-    <Paper className={classes.paper}>
-      <Login />
-    </Paper>
-  </Grid>
-  <Grid item xs={8}>
-    <Paper className={classes.paper}>
-      <Feed />
-    </Paper>
-  </Grid>
-  <Grid item xs={4}>
-    <Paper className={classes.paper}>Map</Paper>
-  </Grid>
-</Grid> */}

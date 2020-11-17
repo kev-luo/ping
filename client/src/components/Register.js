@@ -25,19 +25,23 @@ export default function Register() {
         <TextField
           label="Username"
           type="text"
+          name="user"
         />
         <TextField
           label="Email"
           type="email"
+          name="email"
         />
         <TextField
           label="Password"
           type="password"
+          name="password"
           fullWidth
         />
         <TextField
           label="Confirm Password"
           type="password"
+          name="confirmPassword"
           fullWidth
         />
         <Button
