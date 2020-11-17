@@ -50,6 +50,7 @@ type Query {
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    deleteUser(username: String!, password: String!): String!
     createPing(body: String!): Ping!
     deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping!
