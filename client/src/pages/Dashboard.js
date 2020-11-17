@@ -40,7 +40,7 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={8}>
-            <Paper style={{backgroundColor: 'grey'}} className={classes.paper}>
+            <Paper style={{backgroundColor: 'grey', height: '80vh', overflow: 'auto'}} className={classes.paper}>
               <Feed />
             </Paper>
           </Grid>
