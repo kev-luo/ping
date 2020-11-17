@@ -32,6 +32,25 @@ module.exports = {
             } catch (err) {
                 throw new Error(err);
             }
+        },
+        async getUser(_, { userId }, context) {
+            console.log("get user");
+            const user = checkAuth(context);
+
+            if(!user) {
+                return "please log in or sign up to view this user"
+            }
+
+            try {
+                const lookAtUser = await User.findById(userId);
+                if(lookAtUser) {
+                    return lookAtUser;
+                } else {
+                    throw new Error("user not found")
+                }
+            } catch(err) {
+                throw new Error(err)
+            }
         }
     },
     Mutation: {

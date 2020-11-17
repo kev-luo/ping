@@ -46,6 +46,7 @@ type Query {
     getPings: [Ping]
     getPing(pingId: ID!): Ping
     getUsers: [User]
+    getUser(userId: ID!): User
     me: OauthUser
 }
 type Mutation {
