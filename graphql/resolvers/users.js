@@ -89,6 +89,9 @@ module.exports = {
                 id: res._id,
                 token
             };
-        }
+        },
+        // async deleteUser(
+
+        // )
     }
 }
