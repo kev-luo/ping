@@ -3,11 +3,12 @@ import moment from "moment";
 import { useQuery } from "@apollo/client";
 import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { FaRegComment, FaRegHeart } from "react-icons/fa";
+import { FaComments } from "react-icons/fa";
 import { FiImage } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
 
 import NewPing from './NewPing';
+import SupportPing from './SupportPing';
+import DeleteButton from './DeleteButton';
 import { useAuthContext } from '../utils/useAuthContext';
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
@@ -61,19 +62,15 @@ export default function Feed() {
                   </Grid>
                   <Grid item xs={2} container>
                     <Grid item>
-                      <IconButton>
-                        <FaRegHeart style={{ color: "red" }} size={15} />
-                      </IconButton>
+                      <SupportPing user={context.user} ping={ping}/>
                     </Grid>
                     <Grid item>
                       <IconButton>
-                        <FaRegComment style={{ color: "blue" }} size={15} />
+                        <FaComments style={{ color: "blue" }} size={15} />
                       </IconButton>
                     </Grid>
                     <Grid item>
-                      <IconButton>
-                        <AiOutlineDelete style={{ color: "gray" }} size={17} />
-                      </IconButton>
+                      <DeleteButton />
                     </Grid>
                   </Grid>
                 </Grid>

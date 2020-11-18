@@ -98,3 +98,44 @@ export const CREATE_PING = gql`
    }
  }
  `
+
+ export const SUPPORT_PING = gql`
+  mutation supportPing($pingId: ID!) {
+    supportPing(pingId: $pingId) {
+      id
+      support {
+        id
+        username
+      }
+      supportCount
+    }
+  }
+ `
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment(
+    $pingId: ID!
+    $commentId: ID!
+  ) {
+    deleteComment(
+      pingId: $pingId
+      commentId: $commentId
+    ) {
+        id
+        comments {
+          id
+          username
+          createdAt
+          body
+        }
+        commentCount
+    }
+  }
+
+`
+
+export const DELETE_PING = gql`
+  mutation deletePing($pingId: ID!) {
+    deletePing(pingId: $pingId)
+  }
+`
