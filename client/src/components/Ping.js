@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { useDashboardContext } from "../pages/Dashboard";
+import { useDashboardContext } from "../utils/useDashboardContext";
 import { FETCH_PING_QUERY } from "../utils/graphql";
 
 // const useStyles = makeStyles((theme) => ({

@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -6,11 +6,9 @@ import SignUpOrIn from '../components/SignUpOrIn';
 import Nav from "../components/Nav";
 import Feed from "../components/Feed";
 import Ping from "../components/Ping";
-import Login from "../components/Login";
-import Register from "../components/Register";
 import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
-import { selectionSetMatchesResult } from "@apollo/client/cache/inmemory/helpers";
+import { useDashboardContext } from '../utils/useDashboardContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,43 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DashboardContext = React.createContext({
-  board: "",
-  details: ""
-});
-
-const initialState = { board: "rawfeed" }
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "rawfeed":
-      return {
-        ...state,
-        board: "rawfeed",
-        details: ""
-      }
-    case "ping":
-      return {
-        ...state,
-        board: "ping",
-        details: action.pingId
-      }
-    case "supportedpings":
-      return {
-        ...state,
-        board: "supportedpings"
-      }
-  }
-}
-
-export function useDashboardContext() {
-  return useContext(DashboardContext)
-}
-
 export default function Dashboard() {
-  const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
-  const context = useAuthContext();
+  const authContext = useAuthContext();
+  const [state] = useDashboardContext();
+
   return (
     <div className={classes.root}>
       <Nav />
@@ -80,7 +46,7 @@ export default function Dashboard() {
                 style={{ backgroundColor: "#fcf8f2" }}
                 className={classes.paper}
               >
-                {context.user ? (
+                {authContext.user ? (
                   <ProfileBox />
                 ) : (
                     <SignUpOrIn />
@@ -98,19 +64,16 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={8}>
-            <DashboardContext.Provider value={[state, dispatch]}>
-              <Paper
-                style={{
-                  backgroundColor: "#fcf8f2",
-                  height: "80vh",
-                  overflow: "auto",
-                }}
-                className={classes.paper}
-              >
-                {state.board === "ping" ? <Ping /> : <Feed />}
-              </Paper>
-              {/* {console.log(state)} */}
-            </DashboardContext.Provider>
+            <Paper
+              style={{
+                backgroundColor: "#fcf8f2",
+                height: "80vh",
+                overflow: "auto",
+              }}
+              className={classes.paper}
+            >
+              {state.board === "ping" ? <Ping /> : <Feed />}
+            </Paper>
           </Grid>
         </Grid>
       </div>
