@@ -50,7 +50,6 @@ export default function Login() {
     //   isSignedIn={ true }
     // />
     <>
-      <Typography variant="h6">Login</Typography>
       <form className={classes.root} noValidate onSubmit={handleSubmit}>
         <TextField
           label="Username"

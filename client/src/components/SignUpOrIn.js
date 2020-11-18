@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
 import { Tabs, Tab, AppBar } from '@material-ui/core';
 
-export default function SignUpOrIn(props) {
+import Login from './Login';
+import Register from './Register';
+
+export default function SignUpOrIn() {
 
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setSelectedTab(value);
+  const handleChange = (_, newValue) => {
+    setSelectedTab(newValue);
   }
 
   return (
-    <Tabs value={selectedTab} onChange={handleChange}>
-      <Tab label="Item One" />
-      <Tab label="Item Two" />
-      <Tab label="Item Three" />
-    </Tabs>
+    <>
+      <Tabs variant="fullWidth" value={selectedTab} onChange={handleChange}>
+        <Tab label="Login"/>
+        <Tab label="Register"/>
+      </Tabs>
+    {selectedTab === 0 && <Login />}
+    {selectedTab === 1 && <Register />}
+    </>
   );
 }
