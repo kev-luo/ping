@@ -65,3 +65,27 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const CREATE_PING = gql`
+  mutation createPing($body: String!) {
+    createPing(body: $body) {
+      id
+      body
+      createdAt
+      user
+      comments {
+        id
+        createdAt
+        username
+        body
+      }
+      support {
+        id
+        createdAt
+        username
+      }
+      supportCount
+      commentCount
+    }
+  }
+`
