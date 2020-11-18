@@ -69,9 +69,11 @@ export default function Feed() {
                         <FaComments style={{ color: "blue" }} size={15} />
                       </IconButton>
                     </Grid>
-                    <Grid item>
-                      <DeleteButton />
-                    </Grid>
+                    {context.user && context.user.username === ping.user && (
+                      <Grid item>
+                        <DeleteButton />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Paper>
