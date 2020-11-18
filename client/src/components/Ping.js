@@ -36,10 +36,6 @@ export default function Feed() {
       return commentComponents
   };
   
-  // if(!loading){
-  //   console.log()
-  // }
-  
   return (
     <>
 

@@ -86,7 +86,7 @@ export default function Feed() {
                       <SupportPing user={context.user} ping={ping}/>
                     </Grid>
                     <Grid item>
-                      <IconButton onClick={context.user ? ()=> dispatch({ type: "ping", pingId: ping.id }) : () => "" }>
+                      <IconButton onClick={context.user ? ()=> dispatch({ type: "ping", payload: ping.id }) : () => "" }>
                         <FaComments style={{ color: "blue" }} size={15}/>
                       </IconButton>
                     </Grid>
