@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useReducer } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -9,6 +9,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
+import { selectionSetMatchesResult } from "@apollo/client/cache/inmemory/helpers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +25,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DashboardContext = React.createContext({
+  boardDisplay: "",
+  extraBaordInfo: ""
+});
+
+const initialState = { boardDisplay: "ping" }
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "rawfeed":
+      return {
+        ...state,
+        boardDisplay: "rawfeed"
+      }
+    case "ping":
+      return {
+        ...state,
+        boardDisplay: "ping"
+      }
+    case "supportedpings":
+      return {
+        ...state,
+        boardDisplay: "supportedpings"
+      }
+  }
+}
+
+export function useDashboardContext() {
+  return useContext(DashboardContext)
+}
+
 export default function Dashboard() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  // const state = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   return (
@@ -47,8 +81,8 @@ export default function Dashboard() {
                 {context.user ? (
                   <ProfileBox />
                 ) : (
-                  <Login />
-                )}
+                    <Login />
+                  )}
               </Paper>
             </Grid>
             <Grid item>
@@ -62,17 +96,19 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={8}>
-            <Paper
-              style={{
-                backgroundColor: "#fcf8f2",
-                height: "80vh",
-                overflow: "auto",
-              }}
-              className={classes.paper}
-            >
-              {/* <Feed /> */}
-              <Ping />
-            </Paper>
+            <DashboardContext.Provider value={[state, dispatch]}>
+              <Paper
+                style={{
+                  backgroundColor: "#fcf8f2",
+                  height: "80vh",
+                  overflow: "auto",
+                }}
+                className={classes.paper}
+              >
+                {state.boardDisplay === "ping" ? <Ping /> : <Feed />}
+              </Paper>
+              {console.log(state)}
+            </DashboardContext.Provider>
           </Grid>
         </Grid>
       </div>

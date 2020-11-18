@@ -10,6 +10,7 @@ import NewPing from './NewPing';
 import SupportPing from './SupportPing';
 import DeleteButton from './DeleteButton';
 import { useAuthContext } from '../utils/useAuthContext';
+import { useDashboardContext } from "../pages/Dashboard";
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +34,7 @@ function openPing(id) {
 }
 
 export default function Feed() {
+  const [_, dispatch] = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
@@ -46,7 +48,7 @@ export default function Feed() {
         (data.getPings &&
           data.getPings.map((ping) => {
             return (
-              <Paper key={ping.id} className={classes.paper} onClick={()=> openPing(ping.id)}>
+              <Paper key={ping.id} className={classes.paper} onClick={()=> dispatch({ type: "ping"})}>
                 <Grid container wrap="nowrap" spacing={2} alignItems="center">
                   <Grid item>
                     <Avatar className={classes.pic}>Pic</Avatar>

@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { useAuthContext } from '../utils/useAuthContext';
+import { useDashboardContext } from "../pages/Dashboard";
 import { FETCH_PING_QUERY } from "../utils/graphql";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,18 +27,14 @@ function openPing(id) {
 
 export default function Feed() {
   const classes = useStyles();
-  // const context = useAuthContext();
+  const [state, dispatch] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_PING_QUERY, {variables: { pingId: "5fb4ae7d1711c43b03b8f162" }});
-  
 
-  if(!loading){
-    console.log(data);
-  }
-  
+  console.log(dispatch);
 
   return (
     <>
-      <h1>TEST</h1>
+      <h1 onClick={() => dispatch({ type: "rawfeed" })}>TEST</h1>
     </>
   );
 }
