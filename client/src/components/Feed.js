@@ -10,6 +10,7 @@ import NewPing from './NewPing';
 import SupportPing from './SupportPing';
 import DeleteButton from './DeleteButton';
 import { useAuthContext } from '../utils/useAuthContext';
+import { useDashboardContext } from "../pages/Dashboard";
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function openPing(id) {
+  console.log(id);
+}
+
 export default function Feed() {
+  const [_, dispatch] = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
@@ -50,7 +56,7 @@ export default function Feed() {
                   <Grid item>
                     <FiImage size={32} />
                   </Grid>
-                  <Grid item xs>
+                  <Grid item xs onClick={()=> dispatch({ type: "ping", pingId: ping.id })}>
                     <Typography variant="subtitle2">
                       {ping.user}
                       <span className={classes.date}>

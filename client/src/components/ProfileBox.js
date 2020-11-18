@@ -17,9 +17,6 @@ export default function ProfileBox() {
   const classes = useStyles();
   const { user } = useAuthContext();
   const { loading, data } = useQuery(FETCH_USER_QUERY, { variables: { userId: user.id } } );
-  if(!loading){
-    console.log(data.getUser);
-  }
 
   // useStyles
 
