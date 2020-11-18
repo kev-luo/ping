@@ -35,6 +35,11 @@ function reducer(state, { type, payload }) {
         ...state,
         selectedUser: payload
       }
+    case "clearUser":
+      return {
+        ...state,
+        selectedUser: null,
+      }
     default: 
       return state;
   }
