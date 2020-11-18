@@ -37,6 +37,7 @@ export default function Login() {
     },
     update(_, result) {
       context.login(result.data.login)
+      console.log(result);
     }
   })
 
