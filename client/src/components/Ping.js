@@ -40,8 +40,8 @@ export default function Feed() {
           <Button color="primary" onClick={() => dispatch({ type: "rawfeed" })}>Raw Feed</Button>
           <h1>{`@${data.getPing.user}`}</h1>
           <h2>{data.getPing.body}</h2>
-          <p>{data.getPing.supportCount}</p>
-          <p>{moment(data.getPing.createdAt).fromNow()}</p>
+          <p>{`Total Support: ${data.getPing.supportCount}`}</p>
+          <p>{`Posted ${moment(data.getPing.createdAt).fromNow()}`}</p>
         </>
       )}
 
