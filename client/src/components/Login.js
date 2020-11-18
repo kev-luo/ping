@@ -61,7 +61,7 @@ export default function Login() {
           value={values.username}
           onChange={handleChange}
           error={errors.username ? true : false}
-          helperText={""}
+          helperText={errors.username}
         />
         <TextField
           label="Password"
@@ -72,7 +72,7 @@ export default function Login() {
           value={values.password}
           onChange={handleChange}
           error={errors.password ? true : false}
-          helperText={""}
+          helperText={errors.password}
         />
         <Button
           type="submit"

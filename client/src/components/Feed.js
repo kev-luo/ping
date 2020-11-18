@@ -55,7 +55,7 @@ export default function Feed() {
                       {ping.user}
                       <span className={classes.date}>
                         {" "}
-                        {moment(ping.createdAt).fromNow()}
+                        {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
                       </span>
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>
