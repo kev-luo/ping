@@ -20,11 +20,15 @@ export default function ProfileBox() {
   const [state] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_USER_QUERY, { variables: { userId: user.id } } );
 
+  if(state.selectedUser) {
+    console.log(state.selectedUser);
+  }
+
   return (
     <div>
       {loading || (
         state.selectedUser ? (
-          <Typography variant="h4" className={classes.handle}>selected user</Typography>
+          <Typography variant="h4" className={classes.handle}>{`@${state.selectedUser}`}</Typography>
         ) : (
           <Typography variant="h4" className={classes.handle}>{`@${data.getUser.username}`}</Typography>
         )

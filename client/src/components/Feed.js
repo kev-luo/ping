@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer'
     }
   },
+  username: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  }
 }));
 
 export default function Feed() {
@@ -40,12 +45,14 @@ export default function Feed() {
 
   function displayComment(pingId) {
     if(context.user) {
-      dispatch({ type: "ping", pingId })
+      dispatch({ type: "ping", payload: pingId })
     }
   }
 
-  function displayProfile() {
-
+  function displayProfile(selectedUser) {
+    if(context.user) {
+      dispatch({ type: "selectUser", payload: selectedUser })
+    }
   }
 
   return (
@@ -66,7 +73,7 @@ export default function Feed() {
                     <FiImage size={32} />
                   </Grid>
                   <Grid item xs >
-                    <Typography variant="subtitle2">
+                    <Typography variant="subtitle2" className={classes.username} onClick={() => displayProfile(ping.user)}>
                       {ping.user}
                     </Typography>
                     <Typography variant="subtitle2" className={classes.meta} onClick={() => displayComment(ping.id)}>

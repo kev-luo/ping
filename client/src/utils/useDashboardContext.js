@@ -12,24 +12,28 @@ const initialState = {
   selectedUser: null,
 }
 
-function reducer(state, action) {
-  switch (action.type) {
+function reducer(state, { type, payload }) {
+  switch (type) {
     case "rawfeed":
       return {
         ...state,
         board: "rawfeed",
-        details: ""
       }
     case "ping":
       return {
         ...state,
         board: "ping",
-        details: action.pingId
+        details: payload
       }
     case "supportedpings":
       return {
         ...state,
         board: "supportedpings"
+      }
+    case "selectUser":
+      return {
+        ...state,
+        selectedUser: payload
       }
     default: 
       return state;
