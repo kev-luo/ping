@@ -10,7 +10,7 @@ import NewPing from './NewPing';
 import SupportPing from './SupportPing';
 import DeleteButton from './DeleteButton';
 import { useAuthContext } from '../utils/useAuthContext';
-import { useDashboardContext } from "../pages/Dashboard";
+import { useDashboardContext } from "../utils/useDashboardContext";
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,10 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function openPing(id) {
-  console.log(id);
-}
-
 export default function Feed() {
   const [_, dispatch] = useDashboardContext();
   const classes = useStyles();
@@ -46,6 +42,10 @@ export default function Feed() {
     if(context.user) {
       dispatch({ type: "ping", pingId })
     }
+  }
+
+  function displayProfile() {
+
   }
 
   return (
