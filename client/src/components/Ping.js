@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import Comment from "./Comment";
 import { useQuery } from "@apollo/client";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,15 +28,13 @@ export default function Feed() {
   // const classes = useStyles();
   const [state, dispatch] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_PING_QUERY, { variables: { pingId: state.details } });
-  
 
-  if(!loading){
-    const comments = data.getPing.comments;
-
-
-    console.log(comments);
-  }
-
+  const getComments = () => {
+      const comments = data.getPing.comments;
+      const commentComponents = comments.map(comment => <Comment key={comment.id} body={comment.body}/>)
+      return commentComponents
+  };
+ 
   return (
     <>
 
@@ -47,6 +46,7 @@ export default function Feed() {
           <p>{`Total Support: ${data.getPing.supportCount}`}</p>
           <p>{`Posted ${moment(data.getPing.createdAt).fromNow()}`}</p>
           <hr/>
+          {getComments()}
         </>
       )}
 
