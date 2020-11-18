@@ -89,3 +89,12 @@ export const CREATE_PING = gql`
     }
   }
 `
+ export const FETCH_USER_QUERY= gql`
+
+ query getUser($userId: ID!) {
+   getUser(userId: $userId){
+     id
+     username
+   }
+ }
+ `
