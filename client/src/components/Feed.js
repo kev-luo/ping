@@ -39,6 +39,12 @@ export default function Feed() {
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
 
+  function displayComment(pingId) {
+    if(context.user) {
+      dispatch({ type: "ping", pingId })
+    }
+  }
+
   return (
     <>
       {context.user && (
@@ -56,13 +62,12 @@ export default function Feed() {
                   <Grid item>
                     <FiImage size={32} />
                   </Grid>
-                  <Grid item xs onClick={context.user ? ()=> dispatch({ type: "ping", pingId: ping.id }) : () => "" }>
+                  <Grid item xs >
                     <Typography variant="subtitle2">
                       {ping.user}
-                      <span className={classes.date}>
-                        {" "}
-                        {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
-                      </span>
+                    </Typography>
+                    <Typography variant="subtitle2" className={classes.date} onClick={() => displayComment(ping.id)}>
+                      {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>
                   </Grid>
