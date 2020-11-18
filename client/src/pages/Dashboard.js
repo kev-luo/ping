@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Nav from "../components/Nav";
 import Feed from "../components/Feed";
+import Ping from "../components/Ping";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import ProfileBox from '../components/ProfileBox';
@@ -69,7 +70,8 @@ export default function Dashboard() {
               }}
               className={classes.paper}
             >
-              <Feed />
+              {/* <Feed /> */}
+              <Ping />
             </Paper>
           </Grid>
         </Grid>

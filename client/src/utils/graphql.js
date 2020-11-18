@@ -90,7 +90,6 @@ export const CREATE_PING = gql`
   }
 `
  export const FETCH_USER_QUERY= gql`
-
  query getUser($userId: ID!) {
    getUser(userId: $userId){
      id
@@ -138,4 +137,23 @@ export const DELETE_PING = gql`
   mutation deletePing($pingId: ID!) {
     deletePing(pingId: $pingId)
   }
+`
+
+export const FETCH_PING_QUERY = gql`
+query getPing($pingId: ID!){
+  getPing(pingId: $pingId){
+    id
+    body
+    createdAt
+    user
+    comments{
+      id 
+      createdAt
+      username
+      body
+    }
+    supportCount
+    commentCount
+  }
+}
 `

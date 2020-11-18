@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function openPing(id) {
+  console.log(id);
+}
+
 export default function Feed() {
   const classes = useStyles();
   const context = useAuthContext();
@@ -42,7 +46,7 @@ export default function Feed() {
         (data.getPings &&
           data.getPings.map((ping) => {
             return (
-              <Paper key={ping.id} className={classes.paper}>
+              <Paper key={ping.id} className={classes.paper} onClick={()=> openPing(ping.id)}>
                 <Grid container wrap="nowrap" spacing={2} alignItems="center">
                   <Grid item>
                     <Avatar className={classes.pic}>Pic</Avatar>
