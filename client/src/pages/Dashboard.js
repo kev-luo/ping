@@ -2,6 +2,7 @@ import React, { useContext, useReducer } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import SignUpOrIn from '../components/SignUpOrIn';
 import Nav from "../components/Nav";
 import Feed from "../components/Feed";
 import Ping from "../components/Ping";
@@ -82,7 +83,7 @@ export default function Dashboard() {
                 {context.user ? (
                   <ProfileBox />
                 ) : (
-                    <Login />
+                    <SignUpOrIn />
                   )}
               </Paper>
             </Grid>

@@ -46,7 +46,6 @@ export default function Register(props) {
   }
   return (
     <>
-      <Typography variant="h6">Register</Typography>
       <form className={classes.root} noValidate onSubmit={handleSubmit}>
         <TextField
           label="Username"
