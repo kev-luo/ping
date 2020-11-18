@@ -28,10 +28,6 @@ export default function Feed() {
   const [state, dispatch] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_PING_QUERY, { variables: { pingId: state.details } });
 
-  if (data) {
-    console.log(data.getPing);
-  }
-
   return (
     <>
 
