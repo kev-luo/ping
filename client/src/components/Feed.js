@@ -23,9 +23,12 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
-  date: {
+  meta: {
     color: theme.palette.text.secondary,
     fontSize: 12,
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
 }));
 
@@ -66,7 +69,7 @@ export default function Feed() {
                     <Typography variant="subtitle2">
                       {ping.user}
                     </Typography>
-                    <Typography variant="subtitle2" className={classes.date} onClick={() => displayComment(ping.id)}>
+                    <Typography variant="subtitle2" className={classes.meta} onClick={() => displayComment(ping.id)}>
                       {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>

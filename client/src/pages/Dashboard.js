@@ -6,11 +6,8 @@ import SignUpOrIn from '../components/SignUpOrIn';
 import Nav from "../components/Nav";
 import Feed from "../components/Feed";
 import Ping from "../components/Ping";
-import Login from "../components/Login";
-import Register from "../components/Register";
 import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
-import { selectionSetMatchesResult } from "@apollo/client/cache/inmemory/helpers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardContext = React.createContext({
   board: "",
-  details: ""
+  details: "",
+  selectedUser: null,
 });
 
 const initialState = { board: "rawfeed" }
@@ -52,6 +50,8 @@ function reducer(state, action) {
         ...state,
         board: "supportedpings"
       }
+    default: 
+    return state;
   }
 }
 
@@ -67,52 +67,52 @@ export default function Dashboard() {
     <div className={classes.root}>
       <Nav />
       <div className={classes.grid}>
-        <Grid container spacing={2}>
-          <Grid
-            item
-            container
-            direction="column"
-            xs={4}
-            justify="space-between"
-          >
-            <Grid item>
-              <Paper
-                style={{ backgroundColor: "#fcf8f2" }}
-                className={classes.paper}
-              >
-                {context.user ? (
-                  <ProfileBox />
-                ) : (
-                    <SignUpOrIn />
-                  )}
-              </Paper>
+        <DashboardContext.Provider value={[state, dispatch]}>
+          <Grid container spacing={2}>
+            <Grid
+              item
+              container
+              direction="column"
+              xs={4}
+              justify="space-between"
+            >
+              <Grid item>
+                <Paper
+                  style={{ backgroundColor: "#fcf8f2" }}
+                  className={classes.paper}
+                >
+                  {context.user ? (
+                    <ProfileBox />
+                  ) : (
+                      <SignUpOrIn />
+                    )}
+                </Paper>
+              </Grid>
+              <Grid item>
+                <Paper
+                  style={{ backgroundColor: "#fcf8f2" }}
+                  className={classes.paper}
+                >
+                  Map
+                </Paper>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Paper
-                style={{ backgroundColor: "#fcf8f2" }}
-                className={classes.paper}
-              >
-                Map
-              </Paper>
-            </Grid>
-          </Grid>
 
-          <Grid item xs={8}>
-            <DashboardContext.Provider value={[state, dispatch]}>
-              <Paper
-                style={{
-                  backgroundColor: "#fcf8f2",
-                  height: "80vh",
-                  overflow: "auto",
-                }}
-                className={classes.paper}
-              >
-                {state.board === "ping" ? <Ping /> : <Feed />}
-              </Paper>
-              {/* {console.log(state)} */}
-            </DashboardContext.Provider>
+            <Grid item xs={8}>
+                <Paper
+                  style={{
+                    backgroundColor: "#fcf8f2",
+                    height: "80vh",
+                    overflow: "auto",
+                  }}
+                  className={classes.paper}
+                >
+                  {state.board === "ping" ? <Ping /> : <Feed />}
+                </Paper>
+                {/* {console.log(state)} */}
+            </Grid>
           </Grid>
-        </Grid>
+        </DashboardContext.Provider>
       </div>
     </div>
   );
