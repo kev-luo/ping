@@ -6,7 +6,11 @@ const DashboardContext = React.createContext({
   selectedUser: null,
 });
 
-const initialState = { board: "rawfeed" }
+const initialState = { 
+  board: "rawfeed",
+  details: '',
+  selectedUser: null,
+}
 
 function reducer(state, action) {
   switch (action.type) {
