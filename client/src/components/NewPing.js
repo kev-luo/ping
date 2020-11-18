@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function NewPing() {
+export default function NewComment() {
   const classes = useStyles();
   const initialState = {body: ''}
   const { handleChange, handleSubmit, values } = useForm(createPingCb, initialState);

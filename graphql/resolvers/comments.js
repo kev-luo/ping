@@ -19,7 +19,7 @@ module.exports = {
             const ping = await Ping.findById(pingId);
 
             if(ping) {
-                ping.comments.unshift({
+                ping.comments.push({
                     body,
                     username: user.username,
                     createdAt: new Date().toISOString()

@@ -23,7 +23,6 @@ export const FETCH_PINGS_QUERY = gql`
     }
   }
 `;
-
 export const REGISTER_USER = gql`
   mutation register(
     $username: String!
@@ -47,7 +46,6 @@ export const REGISTER_USER = gql`
     }
   }
 `;
-
 export const LOGIN_USER = gql`
   mutation login(
     $username: String! 
@@ -65,7 +63,6 @@ export const LOGIN_USER = gql`
     }
   }
 `;
-
 export const CREATE_PING = gql`
   mutation createPing($body: String!) {
     createPing(body: $body) {
@@ -89,7 +86,7 @@ export const CREATE_PING = gql`
     }
   }
 `
- export const FETCH_USER_QUERY= gql`
+export const FETCH_USER_QUERY = gql`
  query getUser($userId: ID!) {
    getUser(userId: $userId){
      id
@@ -97,8 +94,7 @@ export const CREATE_PING = gql`
    }
  }
  `
-
- export const SUPPORT_PING = gql`
+export const SUPPORT_PING = gql`
   mutation supportPing($pingId: ID!) {
     supportPing(pingId: $pingId) {
       id
@@ -110,7 +106,6 @@ export const CREATE_PING = gql`
     }
   }
  `
-
 export const DELETE_COMMENT = gql`
   mutation deleteComment(
     $pingId: ID!
@@ -132,13 +127,11 @@ export const DELETE_COMMENT = gql`
   }
 
 `
-
 export const DELETE_PING = gql`
   mutation deletePing($pingId: ID!) {
     deletePing(pingId: $pingId)
   }
 `
-
 export const FETCH_PING_QUERY = gql`
 query getPing($pingId: ID!){
   getPing(pingId: $pingId){
@@ -154,6 +147,26 @@ query getPing($pingId: ID!){
     }
     supportCount
     commentCount
+  }
+}
+`
+export const CREATE_COMMENT = gql`
+mutation createComment(
+  $pingId: ID!
+  $body: String!
+){
+  createComment(
+    pingId: $pingId
+    body: $body
+  ){
+    id
+        comments {
+          id
+          username
+          createdAt
+          body
+        }
+        commentCount
   }
 }
 `
