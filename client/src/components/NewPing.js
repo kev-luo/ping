@@ -21,29 +21,42 @@ const useStyles = makeStyles((theme) => ({
 export default function NewPing() {
   const classes = useStyles();
   const initialState = {body: ''}
-  const { handleChange, handleSubmit, values } = useForm();
+  const { handleChange, handleSubmit, values } = useForm(createPingCb, initialState);
 
   const [createPing, ] = useMutation(CREATE_PING, {
     variables: values,
     onError(err) {
       console.log(err);
     },
-    onUpdate(proxy, result) {
-      
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_PINGS_QUERY,
+      })
+      proxy.writeQuery({
+        query: FETCH_PINGS_QUERY,
+        data: {
+          getPings: [result.data.createPing, ...data.getPings]
+        }
+      })
+      values.body = ''
     }
   })
+
+  function createPingCb() {
+    createPing();
+  }
 
   return (
     <Paper className={classes.paper}>
       <Grid container alignItems="center" justify="center">
-        <form style={{display: 'flex'}}>
+        <form style={{display: 'flex'}} onSubmit={handleSubmit}>
           <Grid item xs={10}>
-            <TextField rowsMax="3" multiline fullWidth/>
+            <TextField name="body" value={values.body} onChange={handleChange} rowsMax="3" multiline fullWidth/>
           </Grid>
           <Grid item xs={2} >
             <ButtonGroup size="small" className={classes.buttonGroup}>
               <Button endIcon={<CloudUploadIcon />}>Upload</Button>
-              <Button endIcon={<SendIcon />}>Ping</Button>
+              <Button type="submit" endIcon={<SendIcon />}>Ping</Button>
             </ButtonGroup>
           </Grid>
         </form>
