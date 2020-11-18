@@ -4,47 +4,56 @@ import { IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, Dial
 import { makeStyles } from '@material-ui/core/styles';
 import { AiFillDelete } from 'react-icons/ai';
 
-import { DELETE_COMMENT, DELETE_PING } from '../utils/graphql';
+import { DELETE_COMMENT, DELETE_PING, FETCH_PINGS_QUERY } from '../utils/graphql';
 
 const useStyles = makeStyles(themes => ({
 
 }))
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
 export default function DeleteButton({pingId}) {
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    console.log('hi');
-  }
+  const [deleteItem] = useMutation(DELETE_PING, {
+    variables: {pingId},
+    update(proxy, result) {
+      setOpen(false);
+      const data = proxy.readQuery({
+        query: FETCH_PINGS_QUERY
+      })
+      proxy.writeQuery({
+        query: FETCH_PINGS_QUERY,
+        data: {
+          getPings: data.getPings.filter(ping => ping.id !== pingId)
+        }
+      })
+    }
+  })
 
   return (
     <>
-      <IconButton>
-        <AiFillDelete onClick={() => setOpen(!open)} style={{ color: "gray" }} size={17} />
+      <IconButton onClick={() => setOpen(true)} >
+        <AiFillDelete style={{ color: "gray" }} size={17} />
       </IconButton>
       <Dialog
         open={open}
         TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-slide-title"
-        aria-describedby="alert-dialog-slide-description"
+        onClose={() => setOpen(false)}
       >
-        <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle >Are you sure you want to delete this ping?</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              Let Google help apps determine location. This means sending anonymous location data to
-              Google, even when no apps are running.
+            <DialogContentText >
+              Once confirmed, this action cannot be undone.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={() => setOpen(false)} color="primary">
               Disagree
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={deleteItem} color="primary">
               Agree
             </Button>
           </DialogActions>
