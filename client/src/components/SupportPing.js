@@ -10,10 +10,27 @@ const useStyles = makeStyles(themes => ({
 
 }))
 
-export default function SupportPing() {
+export default function SupportPing({user, ping}) {
   const classes = useStyles();
+
+  const [support] = useMutation(SUPPORT_PING, {
+    variables: {
+      pingId: ping.id
+    },
+    onError(err) {
+      console.log(err);
+    },
+    update(_, result) {
+      console.log(result);
+    }
+  })
+
+  const toggleSupport = () => {
+    console.log(user, ping)
+  }
+
   return (
-    <IconButton>
+    <IconButton onClick={toggleSupport}>
       <FaRegHeart style={{ color: "red" }} size={15} />
     </IconButton>
   )

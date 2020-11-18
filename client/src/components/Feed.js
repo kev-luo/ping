@@ -62,7 +62,7 @@ export default function Feed() {
                   </Grid>
                   <Grid item xs={2} container>
                     <Grid item>
-                      <SupportPing />
+                      <SupportPing user={context.user} ping={ping}/>
                     </Grid>
                     <Grid item>
                       <IconButton>
