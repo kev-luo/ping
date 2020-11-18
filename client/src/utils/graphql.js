@@ -111,3 +111,26 @@ export const CREATE_PING = gql`
     }
   }
  `
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment(
+    $pingId: ID!
+    $commentId: ID!
+  ) {
+    deleteComment(
+      pingId: $pingId
+      commentId: $commentId
+    ) {
+        id
+        comments {
+          id
+          username
+          createdAt
+          body
+        }
+        commentCount
+    }
+  }
+
+`
+
