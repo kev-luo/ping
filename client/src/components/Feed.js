@@ -59,7 +59,7 @@ export default function Feed() {
                       {ping.user}
                       <span className={classes.date}>
                         {" "}
-                        {moment(ping.createdAt).fromNow()}
+                        {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
                       </span>
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>
@@ -73,9 +73,11 @@ export default function Feed() {
                         <FaComments style={{ color: "blue" }} size={15} />
                       </IconButton>
                     </Grid>
-                    <Grid item>
-                      <DeleteButton />
-                    </Grid>
+                    {context.user && context.user.username === ping.user && (
+                      <Grid item>
+                        <DeleteButton pingId={ping.id}/>
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Paper>

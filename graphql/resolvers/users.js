@@ -64,13 +64,17 @@ module.exports = {
             const user = await User.findOne({ username });
             if (!user) {
                 errors.general = "user not found";
-                throw new UserInputError("user not found", { errors });
+                throw new UserInputError("user not found", { errors: {
+                  username: "User not found"
+                } });
             }
 
             const match = await bcrypt.compare(password, user.password);
             if (!match) {
                 errors.general = "wrong credentials";
-                throw new UserInputError("wrong credentials", { errors })
+                throw new UserInputError("wrong credentials", { errors: {
+                  password: "Incorrect password"
+                } })
             }
 
             const token = generateToken(user);
