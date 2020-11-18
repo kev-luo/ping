@@ -71,7 +71,7 @@ export default function Feed() {
                     </Grid>
                     {context.user && context.user.username === ping.user && (
                       <Grid item>
-                        <DeleteButton />
+                        <DeleteButton pingId={ping.id}/>
                       </Grid>
                     )}
                   </Grid>
