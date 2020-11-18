@@ -134,3 +134,8 @@ export const DELETE_COMMENT = gql`
 
 `
 
+export const DELETE_PING = gql`
+  mutation deletePing($pingId: ID!) {
+    deletePing(pingId: $pingId)
+  }
+`
