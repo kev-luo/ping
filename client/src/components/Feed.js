@@ -10,7 +10,7 @@ import NewPing from './NewPing';
 import SupportPing from './SupportPing';
 import DeleteButton from './DeleteButton';
 import { useAuthContext } from '../utils/useAuthContext';
-import { useDashboardContext } from "../pages/Dashboard";
+import { useDashboardContext } from "../utils/useDashboardContext";
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,21 +23,37 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
-  date: {
+  meta: {
     color: theme.palette.text.secondary,
     fontSize: 12,
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
+  username: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  }
 }));
-
-function openPing(id) {
-  console.log(id);
-}
 
 export default function Feed() {
   const [_, dispatch] = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
+
+  function displayComment(pingId) {
+    if(context.user) {
+      dispatch({ type: "ping", payload: pingId })
+    }
+  }
+
+  function displayProfile(selectedUser) {
+    if(context.user) {
+      dispatch({ type: "selectUser", payload: selectedUser })
+    }
+  }
 
   return (
     <>
@@ -56,13 +72,12 @@ export default function Feed() {
                   <Grid item>
                     <FiImage size={32} />
                   </Grid>
-                  <Grid item xs onClick={context.user ? ()=> dispatch({ type: "ping", pingId: ping.id }) : () => "" }>
-                    <Typography variant="subtitle2">
+                  <Grid item xs >
+                    <Typography variant="subtitle2" className={classes.username} onClick={() => displayProfile(ping.user)}>
                       {ping.user}
-                      <span className={classes.date}>
-                        {" "}
-                        {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
-                      </span>
+                    </Typography>
+                    <Typography variant="subtitle2" className={classes.meta} onClick={() => displayComment(ping.id)}>
+                      {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>
                   </Grid>
