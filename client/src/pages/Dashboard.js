@@ -26,28 +26,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashboardContext = React.createContext({
-  boardDisplay: "",
-  extraBaordInfo: ""
+  board: "",
+  details: ""
 });
 
-const initialState = { boardDisplay: "ping" }
+const initialState = { board: "rawfeed" }
 
 function reducer(state, action) {
   switch (action.type) {
     case "rawfeed":
       return {
         ...state,
-        boardDisplay: "rawfeed"
+        board: "rawfeed",
+        details: ""
       }
     case "ping":
       return {
         ...state,
-        boardDisplay: "ping"
+        board: "ping",
+        details: action.pingId
       }
     case "supportedpings":
       return {
         ...state,
-        boardDisplay: "supportedpings"
+        board: "supportedpings"
       }
   }
 }
@@ -58,7 +60,6 @@ export function useDashboardContext() {
 
 export default function Dashboard() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  // const state = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   return (
@@ -105,9 +106,9 @@ export default function Dashboard() {
                 }}
                 className={classes.paper}
               >
-                {state.boardDisplay === "ping" ? <Ping /> : <Feed />}
+                {state.board === "ping" ? <Ping /> : <Feed />}
               </Paper>
-              {console.log(state)}
+              {/* {console.log(state)} */}
             </DashboardContext.Provider>
           </Grid>
         </Grid>

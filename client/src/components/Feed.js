@@ -48,7 +48,7 @@ export default function Feed() {
         (data.getPings &&
           data.getPings.map((ping) => {
             return (
-              <Paper key={ping.id} className={classes.paper} onClick={()=> dispatch({ type: "ping"})}>
+              <Paper key={ping.id} className={classes.paper}>
                 <Grid container wrap="nowrap" spacing={2} alignItems="center">
                   <Grid item>
                     <Avatar className={classes.pic}>Pic</Avatar>
@@ -56,7 +56,7 @@ export default function Feed() {
                   <Grid item>
                     <FiImage size={32} />
                   </Grid>
-                  <Grid item xs>
+                  <Grid item xs onClick={()=> dispatch({ type: "ping", pingId: ping.id })}>
                     <Typography variant="subtitle2">
                       {ping.user}
                       <span className={classes.date}>
