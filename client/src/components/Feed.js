@@ -56,7 +56,7 @@ export default function Feed() {
                   <Grid item>
                     <FiImage size={32} />
                   </Grid>
-                  <Grid item xs onClick={()=> dispatch({ type: "ping", pingId: ping.id })}>
+                  <Grid item xs onClick={context.user ? ()=> dispatch({ type: "ping", pingId: ping.id }) : () => "" }>
                     <Typography variant="subtitle2">
                       {ping.user}
                       <span className={classes.date}>

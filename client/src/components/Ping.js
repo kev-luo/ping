@@ -27,6 +27,14 @@ export default function Feed() {
   // const classes = useStyles();
   const [state, dispatch] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_PING_QUERY, { variables: { pingId: state.details } });
+  
+
+  if(!loading){
+    const comments = data.getPing.comments;
+
+
+    console.log(comments);
+  }
 
   return (
     <>
@@ -38,20 +46,9 @@ export default function Feed() {
           <h2>{data.getPing.body}</h2>
           <p>{`Total Support: ${data.getPing.supportCount}`}</p>
           <p>{`Posted ${moment(data.getPing.createdAt).fromNow()}`}</p>
+          <hr/>
         </>
       )}
-
-
-
-
-
-
-
-
-
-
-
-
 
     </>
   );
