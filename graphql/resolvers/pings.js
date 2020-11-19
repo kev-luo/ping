@@ -8,7 +8,8 @@ module.exports = {
         async getPings() {
             console.log("get pings");
             try {
-                const pings = await Ping.find({}).sort({ createdAt: -1 });
+                // const pings = await Ping.find({}).sort({ createdAt: -1 });
+                const pings = await Ping.find({}).populate('users');
                 return pings;
             } catch (err) {
                 throw new Error(err);
@@ -16,7 +17,7 @@ module.exports = {
         },
         async getPing(_, { pingId }) {
             try {
-                const ping = await Ping.findById(pingId);
+                const ping = await Ping.findOne({_id: pingId}).populate('users');
                 if (ping) {
                     return ping
                 } else {
@@ -31,7 +32,6 @@ module.exports = {
         async createPing(_, { body }, context) {
             console.log("create ping");
             const user = checkAuth(context);
-            console.log(user);
 
             if (body.trim() === "") {
                 throw new Error("post body must not be empty")
@@ -39,7 +39,7 @@ module.exports = {
 
             const newPing = new Ping({
                 body,
-                user: user.username,
+                user: user.id,
                 createdAt: new Date().toISOString()
             });
 

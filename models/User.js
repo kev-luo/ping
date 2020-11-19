@@ -29,7 +29,13 @@ const userSchema = new Schema({
   },
   createdAt: {
     type: String,
-  }
+  },
+  pings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Ping"
+    }
+  ]
 });
 
 const User = mongoose.model("User", userSchema);

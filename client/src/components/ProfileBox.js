@@ -21,8 +21,8 @@ export default function ProfileBox() {
     variables: { userId: user.id },
   });
 
-  if (state.selectedUser) {
-    console.log(state.selectedUser);
+  if (user) {
+    console.log(user);
   }
 
   return (

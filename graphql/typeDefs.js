@@ -5,7 +5,7 @@ type Ping {
     id: ID!
     body: String!
     createdAt: String!
-    user: String!
+    user: User!
     comments: [Comment]!
     support: [Support]!
     supportCount: Int!
@@ -28,6 +28,7 @@ type User {
     token: String!
     username: String!
     createdAt: String!
+    ping: [Ping]!
 }
 # TODO: test case oauth user
 type OauthUser {

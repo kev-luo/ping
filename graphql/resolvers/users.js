@@ -27,7 +27,8 @@ module.exports = {
             console.log("get users");
 
             try {
-                const users = await User.find({}).sort({username: 1})
+                // const users = await User.find({}).sort({username: 1})
+                const users = await User.find({}).populate('pings');
                 return users;
             } catch (err) {
                 throw new Error(err);
@@ -42,7 +43,7 @@ module.exports = {
             }
 
             try {
-                const lookAtUser = await User.findById(userId);
+                const lookAtUser = await User.findById(userId).populate('pings');
                 if(lookAtUser) {
                     return lookAtUser;
                 } else {
