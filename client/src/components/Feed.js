@@ -6,10 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FaComments } from "react-icons/fa";
 import { FiImage } from "react-icons/fi";
 
-import NewPing from './NewPing';
-import SupportPing from './SupportPing';
-import DeleteButton from './DeleteButton';
-import { useAuthContext } from '../utils/useAuthContext';
+import NewPing from "./NewPing";
+import SupportPing from "./SupportPing";
+import DeleteButton from "./DeleteButton";
+import { useAuthContext } from "../utils/useAuthContext";
 import { useDashboardContext } from "../utils/useDashboardContext";
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
@@ -26,40 +26,38 @@ const useStyles = makeStyles((theme) => ({
   meta: {
     color: theme.palette.text.secondary,
     fontSize: 12,
-    '&:hover': {
-      cursor: 'pointer'
-    }
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
   username: {
-    '&:hover': {
-      cursor: 'pointer'
-    }
-  }
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }));
 
 export default function Feed() {
-  const [_,dispatch] = useDashboardContext();
+  const [_, dispatch] = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
 
   function displayComment(pingId) {
-    if(context.user) {
-      dispatch({ type: "ping", payload: pingId })
+    if (context.user) {
+      dispatch({ type: "ping", payload: pingId });
     }
   }
 
   function displayProfile(selectedUser) {
-    if(context.user) {
-      dispatch({ type: "selectUser", payload: selectedUser })
+    if (context.user) {
+      dispatch({ type: "selectUser", payload: selectedUser });
     }
   }
 
   return (
     <>
-      {context.user && (
-        <NewPing />
-      )}
+      {context.user && <NewPing />}
       {loading ||
         (data.getPings &&
           data.getPings.map((ping) => {
@@ -72,27 +70,42 @@ export default function Feed() {
                   <Grid item>
                     <FiImage size={32} />
                   </Grid>
-                  <Grid item xs >
-                    <Typography variant="subtitle2" className={classes.username} onClick={() => displayProfile(ping.user)}>
+                  <Grid item xs>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.username}
+                      onClick={() => displayProfile(ping.user)}
+                    >
                       {ping.user}
                     </Typography>
-                    <Typography variant="subtitle2" className={classes.meta} onClick={() => displayComment(ping.id)}>
-                      {moment(ping.createdAt).fromNow()} | {ping.supportCount} Supported | {ping.commentCount} Comments
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.meta}
+                      onClick={() => displayComment(ping.id)}
+                    >
+                      {moment(ping.createdAt).fromNow()} | {ping.supportCount}{" "}
+                      Supported | {ping.commentCount} Comments
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>
                   </Grid>
                   <Grid item xs={2} container>
                     <Grid item>
-                      <SupportPing user={context.user} ping={ping}/>
+                      <SupportPing user={context.user} ping={ping} />
                     </Grid>
                     <Grid item>
-                      <IconButton onClick={context.user ? ()=> dispatch({ type: "ping", payload: ping.id }) : () => "" }>
-                        <FaComments style={{ color: "blue" }} size={15}/>
+                      <IconButton
+                        onClick={
+                          context.user
+                            ? () => dispatch({ type: "ping", payload: ping.id })
+                            : () => ""
+                        }
+                      >
+                        <FaComments style={{ color: "blue" }} size={15} />
                       </IconButton>
                     </Grid>
                     {context.user && context.user.username === ping.user && (
                       <Grid item>
-                        <DeleteButton pingId={ping.id}/>
+                        <DeleteButton pingId={ping.id} />
                       </Grid>
                     )}
                   </Grid>
