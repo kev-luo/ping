@@ -28,6 +28,7 @@ type User {
     token: String!
     username: String!
     createdAt: String!
+    pings: [Ping]!
 }
 # TODO: test case oauth user
 type OauthUser {
