@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { FaComments } from "react-icons/fa";
 
 import { CREATE_PING, FETCH_PING_QUERY, CREATE_COMMENT } from '../utils/graphql';
-import { useForm } from '../utils/useForm';
 import { useAuthContext } from '../utils/useAuthContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NewPing(props) {
     const pingId = props.pingId;
-    const context = useAuthContext();
     const classes = useStyles();
 
     const [comment, setComment] = useState("");

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client';
 // import { GraphQLClient } from 'graphql-request';
 // import { GoogleLogin } from 'react-google-login';
-import { Typography, TextField, Button } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useForm } from '../utils/useForm';

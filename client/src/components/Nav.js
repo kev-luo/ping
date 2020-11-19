@@ -5,6 +5,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { BiExit } from 'react-icons/bi';
 
 import { useAuthContext } from '../utils/useAuthContext';
+import { useDashboardContext } from '../utils/useDashboardContext';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -40,6 +41,13 @@ const useStyles = makeStyles(theme => ({
 export default function Nav() {
   const classes = useStyles();
   const context = useAuthContext();
+  const [_, dispatch] = useDashboardContext();
+
+  const logoutOps = () => {
+    dispatch({type: "clearUser"})
+    context.logout();
+  }
+
   return (
     <Paper elevation={3}>
       <AppBar position="static">
@@ -60,7 +68,7 @@ export default function Nav() {
               endIcon={<BiExit />}
               size="small"
               className={classes.logout}
-              onClick={context.logout}
+              onClick={logoutOps}
             >
               Logout
             </Button>
