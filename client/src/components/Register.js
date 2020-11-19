@@ -4,6 +4,7 @@ import { Typography, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useForm } from "../utils/useForm";
+import { useAuthContext } from '../utils/useAuthContext';
 import { REGISTER_USER } from "../utils/graphql";
 
 const useStyles = makeStyles((themes) => ({
@@ -21,6 +22,7 @@ const useStyles = makeStyles((themes) => ({
 export default function Register(props) {
   const classes = useStyles();
   const [errors, setErrors] = useState({});
+  const { login } = useAuthContext();
   const initialState = {
     username: "",
     email: "",
@@ -34,10 +36,11 @@ export default function Register(props) {
   const [addUser] = useMutation(REGISTER_USER, {
     variables: values,
     onError(err) {
+      console.log(err.graphQLErrors);
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     update(_, result) {
-      props.history.push("/");
+      login(result.data.register);
     },
   });
 
