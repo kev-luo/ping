@@ -6,10 +6,6 @@ import { AiFillDelete } from 'react-icons/ai';
 
 import { DELETE_COMMENT, DELETE_PING, FETCH_PINGS_QUERY } from '../utils/graphql';
 
-const useStyles = makeStyles(themes => ({
-
-}))
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });

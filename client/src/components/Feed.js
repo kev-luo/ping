@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Feed() {
-  const [_, dispatch] = useDashboardContext();
+  const [_,dispatch] = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
