@@ -4,6 +4,7 @@ module.exports = gql`
 type Ping {
     id: ID!
     body: String!
+    image: String!
     createdAt: String!
     user: String!
     comments: [Comment]!
