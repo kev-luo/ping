@@ -1,6 +1,7 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Ping = require("../../models/Ping");
+const User = require("../../models/User");
 const checkAuth = require("../../utils/check-auth");
 
 module.exports = {
@@ -44,6 +45,10 @@ module.exports = {
             });
 
             const ping = await newPing.save();
+
+            const pinger = await User.findById(user.id);
+            pinger.pings.push(ping._id);
+            pinger.save();
 
             context.pubsub.publish("NEW_PING", {
                 newPing: ping

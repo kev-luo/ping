@@ -42,7 +42,7 @@ module.exports = {
             }
 
             try {
-                const lookAtUser = await User.findById(userId);
+                const lookAtUser = await User.findById(userId).populate('pings');
                 if(lookAtUser) {
                     return lookAtUser;
                 } else {

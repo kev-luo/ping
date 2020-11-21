@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const pingSchema = new Schema({
@@ -17,7 +17,7 @@ const pingSchema = new Schema({
     type: Number,
   },
   createdAt: {
-    type: String
+    type: String,
   },
   comments: [
     {
@@ -25,24 +25,24 @@ const pingSchema = new Schema({
       username: String,
       createdAt: String,
       commentHash: {
-        type: [String]
-      }
-    }
+        type: [String],
+      },
+    },
   ],
   support: [
     {
       username: String,
-      createdAt: String
-    }
-  ],  
+      createdAt: String,
+    },
+  ],
   hashtagsList: {
     // list of hashtags contained in the ping
     type: [String],
   },
   user: {
-    type: String
+    type: String,
   },
-})
+});
 
 const Ping = mongoose.model("Ping", pingSchema);
 
