@@ -28,8 +28,6 @@ function generateToken(user) {
 module.exports = {
   Query: {
     async getUsers() {
-      console.log("get users");
-
       try {
         const users = await User.find({})
           .populate("pings")
@@ -40,7 +38,6 @@ module.exports = {
       }
     },
     async getUser(_, { userId }, context) {
-      console.log("get user");
       const user = checkAuth(context);
 
       if (!user) {

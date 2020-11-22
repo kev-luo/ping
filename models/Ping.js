@@ -27,7 +27,8 @@ const pingSchema = new Schema(
     ],
     support: [
       {
-        supporter: {
+        supported: Boolean,
+        user: {
           type: Schema.Types.ObjectId,
           ref: "User",
         },

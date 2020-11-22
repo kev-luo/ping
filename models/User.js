@@ -18,7 +18,7 @@ const userSchema = new Schema(
         ref: "Ping",
       },
     ],
-    supportedPings: [
+    seenPings: [
       {
         type: Schema.Types.ObjectId,
         ref: "Ping",

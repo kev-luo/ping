@@ -6,7 +6,7 @@ type Ping {
     body: String!
     imageUrl: String
     createdAt: String
-    author: User!
+    author: User! #NOTE: changed from user
     comments: [Comment!]
     support: [Support!]
     supportCount: Int!
@@ -15,12 +15,13 @@ type Ping {
 type Comment {
     id: ID!
     body: String!
-    author: User!
+    author: User! #NOTE: changed
     createdAt: String
 }
 type Support {
     id: ID!
-    supporter: User!
+    supported: Boolean! #NOTE: changed
+    user: User! #NOTE: changed
     createdAt: String
 }
 type User {
@@ -30,7 +31,7 @@ type User {
     username: String!
     createdAt: String!
     pings: [Ping!]
-    supportedPings: [Ping!]
+    seenPings: [Ping!] #NOTE: changed
 }
 # TODO: test case oauth user
 type OauthUser {
@@ -49,7 +50,7 @@ type Query {
     getPings: [Ping!] #NOTE: checked
     getPing(pingId: ID!): Ping #NOTE: checked
     getUsers: [User!] #NOTE: checked
-    getUser(userId: ID!): User
+    getUser(userId: ID!): User #NOTE: checked
     me: OauthUser
 }
 type Mutation {
