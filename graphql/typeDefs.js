@@ -60,7 +60,7 @@ type Mutation {
     deleteUser(username: String!, password: String!): String!
     createPing(body: String!): Ping! #NOTE: checked
     deletePing(pingId: ID!): String!
-    createComment(pingId: ID!, body: String!): Ping!
+    createComment(pingId: ID!, body: String!): Ping! #NOTE: checked
     deleteComment(pingId: ID!, commentId: ID!): Ping!
     supportPing(pingId: ID!): Ping!
     # TODO: test case oauth

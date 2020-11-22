@@ -31,22 +31,23 @@ module.exports = {
   },
   Mutation: {
     async createPing(_, { body }, context) {
-      console.log("create ping");
       const user = checkAuth(context);
 
       if (body.trim() === "") {
         throw new Error("post body must not be empty");
       }
 
-      const newPing = await new Ping({
+      const ping = await new Ping({
         body,
         author: user.id,
       }).save();
 
       await User.findOneAndUpdate(
         { _id: user.id },
-        { $push: { pings: newPing._id } }
+        { $push: { pings: ping._id } }
       );
+
+      const newPing = await Ping.populate(ping, "author");
 
       context.pubsub.publish("NEW_PING", {
         newPing,
@@ -73,7 +74,6 @@ module.exports = {
       }
     },
     async supportPing(_, { pingId }, context) {
-      console.log("support ping");
       const user = checkAuth(context);
 
       const ping = await Ping.findById(pingId);
