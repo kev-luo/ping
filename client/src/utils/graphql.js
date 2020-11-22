@@ -9,6 +9,9 @@ export const FETCH_PINGS_QUERY = gql`
       author {
         id
         username
+        seenPings {
+          id
+        }
       }
       supportCount
       commentCount

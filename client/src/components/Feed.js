@@ -63,7 +63,7 @@ export default function Feed() {
                       className={classes.meta}
                       onClick={() => displayComment(ping.id)}
                     >
-                      {moment(ping.createdAt).fromNow()} | {ping.supportCount}{" "}
+                      {moment(Number(ping.createdAt)).fromNow()} | {ping.supportCount}{" "}
                       Supported | {ping.commentCount} Comments
                     </Typography>
                     <Typography variant="body2">{ping.body}</Typography>

@@ -6,12 +6,6 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa';
 
 import { SUPPORT_PING } from '../utils/graphql';
 
-const useStyles = makeStyles(themes => ({
-  icon: {
-    color: 'red',
-  }
-}))
-
 export default function SupportPing({user, ping: { id, support, supportCount }}) {
   const classes = useStyles();
   const [supported, setSupported] = useState(false);
@@ -45,3 +39,9 @@ export default function SupportPing({user, ping: { id, support, supportCount }})
     </IconButton>
   )
 }
+
+const useStyles = makeStyles(themes => ({
+  icon: {
+    color: 'red',
+  }
+}))
