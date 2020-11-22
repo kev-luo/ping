@@ -6,16 +6,8 @@ export const FETCH_PINGS_QUERY = gql`
       id
       body
       createdAt
-      user
-      comments {
+      author {
         id
-        createdAt
-        username
-        body
-      }
-      support {
-        id
-        createdAt
         username
       }
       supportCount

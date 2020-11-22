@@ -60,7 +60,7 @@ type Mutation {
     deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping! #NOTE: checked
     deleteComment(pingId: ID!, commentId: ID!): Ping!
-    supportPing(pingId: ID!): Ping!
+    supportPing(pingId: ID!): Ping! #NOTE: checked
     # TODO: test case oauth
 }
 type Subscription {
