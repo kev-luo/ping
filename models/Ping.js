@@ -2,45 +2,42 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const pingSchema = new Schema({
-  body: {
-    type: String,
-  },
-  imageUrl: {
-    type: String,
-  },
-  longitude: {
-    // where the ping was posted from
-    type: Number,
-  },
-  latitude: {
-    // where the ping was posted from
-    type: Number,
-  },
-  createdAt: {
-    type: String,
-  },
+  body: String,
+  imageUrl: String,
+  longitude: Number,
+  latitude: Number,
+  createdAt: String,
   comments: [
     {
       body: String,
-      username: String,
-      createdAt: String,
-      commentHash: {
-        type: [String],
+      author: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
       },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+      commentHash: [String],
     },
   ],
   support: [
     {
-      username: String,
-      createdAt: String,
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
     },
   ],
-  hashtagsList: {
-    // list of hashtags contained in the ping
-    type: [String],
-  },
+  // list of hashtags contained in the ping
+  hashtagsList: [String],
   user: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
 });
 
