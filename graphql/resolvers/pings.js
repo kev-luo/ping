@@ -76,22 +76,18 @@ module.exports = {
     async supportPing(_, { pingId }, context) {
       const user = checkAuth(context);
 
-      const ping = await Ping.findById(pingId);
-      if (ping) {
-        if (
-          ping.support.find((support) => support.username === user.username)
-        ) {
-          ping.support = ping.support.filter(
-            (support) => support.username !== user.username
-          );
+      const findPing = await Ping.findOne({_id: pingId})
+      if (findPing) {
+        await User.findOneAndUpdate({ _id: user.id, seenPings: { $nin: [pingId] }}, { $push: { seenPings: pingId}}, { new: true})
+
+        let ping;
+
+        if(findPing.support.find(supporter => supporter.toString() === user.id)) {
+          ping = await Ping.findOneAndUpdate({_id: pingId}, { $pull: { support: user.id }}, { new: true }).populate("support").populate("comments.author");
         } else {
-          ping.support.push({
-            username: user.username,
-            createdAt: new Date().toISOString(),
-          });
+          ping = await Ping.findOneAndUpdate({_id: pingId}, { $push: { support: user.id }}, { new: true}).populate("support").populate("comments.author");
         }
 
-        await ping.save();
         return ping;
       } else throw new UserInputError("ping not found");
     },

@@ -20,9 +20,7 @@ type Comment {
 }
 type Support {
     id: ID!
-    supported: Boolean! #NOTE: changed
     user: User! #NOTE: changed
-    createdAt: String
 }
 type User {
     id: ID!

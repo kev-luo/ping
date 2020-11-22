@@ -27,15 +27,8 @@ const pingSchema = new Schema(
     ],
     support: [
       {
-        supported: Boolean,
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
+        type: Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     // list of hashtags contained in the ping

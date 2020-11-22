@@ -31,6 +31,7 @@ module.exports = {
       try {
         const users = await User.find({})
           .populate("pings")
+          .populate("seenPings")
           .sort({ username: 1 });
         return users;
       } catch (err) {
