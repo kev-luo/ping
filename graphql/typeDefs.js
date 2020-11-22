@@ -48,7 +48,7 @@ input RegisterInput {
 type Query {
     getPings: [Ping!] #NOTE: checked
     getPing(pingId: ID!): Ping #NOTE: checked
-    getUsers: [User!]
+    getUsers: [User!] #NOTE: checked
     getUser(userId: ID!): User
     me: OauthUser
 }
