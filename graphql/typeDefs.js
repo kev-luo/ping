@@ -30,6 +30,7 @@ type User {
     username: String!
     createdAt: String!
     pings: [Ping!]
+    supportedPings: [Ping!]
 }
 # TODO: test case oauth user
 type OauthUser {
@@ -45,18 +46,18 @@ input RegisterInput {
     email: String!
 }
 type Query {
-    getPings: [Ping]
+    getPings: [Ping!]
     getPing(pingId: ID!): Ping
-    getUsers: [User]
+    getUsers: [User!]
     getUser(userId: ID!): User
     me: OauthUser
 }
 type Mutation {
-    register(registerInput: RegisterInput): User!
-    login(username: String!, password: String!): User!
+    register(registerInput: RegisterInput): User! #NOTE: checked
+    login(username: String!, password: String!): User! #NOTE: checked
     updateUser(newImage: String!): User!
     deleteUser(username: String!, password: String!): String!
-    createPing(body: String!): Ping!
+    createPing(body: String!): Ping! #NOTE: checked
     deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping!
     deleteComment(pingId: ID!, commentId: ID!): Ping!
