@@ -1,12 +1,14 @@
 import React, { useContext, useReducer } from 'react';
 
 const DashboardContext = React.createContext({
+  displayedFeed: [],
   board: "",
   details: "",
   selectedUser: null,
 });
 
 const initialState = { 
+  displayedFeed: [],
   board: "rawfeed",
   details: '',
   selectedUser: null,
@@ -14,6 +16,11 @@ const initialState = {
 
 function reducer(state, { type, payload }) {
   switch (type) {
+    case "DISPLAY_RAW_FEED":
+      return {
+        ...state,
+        displayedFeed: payload,
+      }
     case "rawfeed":
       return {
         ...state,

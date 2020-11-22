@@ -1,28 +1,25 @@
-import React from 'react'
-import { useMutation } from '@apollo/client';
-import { IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { FaRegHeart } from 'react-icons/fa';
+import React from "react";
+import { useMutation } from "@apollo/client";
+import { IconButton } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { FaRegHeart } from "react-icons/fa";
 
-import { SUPPORT_PING } from '../utils/graphql';
+import { SUPPORT_PING } from "../utils/graphql";
 
-export default function SupportPing({user, ping: { id }}) {
+export default function SupportPing({ user, ping: { id } }) {
   const classes = useStyles();
 
   const [supportMutation] = useMutation(SUPPORT_PING, {
     variables: {
-      pingId: id
+      pingId: id,
     },
     onError(err) {
       console.log(err);
     },
-    update(_, result) {
-      console.log(result);
-    }
-  })
+  });
 
   function handleClick() {
-    if(user) {
+    if (user) {
       supportMutation();
     }
   }
@@ -31,11 +28,11 @@ export default function SupportPing({user, ping: { id }}) {
     <IconButton onClick={handleClick}>
       <FaRegHeart className={classes.icon} size={15} />
     </IconButton>
-  )
+  );
 }
 
-const useStyles = makeStyles(themes => ({
+const useStyles = makeStyles((themes) => ({
   icon: {
-    color: 'red',
-  }
-}))
+    color: "red",
+  },
+}));

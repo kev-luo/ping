@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 import { useQuery } from "@apollo/client";
 import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
@@ -14,14 +14,16 @@ import { useDashboardContext } from "../utils/useDashboardContext";
 import { FETCH_PINGS_QUERY } from "../utils/graphql";
 
 export default function Feed() {
-  const [_, dispatch] = useDashboardContext();
+  const [state, dispatch] = useDashboardContext();
   const classes = useStyles();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
 
-  if(!loading) {
-    console.log(data);
-  }
+  useEffect(() => {
+    if (!loading) {
+      dispatch({ type: "DISPLAY_RAW_FEED", payload: data.getPings });
+    }
+  }, [loading]);
 
   function displayComment(pingId) {
     if (context.user) {
@@ -38,61 +40,61 @@ export default function Feed() {
   return (
     <>
       {context.user && <NewPing />}
-      {loading ||
-        (data.getPings &&
-          data.getPings.map((ping) => {
-            return (
-              <Paper key={ping.id} className={classes.paper}>
-                <Grid container wrap="nowrap" spacing={2} alignItems="center">
+      {state.displayedFeed &&
+        state.displayedFeed.map((ping) => {
+          return (
+            <Paper key={ping.id} className={classes.paper}>
+              <Grid container wrap="nowrap" spacing={2} alignItems="center">
+                <Grid item>
+                  <Avatar className={classes.pic}>Pic</Avatar>
+                </Grid>
+                <Grid item>
+                  <FiImage size={32} />
+                </Grid>
+                <Grid item xs>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.username}
+                    onClick={() => displayProfile(ping.author.id)}
+                  >
+                    {ping.author.username}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.meta}
+                    onClick={() => displayComment(ping.id)}
+                  >
+                    {moment(Number(ping.createdAt)).fromNow()} |{" "}
+                    {ping.supportCount} Supported | {ping.commentCount} Comments
+                  </Typography>
+                  <Typography variant="body2">{ping.body}</Typography>
+                </Grid>
+                <Grid item xs={2} container>
                   <Grid item>
-                    <Avatar className={classes.pic}>Pic</Avatar>
+                    <SupportPing user={context.user} ping={ping} />
                   </Grid>
                   <Grid item>
-                    <FiImage size={32} />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography
-                      variant="subtitle2"
-                      className={classes.username}
-                      onClick={() => displayProfile(ping.author.id)}
+                    <IconButton
+                      onClick={
+                        context.user
+                          ? () => dispatch({ type: "ping", payload: ping.id })
+                          : () => ""
+                      }
                     >
-                      {ping.author.username}
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      className={classes.meta}
-                      onClick={() => displayComment(ping.id)}
-                    >
-                      {moment(Number(ping.createdAt)).fromNow()} | {ping.supportCount}{" "}
-                      Supported | {ping.commentCount} Comments
-                    </Typography>
-                    <Typography variant="body2">{ping.body}</Typography>
+                      <FaComments style={{ color: "blue" }} size={15} />
+                    </IconButton>
                   </Grid>
-                  <Grid item xs={2} container>
-                    <Grid item>
-                      <SupportPing user={context.user} ping={ping} />
-                    </Grid>
-                    <Grid item>
-                      <IconButton
-                        onClick={
-                          context.user
-                            ? () => dispatch({ type: "ping", payload: ping.id })
-                            : () => ""
-                        }
-                      >
-                        <FaComments style={{ color: "blue" }} size={15} />
-                      </IconButton>
-                    </Grid>
-                    {context.user && context.user.username === ping.author.username && (
+                  {context.user &&
+                    context.user.username === ping.author.username && (
                       <Grid item>
                         <DeleteButton pingId={ping.id} />
                       </Grid>
                     )}
-                  </Grid>
                 </Grid>
-              </Paper>
-            );
-          }))}
+              </Grid>
+            </Paper>
+          );
+        })}
     </>
   );
 }
