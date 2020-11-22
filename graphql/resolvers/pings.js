@@ -7,9 +7,10 @@ const checkAuth = require("../../utils/check-auth");
 module.exports = {
   Query: {
     async getPings() {
-      console.log("get pings");
       try {
-        const pings = await Ping.find({}).populate("author").sort({ createdAt: -1 });
+        const pings = await Ping.find({})
+          .populate("author")
+          .sort({ createdAt: -1 });
         return pings;
       } catch (err) {
         throw new Error(err);
@@ -17,7 +18,7 @@ module.exports = {
     },
     async getPing(_, { pingId }) {
       try {
-        const ping = await Ping.findById(pingId);
+        const ping = await Ping.findById(pingId).populate("author");
         if (ping) {
           return ping;
         } else {

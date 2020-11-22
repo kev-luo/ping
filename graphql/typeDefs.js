@@ -46,8 +46,8 @@ input RegisterInput {
     email: String!
 }
 type Query {
-    getPings: [Ping!]
-    getPing(pingId: ID!): Ping
+    getPings: [Ping!] #NOTE: checked
+    getPing(pingId: ID!): Ping #NOTE: checked
     getUsers: [User!]
     getUser(userId: ID!): User
     me: OauthUser
