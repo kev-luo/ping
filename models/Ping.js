@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+// NOTE: test
 const pingSchema = new Schema({
   body: String,
   imageUrl: String,
   longitude: Number,
   latitude: Number,
-  createdAt: String,
   comments: [
     {
       body: String,
@@ -39,7 +38,7 @@ const pingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-});
+}, { timestamps: true });
 
 const Ping = mongoose.model("Ping", pingSchema);
 

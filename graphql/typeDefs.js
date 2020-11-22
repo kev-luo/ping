@@ -1,14 +1,14 @@
 const { gql } = require("apollo-server");
-
+// NOTE: test
 module.exports = gql`
 type Ping {
     id: ID!
     body: String!
     imageUrl: String
-    createdAt: String!
-    user: String!
-    comments: [Comment]!
-    support: [Support]!
+    createdAt: String
+    user: User!
+    comments: [Comment!]
+    support: [Support!]
     supportCount: Int!
     commentCount: Int! 
 }
