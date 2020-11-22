@@ -83,9 +83,11 @@ module.exports = {
         let ping;
 
         if(findPing.support.find(supporter => supporter.toString() === user.id)) {
-          ping = await Ping.findOneAndUpdate({_id: pingId}, { $pull: { support: user.id }}, { new: true }).populate("support").populate("comments.author");
+          ping = await Ping.findOneAndUpdate({_id: pingId}, { $pull: { support: user.id }}, { new: true })
+          // .populate("support").populate("comments.author");
         } else {
-          ping = await Ping.findOneAndUpdate({_id: pingId}, { $push: { support: user.id }}, { new: true}).populate("support").populate("comments.author");
+          ping = await Ping.findOneAndUpdate({_id: pingId}, { $push: { support: user.id }}, { new: true})
+          // .populate("support").populate("comments.author");
         }
 
         return ping;

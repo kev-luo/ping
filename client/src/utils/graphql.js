@@ -93,11 +93,6 @@ export const SUPPORT_PING = gql`
   mutation supportPing($pingId: ID!) {
     supportPing(pingId: $pingId) {
       id
-      support {
-        id
-        username
-      }
-      supportCount
     }
   }
  `

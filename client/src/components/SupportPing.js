@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useMutation } from '@apollo/client';
 import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { FaRegHeart } from 'react-icons/fa';
 
 import { SUPPORT_PING } from '../utils/graphql';
 
-export default function SupportPing({user, ping: { id, support, supportCount }}) {
+export default function SupportPing({user, ping: { id }}) {
   const classes = useStyles();
-  const [supported, setSupported] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      if (support.find(supporter => user.username === supporter.username)) {
-        setSupported(true);
-      } else {
-        setSupported(false)
-      }
-    }  
-  }, [support, user])
 
   const [supportMutation] = useMutation(SUPPORT_PING, {
     variables: {
@@ -26,16 +15,21 @@ export default function SupportPing({user, ping: { id, support, supportCount }})
     },
     onError(err) {
       console.log(err);
+    },
+    update(_, result) {
+      console.log(result);
     }
   })
 
+  function handleClick() {
+    if(user) {
+      supportMutation();
+    }
+  }
+
   return (
-    <IconButton onClick={supportMutation}>
-      {supported ? (
-        <FaHeart className={classes.icon} size={15} />
-      ) : (
-        <FaRegHeart className={classes.icon} size={15} />
-      )}
+    <IconButton onClick={handleClick}>
+      <FaRegHeart className={classes.icon} size={15} />
     </IconButton>
   )
 }
