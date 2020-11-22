@@ -6,6 +6,10 @@ const pingSchema = new Schema({
   imageUrl: String,
   longitude: Number,
   latitude: Number,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   comments: [
     {
       body: String,
@@ -22,7 +26,7 @@ const pingSchema = new Schema({
   ],
   support: [
     {
-      user: {
+      supporter: {
         type: Schema.Types.ObjectId,
         ref: "User",
       },
@@ -34,10 +38,6 @@ const pingSchema = new Schema({
   ],
   // list of hashtags contained in the ping
   hashtagsList: [String],
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
 }, { timestamps: true });
 
 const Ping = mongoose.model("Ping", pingSchema);

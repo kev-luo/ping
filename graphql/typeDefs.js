@@ -6,7 +6,7 @@ type Ping {
     body: String!
     imageUrl: String
     createdAt: String
-    user: User!
+    author: User!
     comments: [Comment!]
     support: [Support!]
     supportCount: Int!
@@ -14,14 +14,14 @@ type Ping {
 }
 type Comment {
     id: ID!
-    createdAt: String!
-    username: String!
     body: String!
+    author: User!
+    createdAt: String
 }
 type Support {
     id: ID!
-    createdAt: String!
-    username: String!
+    supporter: User!
+    createdAt: String
 }
 type User {
     id: ID!
@@ -29,7 +29,7 @@ type User {
     token: String!
     username: String!
     createdAt: String!
-    pings: [Ping]!
+    pings: [Ping!]
 }
 # TODO: test case oauth user
 type OauthUser {
