@@ -1,33 +1,22 @@
-import React, { useState } from 'react'
-import { useMutation } from '@apollo/client';
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
 // import { GraphQLClient } from 'graphql-request';
 // import { GoogleLogin } from 'react-google-login';
-import { TextField, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { TextField, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { useForm } from '../utils/useForm';
-import { useAuthContext } from '../utils/useAuthContext';
-import { LOGIN_USER } from '../utils/graphql';
-
-const useStyles = makeStyles(themes => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  textfield: {
-    margin: themes.spacing(1,1),
-  }
-}))
+import { useForm } from "../utils/useForm";
+import { useAuthContext } from "../utils/useAuthContext";
+import { LOGIN_USER } from "../utils/graphql";
 
 export default function Login() {
   const classes = useStyles();
   const context = useAuthContext();
   const [errors, setErrors] = useState({});
   const initialState = {
-    username: '',
-    password: '',
-  }
+    username: "",
+    password: "",
+  };
   const { handleChange, handleSubmit, values } = useForm(loginCb, initialState);
 
   const [loginUser] = useMutation(LOGIN_USER, {
@@ -36,15 +25,15 @@ export default function Login() {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     update(_, result) {
-      context.login(result.data.login)
-    }
-  })
+      context.login(result.data.login);
+    },
+  });
 
   function loginCb() {
     loginUser();
   }
   return (
-    // <GoogleLogin 
+    // <GoogleLogin
     //   clientId={ process.env.REACT_APP_OAUTH_CLIENT_ID }
     //   onSuccess={ onSuccess }
     //   isSignedIn={ true }
@@ -77,11 +66,22 @@ export default function Login() {
           type="submit"
           variant="contained"
           color="primary"
-          style={{ margin: "1rem 5px"}}
+          style={{ margin: "1rem 5px" }}
         >
           Login
         </Button>
       </form>
     </>
-  )
+  );
 }
+
+const useStyles = makeStyles((themes) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+  textfield: {
+    margin: themes.spacing(1, 1),
+  },
+}));

@@ -1,42 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
-  name: {
-    type: String
-  },
-  picture: {
-    type: String
-  },
-  email: {
-    type: String,
-  },
-  username: {
-    type: String,
-  },
-  password: {
-    type: String,
-  },
-  longitude: {
-    type: Number,
-  },
-  latitude: {
-    type: Number,
-  },
-  locationList: {
+// NOTE: test
+const userSchema = new Schema(
+  {
+    name: String,
+    picture: String,
+    email: String,
+    username: String,
+    password: String,
+    longitude: Number,
+    latitude: Number,
     // list of locations that user has posted a ping from
-    type: [String]
+    locationList: [String],
+    pings: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Ping",
+      },
+    ],
   },
-  createdAt: {
-    type: String,
-  },
-  pings: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Ping'
-    }
-  ]
-});
+  { timestamps: true }
+);
 
 const User = mongoose.model("User", userSchema);
 

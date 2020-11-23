@@ -5,7 +5,12 @@ const oauthUsersResolvers = require('./oauthUsers');
 
 module.exports = {
     Ping: {
-        supportCount: (parent) => parent.support.length,
+        supportCount: (parent) => {
+          const supported = parent.support.filter(supporter => {
+            return supporter.supported
+          })
+          return supported.length
+        },
         commentCount: (parent) => parent.comments.length
     },
     Query: {

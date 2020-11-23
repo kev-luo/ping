@@ -1,103 +1,138 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
+const mongoose = require("mongoose");
 
 const Ping = require("../../models/Ping");
 const User = require("../../models/User");
 const checkAuth = require("../../utils/check-auth");
 
 module.exports = {
-    Query: {
-        async getPings() {
-            console.log("get pings");
-            try {
-                const pings = await Ping.find({}).sort({ createdAt: -1 });
-                return pings;
-            } catch (err) {
-                throw new Error(err);
-            }
-        },
-        async getPing(_, { pingId }) {
-            try {
-                const ping = await Ping.findById(pingId);
-                if (ping) {
-                    return ping
-                } else {
-                    throw new Error("ping not found")
-                }
-            } catch (err) {
-                throw new Error(err);
-            }
-        }
+  Query: {
+    async getPings() {
+      try {
+        const pings = await Ping.find({})
+          .populate("author")
+          .sort({ createdAt: -1 });
+        return pings;
+      } catch (err) {
+        throw new Error(err);
+      }
     },
-    Mutation: {
-        async createPing(_, { body }, context) {
-            console.log("create ping");
-            const user = checkAuth(context);
-            console.log(user);
-
-            if (body.trim() === "") {
-                throw new Error("post body must not be empty")
-            }
-
-            const newPing = new Ping({
-                body,
-                user: user.username,
-                createdAt: new Date().toISOString()
-            });
-
-            const ping = await newPing.save();
-
-            const pinger = await User.findById(user.id);
-            pinger.pings.push(ping._id);
-            pinger.save();
-
-            context.pubsub.publish("NEW_PING", {
-                newPing: ping
-            })
-
-            return ping;
-        },
-        async deletePing(_, { pingId }, context) {
-            console.log("delete ping");
-            const user = checkAuth(context);
-            console.log(user);
-            
-            try {
-                const ping = await Ping.findById(pingId);
-                console.log(ping);
-                if (user.username === ping.user) {
-                    await ping.deleteOne();
-                    return "ping deleted succesfully";
-                } else {
-                    throw new AuthenticationError("action not allowed");
-                }
-            } catch (err) {
-                throw new Error(err);
-            }
-        },
-        async supportPing(_, { pingId }, context) {
-            console.log("support ping");
-            const user = checkAuth(context);
-
-            const ping = await Ping.findById(pingId);
-            if (ping) {
-
-                if (ping.support.find(support => support.username === user.username)) {
-                    ping.support = ping.support.filter(support => support.username !== user.username);
-                } else {
-                    ping.support.push({
-                        username: user.username,
-                        createdAt: new Date().toISOString()
-                    })
-                }
-
-                await ping.save();
-                return ping;
-            } else throw new UserInputError("ping not found");
+    async getPing(_, { pingId }) {
+      try {
+        const ping = await Ping.findById(pingId)
+          .populate("author")
+          .populate({ path: "comments", populate: { path: "author" } });
+        if (ping) {
+          return ping;
+        } else {
+          throw new Error("ping not found");
         }
+      } catch (err) {
+        throw new Error(err);
+      }
     },
-    Subscription: {
-        newPing: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PING")
+    async getSupportedPings(_, { userId }) {
+      try {
+        const supportedPings = await Ping.find({
+          $and: [
+            { "support.user": mongoose.Types.ObjectId(userId) },
+            { "support.supported": true },
+          ],
+        }).populate("author");
+        return supportedPings;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+  },
+  Mutation: {
+    async createPing(_, { body }, context) {
+      const user = checkAuth(context);
+
+      if (body.trim() === "") {
+        throw new Error("post body must not be empty");
+      }
+
+      const ping = await new Ping({
+        body,
+        author: user.id,
+      }).save();
+
+      await User.findOneAndUpdate(
+        { _id: user.id },
+        { $push: { pings: ping._id } }
+      );
+
+      const newPing = await Ping.populate(ping, "author");
+
+      context.pubsub.publish("NEW_PING", {
+        newPing,
+      });
+
+      return newPing;
+    },
+    async deletePing(_, { pingId }, context) {
+      console.log("delete ping");
+      const user = checkAuth(context);
+      console.log(user);
+
+      try {
+        const ping = await Ping.findById(pingId);
+        console.log(ping);
+        if (user.username === ping.user) {
+          await ping.deleteOne();
+          return "ping deleted succesfully";
+        } else {
+          throw new AuthenticationError("action not allowed");
         }
-    }
-}
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async supportPing(_, { pingId }, context) {
+      const user = checkAuth(context);
+      // find out if the ping exists
+      const findPing = await Ping.findOne({ _id: pingId });
+      if (findPing) {
+        // find out if the current user has already interacted with the ping. returns object in support array of ping
+        const currentUser = findPing.support.find((currentPing) => {
+          return currentPing.user.toString() === user.id;
+        });
+
+        if (currentUser) {
+          // if current user has interacted with the ping, remove the user from the supported list
+          await Ping.findOneAndUpdate(
+            { _id: pingId },
+            { $pull: { support: { user: user.id } } },
+            { new: true }
+          );
+          // re-add user with inverted boolean value
+          const updatePing = await Ping.findOneAndUpdate(
+            { _id: pingId },
+            {
+              $push: {
+                support: { user: user.id, supported: !currentUser.supported },
+              },
+            },
+            { new: true }
+          ).populate({ path: "support", populate: { path: "user" } });
+
+          return updatePing;
+        } else {
+          const updatePing = await Ping.findOneAndUpdate(
+            { _id: pingId },
+            { $push: { support: { user: user.id, supported: true } } },
+            { new: true }
+          ).populate({ path: "support", populate: { path: "user" } });
+
+          return updatePing;
+        }
+      } else throw new UserInputError("ping not found");
+    },
+  },
+  Subscription: {
+    newPing: {
+      subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PING"),
+    },
+  },
+};

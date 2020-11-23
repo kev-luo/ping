@@ -1,12 +1,17 @@
 import React from "react";
+import moment from "moment";
 
-function Comment(props){
-    return(
-        <div>
-            <p>{props.body}</p>
-        </div>
-    )
+function Comment({ id, createdAt, body, author }) {
+  return (
+    <div>
+      <p>
+        {body}
+        <span>{` | ${author.username} | Posted ${moment(
+          Number(createdAt)
+        ).fromNow()}`}</span>
+      </p>
+    </div>
+  );
 }
-
 
 export default Comment;

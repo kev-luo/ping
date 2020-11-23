@@ -1,48 +1,44 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
-const pingSchema = new Schema({
-  body: {
-    type: String,
-  },
-  imageUrl: {
-    type: String,
-  },
-  longitude: {
-    // where the ping was posted from
-    type: Number,
-  },
-  latitude: {
-    // where the ping was posted from
-    type: Number,
-  },
-  createdAt: {
-    type: String,
-  },
-  comments: [
-    {
-      body: String,
-      username: String,
-      createdAt: String,
-      commentHash: {
-        type: [String],
+// NOTE: test
+const pingSchema = new Schema(
+  {
+    body: String,
+    imageUrl: String,
+    longitude: Number,
+    latitude: Number,
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    comments: [
+      {
+        body: String,
+        author: {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+        commentHash: [String],
       },
-    },
-  ],
-  support: [
-    {
-      username: String,
-      createdAt: String,
-    },
-  ],
-  hashtagsList: {
+    ],
+    support: [
+      {
+        supported: Boolean,
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "User"
+        }
+      }
+    ],
     // list of hashtags contained in the ping
-    type: [String],
+    hashtagsList: [String],
   },
-  user: {
-    type: String,
-  },
-});
+  { timestamps: true }
+);
 
 const Ping = mongoose.model("Ping", pingSchema);
 

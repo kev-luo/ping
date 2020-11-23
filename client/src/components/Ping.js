@@ -28,30 +28,34 @@ import { FETCH_PING_QUERY } from "../utils/graphql";
 export default function Feed() {
   // const classes = useStyles();
   const [state, dispatch] = useDashboardContext();
-  const { loading, data } = useQuery(FETCH_PING_QUERY, { variables: { pingId: state.details } });
+  const { loading, data } = useQuery(FETCH_PING_QUERY, {
+    variables: { pingId: state.details },
+  });
 
   const getComments = () => {
-      const comments = data.getPing.comments;
-      const commentComponents = comments.map(comment => <Comment key={comment.id} body={comment.body}/>)
-      return commentComponents
+    const comments = data.getPing.comments;
+    const commentComponents = comments.map((comment) => (
+      <Comment key={comment.id} {...comment} />
+    ));
+    return commentComponents;
   };
-  
+
   return (
     <>
-
       {!loading && (
         <>
-          <Button color="primary" onClick={() => dispatch({ type: "rawfeed" })}>Raw Feed</Button>
-          <h1>{`@${data.getPing.user}`}</h1>
+          <Button color="primary" onClick={() => dispatch({ type: "rawfeed" })}>
+            Raw Feed
+          </Button>
+          <h1>{`@${data.getPing.author.username}`}</h1>
           <h2>{data.getPing.body}</h2>
           <p>{`Total Support: ${data.getPing.supportCount}`}</p>
-          <p>{`Posted ${moment(data.getPing.createdAt).fromNow()}`}</p>
-          <hr/>
-          <NewComment pingId={data.getPing.id}/>
+          <p>{`Posted ${moment(Number(data.getPing.createdAt)).fromNow()}`}</p>
+          <hr />
+          <NewComment pingId={data.getPing.id} />
           {getComments()}
         </>
       )}
-
     </>
   );
 }
