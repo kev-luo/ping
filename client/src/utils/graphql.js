@@ -17,6 +17,38 @@ export const FETCH_PINGS_QUERY = gql`
   }
 `;
 // NOTE:tested
+export const FETCH_PING_QUERY = gql`
+  query getPing($pingId: ID!) {
+    getPing(pingId: $pingId) {
+      id
+      body
+      createdAt
+      author {
+        id
+        username
+      }
+      comments {
+        id
+        createdAt
+        body
+        author {
+          username
+        }
+      }
+      supportCount
+      commentCount
+    }
+  }
+`;
+export const FETCH_USER_QUERY = gql`
+  query getUser($userId: ID!) {
+    getUser(userId: $userId) {
+      id
+      username
+    }
+  }
+`;
+// NOTE:tested
 export const REGISTER_USER = gql`
   mutation register(
     $username: String!
@@ -67,18 +99,21 @@ export const CREATE_PING = gql`
     }
   }
 `;
-export const FETCH_USER_QUERY = gql`
-  query getUser($userId: ID!) {
-    getUser(userId: $userId) {
-      id
-      username
-    }
-  }
-`;
 export const SUPPORT_PING = gql`
   mutation supportPing($pingId: ID!) {
     supportPing(pingId: $pingId) {
       id
+    }
+  }
+`;
+// NOTE:tested
+export const CREATE_COMMENT = gql`
+  mutation createComment($pingId: ID!, $body: String!) {
+    createComment(pingId: $pingId, body: $body) {
+      id
+      comments {
+        id
+      }
     }
   }
 `;
@@ -99,39 +134,5 @@ export const DELETE_COMMENT = gql`
 export const DELETE_PING = gql`
   mutation deletePing($pingId: ID!) {
     deletePing(pingId: $pingId)
-  }
-`;
-// NOTE:tested
-export const FETCH_PING_QUERY = gql`
-  query getPing($pingId: ID!) {
-    getPing(pingId: $pingId) {
-      id
-      body
-      createdAt
-      author {
-        id
-        username
-      }
-      comments {
-        id
-        createdAt
-        body
-        author {
-          username
-        }
-      }
-      supportCount
-      commentCount
-    }
-  }
-`;
-export const CREATE_COMMENT = gql`
-  mutation createComment($pingId: ID!, $body: String!) {
-    createComment(pingId: $pingId, body: $body) {
-      id
-      comments {
-        id
-      }
-    }
   }
 `;
