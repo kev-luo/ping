@@ -1,9 +1,24 @@
 import { useState } from "react";
+import axios from "axios";
 
 export const useForm = (callback, initialState = {}) => {
   const [values, setValues] = useState(initialState);
   const [fileInputState, setFileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
+
+
+  const handleImageUpload = async (e) => {
+    const data = new FormData();
+    data.append("file", fileInputState);
+    data.append("upload_preset", "pingImgs");
+    data.append("cloud_name", "goodlvn");
+    const res = await axios.post(
+      "https://api.cloudinary.com/v1_1/goodlvn/image/upload",
+      data
+    );
+
+    return res.data.url
+  };
 
   const previewFile = (file) => {
     const reader = new FileReader();
@@ -18,12 +33,9 @@ export const useForm = (callback, initialState = {}) => {
     const { name, value } = event.target;
 
     if (name === "imageUrl") {
-      console.log("there is an image here");
       const file = event.target.files[0];
-      console.log(file);
       setFileInputState(file);
       previewFile(file);
-      console.log(previewSource);
     } else {
       setValues({
         ...values,
@@ -32,15 +44,18 @@ export const useForm = (callback, initialState = {}) => {
     }
   };
 
-  const handleSubmit = (event) => {
-    if (!event) {
-      callback();
-    } else {
-      event.preventDefault();
-      callback();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let img = null;
+
+    if(fileInputState) {
+     img = await handleImageUpload(event)
+     console.log("lock n loaded");
     }
+
+    callback(img);
 
   };
 
-  return { handleChange, handleSubmit, values };
+  return { handleChange, handleSubmit, values, fileInputState, previewSource};
 };
