@@ -18,6 +18,8 @@ export default function Feed() {
     variables: { pingId },
   });
 
+  console.log(data);
+
   const getComments = () => {
     const comments = data.getPing.comments;
     const commentComponents = comments.map((comment) => (

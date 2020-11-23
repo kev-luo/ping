@@ -10,28 +10,16 @@ import { CREATE_PING, FETCH_PINGS_QUERY } from "../../utils/graphql";
 import { useForm } from "../../utils/useForm";
 
 export default function NewComment() {
+
   const classes = useStyles();
   const initialState = { body: "" };
-  const { handleChange, handleSubmit, values } = useForm(
+  const { handleChange, handleSubmit, values, fileInputState, previewSource } = useForm(
     createPingCb,
     initialState
   );
-  const [fileInputState, setFileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-
+  
   const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    setFileInputState(file);
-    previewFile(file);
-  };
-
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    //converts file into a string
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
+    
   };
 
   const handleImageUpload = async (e) => {
@@ -44,8 +32,8 @@ export default function NewComment() {
       "https://api.cloudinary.com/v1_1/goodlvn/image/upload",
       data
     );
-
-    console.log(res.data);
+    // handleSubmit();
+    console.log(res.data.url);
     return res.data.url;
   };
 
@@ -55,6 +43,7 @@ export default function NewComment() {
       console.log(err);
     },
     update(proxy, result) {
+      console.log(result.data)
       const data = proxy.readQuery({
         query: FETCH_PINGS_QUERY,
       });
@@ -74,7 +63,7 @@ export default function NewComment() {
 
   return (
     <Paper className={classes.paper}>
-      <form style={{ display: "flex" }} onSubmit={handleImageUpload}>
+      <form style={{ display: "flex" }} onSubmit={handleSubmit}>
         <Grid container alignItems="center" justify="center">
           <Grid item xs={10}>
             <TextField
@@ -98,7 +87,7 @@ export default function NewComment() {
               id="file"
               style={{ display: "none" }}
               type="file"
-              onChange={handleFileInputChange}
+              onChange={handleChange}
               name="imageUrl"
               // value={fileInputState}
               accept="image/*"
