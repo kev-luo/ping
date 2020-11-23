@@ -10,7 +10,6 @@ import Feed from "../components/Feed/Feed";
 export default function Dashboard() {
   const classes = useStyles();
   const path = useRouteMatch();
-  console.log(path);
 
   return (
     <div className={classes.root}>
