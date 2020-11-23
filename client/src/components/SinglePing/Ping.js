@@ -32,6 +32,8 @@ export default function Feed() {
     variables: { pingId: state.details },
   });
 
+  console.log(data);
+
   const getComments = () => {
     const comments = data.getPing.comments;
     const commentComponents = comments.map((comment) => (
