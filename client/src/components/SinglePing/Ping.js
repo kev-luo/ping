@@ -3,7 +3,7 @@ import moment from "moment";
 import { useQuery } from "@apollo/client";
 import { Button, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useHistory } from "react-router-dom";
 
 import Comment from "./Comment";
 import NewComment from "./NewComment";
@@ -13,6 +13,7 @@ import { FETCH_PING_QUERY } from "../../utils/graphql";
 export default function Feed() {
   const classes = useStyles();
   const { pingId } = useParams();
+  const history = useHistory();
   const [state, dispatch] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_PING_QUERY, {
     variables: { pingId },
@@ -30,9 +31,14 @@ export default function Feed() {
     <Paper className={classes.root}>
       {!loading && (
         <>
-          <Button color="primary" onClick={() => dispatch({ type: "rawfeed" })}>
-            Raw Feed
-          </Button>
+          <Link onClick={() => history.goBack()} className={classes.backLink}>
+            <Button
+              color="primary"
+              onClick={() => dispatch({ type: "rawfeed" })}
+            >
+              Go Back
+            </Button>
+          </Link>
           <h1>{`@${data.getPing.author.username}`}</h1>
           <h2>{data.getPing.body}</h2>
           <p>{`Total Support: ${data.getPing.supportCount}`}</p>
@@ -53,17 +59,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     padding: theme.spacing(2),
   },
-  paper: {
-    margin: theme.spacing(2, 1),
-    padding: theme.spacing(0, 2),
-    paddingRight: 0,
-  },
-  pic: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
-  },
-  date: {
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-  },
+  backLink: {
+    textDecoration: "none"
+  }
+
 }));

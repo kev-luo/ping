@@ -28,12 +28,6 @@ export default function Feed() {
     }
   }, [loading, data]);
 
-  function displayComment(pingId) {
-    if (context.user) {
-      dispatch({ type: "ping", payload: pingId });
-    }
-  }
-
   function displayProfile(selectedUser) {
     if (context.user) {
       dispatch({ type: "selectUser", payload: selectedUser });
