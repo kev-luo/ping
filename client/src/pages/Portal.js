@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Tabs, Tab, AppBar } from "@material-ui/core";
+import { Tabs, Tab } from "@material-ui/core";
 
-import Login from "./Login";
-import Register from "./Register";
+import Login from "../components/Login";
+import Register from "../components/Register";
 
-export default function SignUpOrIn() {
+export default function SignUpOrIn(props) {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleChange = (_, newValue) => {
@@ -17,8 +17,8 @@ export default function SignUpOrIn() {
         <Tab label="Login" />
         <Tab label="Register" />
       </Tabs>
-      {selectedTab === 0 && <Login />}
-      {selectedTab === 1 && <Register />}
+      {selectedTab === 0 && <Login history={props.history}/>}
+      {selectedTab === 1 && <Register history={props.history}/>}
     </>
   );
 }

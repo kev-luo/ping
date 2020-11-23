@@ -1,14 +1,15 @@
 import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Route, Switch } from 'react-router-dom';
 
-import SignUpOrIn from '../components/SignUpOrIn';
-import Nav from "../components/Nav";
-import Feed from "../components/Feed";
-import Ping from "../components/Ping";
+import About from '../components/About';
+import Feed from "../components/Feed/Feed";
+import Ping from "../components/SinglePing/Ping";
 import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
 import { useDashboardContext } from '../utils/useDashboardContext';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+function Dashboard(props) {
   const classes = useStyles();
   const authContext = useAuthContext();
   const [state] = useDashboardContext();
+  console.log(props);
 
   return (
     <div className={classes.root}>
-      <Nav />
       <div className={classes.grid}>
         <Grid container spacing={2}>
           <Grid
@@ -49,7 +50,7 @@ export default function Dashboard() {
                 {authContext.user ? (
                   <ProfileBox />
                 ) : (
-                    <SignUpOrIn />
+                    <About />
                   )}
               </Paper>
             </Grid>
@@ -72,6 +73,9 @@ export default function Dashboard() {
               }}
               className={classes.paper}
             >
+            <Switch>
+              <Route path={`/ping`}><div>hello</div></Route>
+            </Switch>
               {state.board === "ping" ? <Ping /> : <Feed />}
             </Paper>
           </Grid>
@@ -80,3 +84,6 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+export default Dashboard;

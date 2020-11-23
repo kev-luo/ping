@@ -6,8 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
-import { CREATE_PING, FETCH_PINGS_QUERY } from "../utils/graphql";
-import { useForm } from "../utils/useForm";
+import { CREATE_PING, FETCH_PINGS_QUERY } from "../../utils/graphql";
+import { useForm } from "../../utils/useForm";
 
 export default function NewComment() {
   const classes = useStyles();

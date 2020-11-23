@@ -8,8 +8,8 @@ import {
   CREATE_PING,
   FETCH_PING_QUERY,
   CREATE_COMMENT,
-} from "../utils/graphql";
-import { useAuthContext } from "../utils/useAuthContext";
+} from "../../utils/graphql";
+import { useAuthContext } from "../../utils/useAuthContext";
 
 export default function NewPing(props) {
   const pingId = props.pingId;

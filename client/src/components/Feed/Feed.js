@@ -6,13 +6,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FaComments } from "react-icons/fa";
 import { FiImage } from "react-icons/fi";
 
-import Actions from '../utils/dashboardActions';
+import Actions from '../../utils/dashboardActions';
 import NewPing from "./NewPing";
-import SupportPing from "./SupportPing";
-import DeleteButton from "./DeleteButton";
-import { useAuthContext } from "../utils/useAuthContext";
-import { useDashboardContext } from "../utils/useDashboardContext";
-import { FETCH_PINGS_QUERY } from "../utils/graphql";
+import SupportPing from "../SupportPing";
+import DeleteButton from "../DeleteButton";
+import { useAuthContext } from "../../utils/useAuthContext";
+import { useDashboardContext } from "../../utils/useDashboardContext";
+import { FETCH_PINGS_QUERY } from "../../utils/graphql";
 
 export default function Feed() {
   const [state, dispatch] = useDashboardContext();

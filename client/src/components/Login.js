@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-// import { GraphQLClient } from 'graphql-request';
-// import { GoogleLogin } from 'react-google-login';
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -9,7 +7,7 @@ import { useForm } from "../utils/useForm";
 import { useAuthContext } from "../utils/useAuthContext";
 import { LOGIN_USER } from "../utils/graphql";
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
   const context = useAuthContext();
   const [errors, setErrors] = useState({});
@@ -26,18 +24,15 @@ export default function Login() {
     },
     update(_, result) {
       context.login(result.data.login);
+      props.history.push("/");
     },
   });
+
 
   function loginCb() {
     loginUser();
   }
   return (
-    // <GoogleLogin
-    //   clientId={ process.env.REACT_APP_OAUTH_CLIENT_ID }
-    //   onSuccess={ onSuccess }
-    //   isSignedIn={ true }
-    // />
     <>
       <form className={classes.root} noValidate onSubmit={handleSubmit}>
         <TextField
