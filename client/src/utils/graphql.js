@@ -40,7 +40,7 @@ export const FETCH_PING_QUERY = gql`
     }
   }
 `;
-
+// NOTE:tested
 export const FETCH_USER_QUERY = gql`
   query getUser($userId: ID!) {
     getUser(userId: $userId) {
@@ -54,6 +54,22 @@ export const FETCH_USER_QUERY = gql`
         supportCount
         commentCount
       }
+    }
+  }
+`;
+// NOTE: new
+export const FETCH_SUPPORTED_PINGS_QUERY = gql`
+  query getSupportedPings($userId: ID!) {
+    getSupportedPings(userId: $userId) {
+      id
+      body
+      createdAt
+      author {
+        id
+        username
+      }
+      supportCount
+      commentCount
     }
   }
 `;

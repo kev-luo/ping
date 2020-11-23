@@ -6,14 +6,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import Actions from "../utils/dashboardActions";
 import { useAuthContext } from "../utils/useAuthContext";
 import { useDashboardContext } from "../utils/useDashboardContext";
-import { FETCH_USER_QUERY } from "../utils/graphql";
+import { FETCH_USER_QUERY, FETCH_SUPPORTED_PINGS_QUERY } from "../utils/graphql";
 
 export default function ProfileBox() {
   const classes = useStyles();
   const { user } = useAuthContext();
   const [state, dispatch] = useDashboardContext();
+
+  const currentUser = state.selectedUser || user
+
   const { loading, data } = useQuery(FETCH_USER_QUERY, {
-    variables: { userId: user.id },
+    variables: { userId: currentUser.id },
   });
 
   const postedPings = () => {
@@ -21,14 +24,22 @@ export default function ProfileBox() {
       return {
         ...ping,
         author: {
-          id: data.getUser.id || user.id,
-          username: data.getUser.username || user.username,
+          id: currentUser.id,
+          username: currentUser.username,
         },
       };
     });
-    console.log(pingData);
     dispatch({ type: Actions.TOGGLE_FEED, payload: pingData });
   };
+
+  const supportedPings = () => {
+    // const supportedPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
+    //   variables: { userId: state.selectedUser.id || user.id }
+    // })
+    // if(supportedPings) {
+    //   console.log(supportedPings);
+    // }
+  }
 
   return (
     <div>
@@ -49,7 +60,7 @@ export default function ProfileBox() {
               className={classes.handle}
             >{`@${data.getUser.username}`}</Typography>
             <Button onClick={postedPings}>Posted Pings</Button>
-            <Button>Supported Pings</Button>
+            <Button onClick={supportedPings}>Supported Pings</Button>
           </>
         ))}
     </div>
