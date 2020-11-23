@@ -1,9 +1,13 @@
 import React from "react";
+import moment from 'moment';
 
-function Comment(props){
+function Comment({id, createdAt, body, author}){
     return(
         <div>
-            <p>{props.body}</p>
+            <p>
+              {body}
+              <span>{` | ${author.username} | Posted ${moment(Number(createdAt)).fromNow()}`}</span>
+            </p>
         </div>
     )
 }
