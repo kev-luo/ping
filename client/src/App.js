@@ -5,6 +5,7 @@ import Nav from './components/Nav';
 import Dashboard from "./pages/Dashboard";
 import Portal from './pages/Portal';
 import SinglePing from './pages/SinglePing';
+import ProtectedRoute from './utils/ProtectedRoute';
 import { AuthProvider } from "./utils/useAuthContext";
 import { DashboardProvider } from "./utils/useDashboardContext";
 
@@ -21,9 +22,7 @@ function App() {
             <Route exact path="/portal" >
               <Portal />
             </Route>
-            <Route exact path="/ping/:pingId" >
-              <SinglePing />
-            </Route>
+            <ProtectedRoute exact path="/ping/:pingId" component={SinglePing} />
           </Switch>
         </Router>
       </DashboardProvider>
