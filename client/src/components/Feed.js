@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FaComments } from "react-icons/fa";
 import { FiImage } from "react-icons/fi";
 
+import Actions from '../utils/dashboardActions';
 import NewPing from "./NewPing";
 import SupportPing from "./SupportPing";
 import DeleteButton from "./DeleteButton";
@@ -21,7 +22,7 @@ export default function Feed() {
 
   useEffect(() => {
     if (!loading) {
-      dispatch({ type: "DISPLAY_RAW_FEED", payload: data.getPings });
+      dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
     }
   }, [loading]);
 

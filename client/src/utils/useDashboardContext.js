@@ -1,4 +1,5 @@
 import React, { useContext, useReducer } from "react";
+import Actions from './dashboardActions';
 
 const DashboardContext = React.createContext({
   displayedFeed: [],
@@ -16,7 +17,7 @@ const initialState = {
 
 function reducer(state, { type, payload }) {
   switch (type) {
-    case "DISPLAY_RAW_FEED":
+    case Actions.TOGGLE_FEED:
       return {
         ...state,
         displayedFeed: payload,

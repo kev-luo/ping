@@ -40,11 +40,20 @@ export const FETCH_PING_QUERY = gql`
     }
   }
 `;
+
 export const FETCH_USER_QUERY = gql`
   query getUser($userId: ID!) {
     getUser(userId: $userId) {
       id
+      email
       username
+      pings {
+        id
+        body
+        createdAt
+        supportCount
+        commentCount
+      }
     }
   }
 `;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useAuthContext } from "../utils/useAuthContext";
@@ -15,19 +15,31 @@ export default function ProfileBox() {
     variables: { userId: user.id },
   });
 
+  if (!loading) {
+    console.log(data.getUser);
+  }
+
   return (
     <div>
       {loading ||
         (state.selectedUser ? (
-          <Typography
-            variant="h4"
-            className={classes.handle}
-          >{`@${state.selectedUser.username}`}</Typography>
+          <>
+            <Typography
+              variant="h4"
+              className={classes.handle}
+            >{`@${state.selectedUser.username}`}</Typography>
+            <Button>Posted Pings</Button>
+            <Button>Supported Pings</Button>
+          </>
         ) : (
-          <Typography
-            variant="h4"
-            className={classes.handle}
-          >{`@${data.getUser.username}`}</Typography>
+          <>
+            <Typography
+              variant="h4"
+              className={classes.handle}
+            >{`@${data.getUser.username}`}</Typography>
+            <Button>Posted Pings</Button>
+            <Button>Supported Pings</Button>
+          </>
         ))}
     </div>
   );
