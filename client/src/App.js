@@ -11,8 +11,8 @@ function App() {
   return (
     <AuthProvider>
       <DashboardProvider>
-        <Nav />
         <Router>
+        <Nav />
           <Switch>
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/portal" component={Portal} />
