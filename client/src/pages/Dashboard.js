@@ -10,7 +10,6 @@ import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
 import { useDashboardContext } from '../utils/useDashboardContext';
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -29,7 +28,7 @@ function Dashboard(props) {
   const classes = useStyles();
   const authContext = useAuthContext();
   const [state] = useDashboardContext();
-  console.log(props);
+  // console.log(props);
 
   return (
     <div className={classes.root}>

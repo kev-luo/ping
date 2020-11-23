@@ -24,7 +24,7 @@ export default function Feed() {
     if (!loading) {
       dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
     }
-  }, [loading]);
+  }, [loading, data]);
 
   function displayComment(pingId) {
     if (context.user) {
