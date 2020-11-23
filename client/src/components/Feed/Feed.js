@@ -7,7 +7,7 @@ import { FaComments } from "react-icons/fa";
 import { FiImage } from "react-icons/fi";
 
 import Actions from '../../utils/dashboardActions';
-import NewPing from "../NewPing";
+import NewPing from "./NewPing";
 import SupportPing from "../SupportPing";
 import DeleteButton from "../DeleteButton";
 import { useAuthContext } from "../../utils/useAuthContext";
