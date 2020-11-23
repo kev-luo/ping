@@ -9,7 +9,7 @@ export default function About() {
     <Grid item>
       <Paper style={{ backgroundColor: "#fcf8f2" }} className={classes.paper}>
         <Typography variant="h4">Welcome to Ping</Typography>
-        <Typography variant="p">
+        <Typography variant="body1">
           Ping helps the community by keeping users informed of local events.
           Users post information about things happening around them to create a
           web of real-time event announcements. Pings are automatically deleted

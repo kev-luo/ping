@@ -10,7 +10,7 @@ export default function SignUpOrIn(props) {
   const handleChange = (_, newValue) => {
     setSelectedTab(newValue);
   };
-  
+
   return (
     <>
       <Tabs variant="fullWidth" value={selectedTab} onChange={handleChange}>
@@ -18,7 +18,7 @@ export default function SignUpOrIn(props) {
         <Tab label="Register" />
       </Tabs>
       {selectedTab === 0 && <Login history={props.history}/>}
-      {selectedTab === 1 && <Register />}
+      {selectedTab === 1 && <Register history={props.history}/>}
     </>
   );
 }

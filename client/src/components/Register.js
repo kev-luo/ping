@@ -29,6 +29,7 @@ export default function Register(props) {
     },
     update(_, result) {
       login(result.data.register);
+      props.history.push("/");
     },
   });
 
