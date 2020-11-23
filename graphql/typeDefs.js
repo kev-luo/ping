@@ -6,7 +6,7 @@ module.exports = gql`
     body: String!
     imageUrl: String
     createdAt: String
-    author: User! #NOTE: changed from user
+    author: User! #NOTE: new
     comments: [Comment!]
     support: [Support!]
     supportCount: Int!
@@ -15,13 +15,13 @@ module.exports = gql`
   type Comment {
     id: ID!
     body: String!
-    author: User! #NOTE: changed
+    author: User! #NOTE: new
     createdAt: String
   }
   type Support {
     id: ID!
-    supported: Boolean #NOTE: changed
-    user: User #NOTE: changed
+    supported: Boolean #NOTE: new
+    user: User #NOTE: new
   }
   type User {
     id: ID!
@@ -47,6 +47,7 @@ module.exports = gql`
   type Query {
     getPings: [Ping!] #NOTE: checked
     getPing(pingId: ID!): Ping #NOTE: checked
+    getSupportedPings(userId: ID!): [Ping!] #NOTE: new
     getUsers: [User!] #NOTE: checked
     getUser(userId: ID!): User #NOTE: checked
     me: OauthUser

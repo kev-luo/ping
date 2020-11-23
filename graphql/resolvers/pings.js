@@ -19,12 +19,27 @@ module.exports = {
     },
     async getPing(_, { pingId }) {
       try {
-        const ping = await Ping.findById(pingId).populate("author").populate({path:"comments", populate: {path: "author"}});
+        const ping = await Ping.findById(pingId)
+          .populate("author")
+          .populate({ path: "comments", populate: { path: "author" } });
         if (ping) {
           return ping;
         } else {
           throw new Error("ping not found");
         }
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getSupportedPings(_, { userId }) {
+      try {
+        const supportedPings = await Ping.find({
+          $and: [
+            { "support.user": mongoose.Types.ObjectId(userId) },
+            { "support.supported": true },
+          ],
+        }).populate("author");
+        return supportedPings;
       } catch (err) {
         throw new Error(err);
       }
@@ -91,7 +106,7 @@ module.exports = {
             { $pull: { support: { user: user.id } } },
             { new: true }
           );
-          // 
+          // re-add user with inverted boolean value
           const updatePing = await Ping.findOneAndUpdate(
             { _id: pingId },
             {
