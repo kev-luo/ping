@@ -26,13 +26,8 @@ export default function Feed() {
     if (!loading) {
       dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
     }
-<<<<<<< HEAD
-  }, [loading]);
-  // NOTE:no longer needed
-=======
   }, [loading, data]);
 
->>>>>>> 1d96ee85f5c7db3340f2f4edab1756b285a418a6
   function displayComment(pingId) {
     if (context.user) {
       dispatch({ type: "ping", payload: pingId });
