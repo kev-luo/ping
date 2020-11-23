@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from '@material-ui/core';
+import { Grid } from "@material-ui/core";
 
-import UserContainer from '../components/User/UserContainer';
-import Map from '../components/Map/Map';
+import UserContainer from "../components/User/UserContainer";
+import Map from "../components/Map/Map";
 import Ping from "../components/SinglePing/Ping";
 
 export default function SinglePing() {
