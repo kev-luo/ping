@@ -4,25 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import SignUpOrIn from '../components/SignUpOrIn';
 import Nav from "../components/Nav";
-import Feed from "../components/Feed";
-import Ping from "../components/Ping";
+import Feed from "../components/Feed/Feed";
+import Ping from "../components/SinglePing/Ping";
 import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
 import { useDashboardContext } from '../utils/useDashboardContext';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    margin: theme.spacing(1, 1),
-  },
-  grid: {
-    margin: theme.spacing(2, 1),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    // color: theme.palette.text.secondary,
-  },
-}));
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -80,3 +66,17 @@ export default function Dashboard() {
     </div>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    margin: theme.spacing(1, 1),
+  },
+  grid: {
+    margin: theme.spacing(2, 1),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    // color: theme.palette.text.secondary,
+  },
+}));

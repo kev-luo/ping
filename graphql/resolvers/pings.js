@@ -31,6 +31,7 @@ module.exports = {
         throw new Error(err);
       }
     },
+    // NOTE: might not need this...
     async getSupportedPings(_, { userId }) {
       try {
         const supportedPings = await Ping.find({
