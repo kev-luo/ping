@@ -18,18 +18,6 @@ const userSchema = new Schema(
         ref: "Ping",
       },
     ],
-    supportedPings: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Ping",
-      },
-    ],
-    dismissedPings: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Ping",
-      },
-    ],
   },
   { timestamps: true }
 );

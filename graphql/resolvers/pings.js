@@ -10,7 +10,7 @@ module.exports = {
     async getPings() {
       try {
         const pings = await Ping.find({})
-          .populate({ path: "author", populate: { path: "seenPings" } })
+          .populate("author")
           .sort({ createdAt: -1 });
         return pings;
       } catch (err) {

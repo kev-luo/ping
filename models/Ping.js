@@ -25,12 +25,6 @@ const pingSchema = new Schema(
         commentHash: [String],
       },
     ],
-    dismiss: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ],
     support: [
       {
         supported: Boolean,

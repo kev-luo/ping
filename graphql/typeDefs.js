@@ -8,7 +8,6 @@ module.exports = gql`
     createdAt: String
     author: User! #NOTE: changed from user
     comments: [Comment!]
-    dismiss: [Dismiss!]
     support: [Support!]
     supportCount: Int!
     commentCount: Int!
@@ -35,8 +34,6 @@ module.exports = gql`
     username: String!
     createdAt: String!
     pings: [Ping!]
-    supportedPings: [Ping!] #NOTE: changed
-    dismissedPings: [Ping!] #NOTE: changed
   }
   # TODO: test case oauth user
   type OauthUser {
