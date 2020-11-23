@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useMutation } from "@apollo/client";
 import { Paper, Button, ButtonGroup, TextField, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,33 +11,13 @@ import { useForm } from "../../utils/useForm";
 export default function NewComment() {
 
   const classes = useStyles();
-  const initialState = { body: "" };
+  const initialState = { body: "", imageUrl: "" };
   const { handleChange, handleSubmit, values, fileInputState, previewSource } = useForm(
     createPingCb,
     initialState
   );
-  
-  const handleFileInputChange = (e) => {
-    
-  };
-
-  const handleImageUpload = async (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append("file", fileInputState);
-    data.append("upload_preset", "pingImgs");
-    data.append("cloud_name", "goodlvn");
-    const res = await axios.post(
-      "https://api.cloudinary.com/v1_1/goodlvn/image/upload",
-      data
-    );
-    // handleSubmit();
-    console.log(res.data.url);
-    return res.data.url;
-  };
 
   const [createPing] = useMutation(CREATE_PING, {
-    variables: values,
     onError(err) {
       console.log(err);
     },
@@ -54,11 +33,12 @@ export default function NewComment() {
         },
       });
       values.body = "";
+      values.imageUrl = "";
     },
   });
 
-  function createPingCb() {
-    createPing();
+  function createPingCb(img) {
+    createPing({ variables: { ...values, imageUrl: img }});
   }
 
   return (
