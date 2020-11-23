@@ -14,12 +14,8 @@ function App() {
         <Nav />
         <Router>
           <Switch>
-            <Route exact path="/">
-              <Dashboard />
-            </Route>
-            <Route exact path="/portal">
-              <Portal />
-            </Route>
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/portal" component={Portal} />
           </Switch>
         </Router>
       </DashboardProvider>

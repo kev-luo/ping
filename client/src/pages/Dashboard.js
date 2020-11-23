@@ -2,9 +2,7 @@ import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import SignUpOrIn from '../components/SignUpOrIn';
 import About from '../components/About';
-import Nav from "../components/Nav";
 import Feed from "../components/Feed/Feed";
 import Ping from "../components/SinglePing/Ping";
 import ProfileBox from '../components/ProfileBox';
