@@ -25,11 +25,20 @@ const pingSchema = new Schema(
         commentHash: [String],
       },
     ],
-    support: [
+    dismiss: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User",
-      },
+        ref: "User"
+      }
+    ],
+    support: [
+      {
+        supported: Boolean,
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "User"
+        }
+      }
     ],
     // list of hashtags contained in the ping
     hashtagsList: [String],

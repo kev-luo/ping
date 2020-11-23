@@ -1,4 +1,5 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
+const mongoose = require("mongoose");
 
 const Ping = require("../../models/Ping");
 const User = require("../../models/User");
@@ -9,7 +10,7 @@ module.exports = {
     async getPings() {
       try {
         const pings = await Ping.find({})
-          .populate({path: "author", populate: { path: "seenPings" }})
+          .populate({ path: "author", populate: { path: "seenPings" } })
           .sort({ createdAt: -1 });
         return pings;
       } catch (err) {
@@ -75,22 +76,42 @@ module.exports = {
     },
     async supportPing(_, { pingId }, context) {
       const user = checkAuth(context);
-
-      const findPing = await Ping.findOne({_id: pingId})
+      // find out if the ping exists
+      const findPing = await Ping.findOne({ _id: pingId });
       if (findPing) {
-        await User.findOneAndUpdate({ _id: user.id, seenPings: { $nin: [pingId] }}, { $push: { seenPings: pingId}}, { new: true})
+        // find out if the current user has already interacted with the ping. returns object in support array of ping
+        const currentUser = findPing.support.find((currentPing) => {
+          return currentPing.user.toString() === user.id;
+        });
 
-        let ping;
+        if (currentUser) {
+          // if current user has interacted with the ping, remove the user from the supported list
+          await Ping.findOneAndUpdate(
+            { _id: pingId },
+            { $pull: { support: { user: user.id } } },
+            { new: true }
+          );
+          // 
+          const updatePing = await Ping.findOneAndUpdate(
+            { _id: pingId },
+            {
+              $push: {
+                support: { user: user.id, supported: !currentUser.supported },
+              },
+            },
+            { new: true }
+          ).populate({ path: "support", populate: { path: "user" } });
 
-        if(findPing.support.find(supporter => supporter.toString() === user.id)) {
-          ping = await Ping.findOneAndUpdate({_id: pingId}, { $pull: { support: user.id }}, { new: true })
-          // .populate("support").populate("comments.author");
+          return updatePing;
         } else {
-          ping = await Ping.findOneAndUpdate({_id: pingId}, { $push: { support: user.id }}, { new: true})
-          // .populate("support").populate("comments.author");
-        }
+          const updatePing = await Ping.findOneAndUpdate(
+            { _id: pingId },
+            { $push: { support: { user: user.id, supported: true } } },
+            { new: true }
+          ).populate({ path: "support", populate: { path: "user" } });
 
-        return ping;
+          return updatePing;
+        }
       } else throw new UserInputError("ping not found");
     },
   },

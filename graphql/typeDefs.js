@@ -1,57 +1,64 @@
 const { gql } = require("apollo-server");
 // NOTE: test
 module.exports = gql`
-type Ping {
+  type Ping {
     id: ID!
     body: String!
     imageUrl: String
     createdAt: String
     author: User! #NOTE: changed from user
     comments: [Comment!]
+    dismiss: [Dismiss!]
     support: [Support!]
     supportCount: Int!
-    commentCount: Int! 
-}
-type Comment {
+    commentCount: Int!
+  }
+  type Comment {
     id: ID!
     body: String!
     author: User! #NOTE: changed
     createdAt: String
-}
-type Support {
+  }
+  type Dismiss { #NOTE: changed
+    id: ID! #NOTE: changed
+    user: User #NOTE: changed
+  }
+  type Support {
     id: ID!
-    user: User! #NOTE: changed
-}
-type User {
+    supported: Boolean #NOTE: changed
+    user: User #NOTE: changed
+  }
+  type User {
     id: ID!
     email: String!
     token: String!
     username: String!
     createdAt: String!
     pings: [Ping!]
-    seenPings: [Ping!] #NOTE: changed
-}
-# TODO: test case oauth user
-type OauthUser {
+    supportedPings: [Ping!] #NOTE: changed
+    dismissedPings: [Ping!] #NOTE: changed
+  }
+  # TODO: test case oauth user
+  type OauthUser {
     id: ID
     name: String
     email: String
     picture: String
-}
-input RegisterInput {
+  }
+  input RegisterInput {
     username: String!
     password: String!
     confirmPassword: String!
     email: String!
-}
-type Query {
+  }
+  type Query {
     getPings: [Ping!] #NOTE: checked
     getPing(pingId: ID!): Ping #NOTE: checked
     getUsers: [User!] #NOTE: checked
     getUser(userId: ID!): User #NOTE: checked
     me: OauthUser
-}
-type Mutation {
+  }
+  type Mutation {
     register(registerInput: RegisterInput): User! #NOTE: checked
     login(username: String!, password: String!): User! #NOTE: checked
     updateUser(newImage: String!): User!
@@ -62,8 +69,8 @@ type Mutation {
     deleteComment(pingId: ID!, commentId: ID!): Ping!
     supportPing(pingId: ID!): Ping! #NOTE: checked
     # TODO: test case oauth
-}
-type Subscription {
+  }
+  type Subscription {
     newPing: Ping!
-}
-`
+  }
+`;
