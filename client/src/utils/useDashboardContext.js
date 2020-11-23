@@ -18,11 +18,10 @@ const initialState = {
 function reducer(state, { type, payload }) {
   switch (type) {
     case Actions.TOGGLE_FEED:
-      console.log(payload);
       return {
         ...state,
         displayedFeed: payload,
-      };
+      }; 
     case "rawfeed":
       return {
         ...state,
