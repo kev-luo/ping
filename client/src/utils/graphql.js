@@ -6,6 +6,7 @@ export const FETCH_PINGS_QUERY = gql`
     getPings {
       id
       body
+      imageUrl
       createdAt
       author {
         id
@@ -22,6 +23,7 @@ export const FETCH_PING_QUERY = gql`
     getPing(pingId: $pingId) {
       id
       body
+      imageUrl
       createdAt
       author {
         id
