@@ -3,10 +3,10 @@ import { useQuery } from "@apollo/client";
 import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Actions from "../utils/dashboardActions";
-import { useAuthContext } from "../utils/useAuthContext";
-import { useDashboardContext } from "../utils/useDashboardContext";
-import { FETCH_USER_QUERY, FETCH_SUPPORTED_PINGS_QUERY } from "../utils/graphql";
+import Actions from "../../utils/dashboardActions";
+import { useAuthContext } from "../../utils/useAuthContext";
+import { useDashboardContext } from "../../utils/useDashboardContext";
+import { FETCH_USER_QUERY, FETCH_SUPPORTED_PINGS_QUERY } from "../../utils/graphql";
 
 export default function ProfileBox() {
   const classes = useStyles();

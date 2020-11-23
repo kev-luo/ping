@@ -1,19 +1,14 @@
 import React from "react";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from "react-router-dom";
 
-import About from '../components/User/About';
+import UserContainer from "../components/User/UserContainer";
+import Map from "../components/Map/Map";
 import Feed from "../components/Feed/Feed";
-import Ping from "../components/SinglePing/Ping";
-import ProfileBox from '../components/ProfileBox';
-import { useAuthContext } from '../utils/useAuthContext';
-import { useDashboardContext } from '../utils/useDashboardContext';
 
 export default function Dashboard() {
   const classes = useStyles();
-  const authContext = useAuthContext();
-  const [state] = useDashboardContext();
   const path = useRouteMatch();
   console.log(path);
 
@@ -28,39 +23,12 @@ export default function Dashboard() {
             xs={4}
             justify="space-between"
           >
-            <Grid item>
-              <Paper
-                style={{ backgroundColor: "#fcf8f2" }}
-                className={classes.paper}
-              >
-                {authContext.user ? (
-                  <ProfileBox />
-                ) : (
-                    <About />
-                  )}
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper
-                style={{ backgroundColor: "#fcf8f2" }}
-                className={classes.paper}
-              >
-                Map
-              </Paper>
-            </Grid>
+            <UserContainer />
+            <Map />
           </Grid>
 
           <Grid item xs={8}>
-            <Paper
-              style={{
-                backgroundColor: "#fcf8f2",
-                height: "80vh",
-                overflow: "auto",
-              }}
-              className={classes.paper}
-            >
-              {state.board === "ping" ? <Ping /> : <Feed />}
-            </Paper>
+            <Feed />
           </Grid>
         </Grid>
       </div>

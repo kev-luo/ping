@@ -27,7 +27,7 @@ export default function Feed() {
       dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
     }
   }, [loading]);
-
+  // NOTE:no longer needed
   function displayComment(pingId) {
     if (context.user) {
       dispatch({ type: "ping", payload: pingId });
@@ -41,7 +41,7 @@ export default function Feed() {
   }
 
   return (
-    <>
+    <Paper className={classes.root}>
       {context.user && <NewPing />}
       {state.displayedFeed &&
         state.displayedFeed.map((ping) => {
@@ -97,11 +97,17 @@ export default function Feed() {
             </Paper>
           );
         })}
-    </>
+    </Paper>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#fcf8f2",
+    height: "80vh",
+    overflow: "auto",
+    padding: theme.spacing(2),
+  },
   paper: {
     margin: theme.spacing(2, 1),
     padding: theme.spacing(0, 2),
@@ -114,6 +120,9 @@ const useStyles = makeStyles((theme) => ({
   meta: {
     color: theme.palette.text.secondary,
     fontSize: 12,
+    "& > * ": {
+      textDecoration: "none",
+    },
     "&:hover": {
       cursor: "pointer",
     },
