@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FaComments } from "react-icons/fa";
-import { FiImage } from "react-icons/fi";
+import { FiImage, FiFileText } from "react-icons/fi";
 import { Link, useRouteMatch } from "react-router-dom";
 
 import Actions from "../../utils/dashboardActions";
@@ -52,7 +52,7 @@ export default function Feed() {
                   <Avatar className={classes.pic}>Pic</Avatar>
                 </Grid>
                 <Grid item>
-                  <FiImage size={32} />
+                  {ping.imageUrl ?  <FiImage size={32} /> : <FiFileText size={32} />}
                 </Grid>
                 <Grid item xs>
                   <Typography
