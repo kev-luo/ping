@@ -1,17 +1,13 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useRouteMatch } from "react-router-dom";
+import { Grid } from "@material-ui/core";
 
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
-import Feed from "../components/Feed/Feed";
+import Ping from "../components/SinglePing/Ping";
 
-export default function Dashboard() {
+export default function SinglePing() {
   const classes = useStyles();
-  const path = useRouteMatch();
-  console.log(path);
-
   return (
     <div className={classes.root}>
       <div className={classes.grid}>
@@ -28,7 +24,7 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={8}>
-            <Feed />
+            <Ping />
           </Grid>
         </Grid>
       </div>

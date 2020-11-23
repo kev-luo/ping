@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Typography, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from 'react-router-dom';
 
-import { useForm } from "../utils/useForm";
-import { useAuthContext } from "../utils/useAuthContext";
-import { REGISTER_USER } from "../utils/graphql";
+import { useForm } from "../../utils/useForm";
+import { useAuthContext } from "../../utils/useAuthContext";
+import { REGISTER_USER } from "../../utils/graphql";
 
-export default function Register(props) {
+export default function Register() {
   const classes = useStyles();
+  const history = useHistory();
   const [errors, setErrors] = useState({});
   const { login } = useAuthContext();
   const initialState = {
@@ -29,7 +31,7 @@ export default function Register(props) {
     },
     update(_, result) {
       login(result.data.register);
-      props.history.push("/");
+      history.push("/");
     },
   });
 
