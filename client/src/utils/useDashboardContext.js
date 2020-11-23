@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useReducer } from "react";
 
 const DashboardContext = React.createContext({
   displayedFeed: [],
@@ -7,12 +7,12 @@ const DashboardContext = React.createContext({
   selectedUser: null,
 });
 
-const initialState = { 
+const initialState = {
   displayedFeed: [],
   board: "rawfeed",
-  details: '',
+  details: "",
   selectedUser: null,
-}
+};
 
 function reducer(state, { type, payload }) {
   switch (type) {
@@ -20,34 +20,34 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         displayedFeed: payload,
-      }
+      };
     case "rawfeed":
       return {
         ...state,
         board: "rawfeed",
-      }
+      };
     case "ping":
       return {
         ...state,
         board: "ping",
-        details: payload
-      }
+        details: payload,
+      };
     case "supportedpings":
       return {
         ...state,
-        board: "supportedpings"
-      }
+        board: "supportedpings",
+      };
     case "selectUser":
       return {
         ...state,
-        selectedUser: payload
-      }
+        selectedUser: payload,
+      };
     case "clearUser":
       return {
         ...state,
         selectedUser: null,
-      }
-    default: 
+      };
+    default:
       return state;
   }
 }
@@ -55,16 +55,11 @@ function reducer(state, { type, payload }) {
 function DashboardProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  return(
-    <DashboardContext.Provider
-      value={[state, dispatch]}
-      {...props}
-    />
-  )
+  return <DashboardContext.Provider value={[state, dispatch]} {...props} />;
 }
 
 const useDashboardContext = () => {
   return useContext(DashboardContext);
-}
+};
 
-export { useDashboardContext, DashboardProvider }
+export { useDashboardContext, DashboardProvider };

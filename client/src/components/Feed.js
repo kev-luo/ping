@@ -55,7 +55,7 @@ export default function Feed() {
                   <Typography
                     variant="subtitle2"
                     className={classes.username}
-                    onClick={() => displayProfile(ping.author.id)}
+                    onClick={() => displayProfile(ping.author)}
                   >
                     {ping.author.username}
                   </Typography>

@@ -4,20 +4,8 @@ import { Typography, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useForm } from "../utils/useForm";
-import { useAuthContext } from '../utils/useAuthContext';
+import { useAuthContext } from "../utils/useAuthContext";
 import { REGISTER_USER } from "../utils/graphql";
-
-const useStyles = makeStyles((themes) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    "& > *": {
-      flexGrow: 1,
-      margin: themes.spacing(0.5, 1),
-    },
-  },
-}));
 
 export default function Register(props) {
   const classes = useStyles();
@@ -100,3 +88,15 @@ export default function Register(props) {
     </>
   );
 }
+
+const useStyles = makeStyles((themes) => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    "& > *": {
+      flexGrow: 1,
+      margin: themes.spacing(0.5, 1),
+    },
+  },
+}));
