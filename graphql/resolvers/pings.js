@@ -19,7 +19,7 @@ module.exports = {
     },
     async getPing(_, { pingId }) {
       try {
-        const ping = await Ping.findById(pingId).populate("author");
+        const ping = await Ping.findById(pingId).populate("author").populate({path:"comments", populate: {path: "author"}});
         if (ping) {
           return ping;
         } else {

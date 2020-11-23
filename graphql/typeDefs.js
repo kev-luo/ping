@@ -18,10 +18,6 @@ module.exports = gql`
     author: User! #NOTE: changed
     createdAt: String
   }
-  type Dismiss { #NOTE: changed
-    id: ID! #NOTE: changed
-    user: User #NOTE: changed
-  }
   type Support {
     id: ID!
     supported: Boolean #NOTE: changed

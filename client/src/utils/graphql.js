@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 
+// NOTE:tested
 export const FETCH_PINGS_QUERY = gql`
   {
     getPings {
@@ -15,6 +16,7 @@ export const FETCH_PINGS_QUERY = gql`
     }
   }
 `;
+// NOTE:tested
 export const REGISTER_USER = gql`
   mutation register(
     $username: String!
@@ -38,15 +40,10 @@ export const REGISTER_USER = gql`
     }
   }
 `;
+// NOTE:tested
 export const LOGIN_USER = gql`
-  mutation login(
-    $username: String! 
-    $password: String!
-  ) {
-    login(
-      username: $username 
-      password: $password
-    ) {
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
       id
       email
       token
@@ -69,83 +66,72 @@ export const CREATE_PING = gql`
       commentCount
     }
   }
-`
+`;
 export const FETCH_USER_QUERY = gql`
- query getUser($userId: ID!) {
-   getUser(userId: $userId){
-     id
-     username
-   }
- }
- `
+  query getUser($userId: ID!) {
+    getUser(userId: $userId) {
+      id
+      username
+    }
+  }
+`;
 export const SUPPORT_PING = gql`
   mutation supportPing($pingId: ID!) {
     supportPing(pingId: $pingId) {
       id
     }
   }
- `
+`;
 export const DELETE_COMMENT = gql`
-  mutation deleteComment(
-    $pingId: ID!
-    $commentId: ID!
-  ) {
-    deleteComment(
-      pingId: $pingId
-      commentId: $commentId
-    ) {
+  mutation deleteComment($pingId: ID!, $commentId: ID!) {
+    deleteComment(pingId: $pingId, commentId: $commentId) {
+      id
+      comments {
         id
-        comments {
-          id
-          username
-          createdAt
-          body
-        }
-        commentCount
+        username
+        createdAt
+        body
+      }
+      commentCount
     }
   }
-
-`
+`;
 export const DELETE_PING = gql`
   mutation deletePing($pingId: ID!) {
     deletePing(pingId: $pingId)
   }
-`
+`;
+// NOTE:tested
 export const FETCH_PING_QUERY = gql`
-query getPing($pingId: ID!){
-  getPing(pingId: $pingId){
-    id
-    body
-    createdAt
-    user
-    comments{
-      id 
-      createdAt
-      username
+  query getPing($pingId: ID!) {
+    getPing(pingId: $pingId) {
+      id
       body
-    }
-    supportCount
-    commentCount
-  }
-}
-`
-export const CREATE_COMMENT = gql`
-mutation createComment(
-  $pingId: ID!
-  $body: String!
-){
-  createComment(
-    pingId: $pingId
-    body: $body
-  ){
-    id
-        comments {
-          id
+      createdAt
+      author {
+        id
+        username
+      }
+      comments {
+        id
+        createdAt
+        body
+        author {
           username
-          createdAt
-          body
         }
-        commentCount
+      }
+      supportCount
+      commentCount
+    }
   }
-}
-`
+`;
+export const CREATE_COMMENT = gql`
+  mutation createComment($pingId: ID!, $body: String!) {
+    createComment(pingId: $pingId, body: $body) {
+      id
+      comments {
+        id
+      }
+    }
+  }
+`;
