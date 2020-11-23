@@ -47,7 +47,7 @@ module.exports = {
     },
   },
   Mutation: {
-    async createPing(_, { body }, context) {
+    async createPing(_, { body, imageUrl }, context) {
       const user = checkAuth(context);
 
       if (body.trim() === "") {
@@ -56,6 +56,7 @@ module.exports = {
 
       const ping = await new Ping({
         body,
+        imageUrl,
         author: user.id,
       }).save();
 
