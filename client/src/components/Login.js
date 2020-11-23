@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from 'react-router-dom';
 
 import { useForm } from "../utils/useForm";
 import { useAuthContext } from "../utils/useAuthContext";
 import { LOGIN_USER } from "../utils/graphql";
 
-export default function Login(props) {
+export default function Login() {
   const classes = useStyles();
+  const history = useHistory();
   const context = useAuthContext();
   const [errors, setErrors] = useState({});
   const initialState = {
@@ -24,7 +26,7 @@ export default function Login(props) {
     },
     update(_, result) {
       context.login(result.data.login);
-      props.history.push("/");
+      history.push("/");
     },
   });
 

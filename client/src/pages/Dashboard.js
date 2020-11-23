@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import About from '../components/About';
 import Feed from "../components/Feed/Feed";
@@ -10,26 +10,12 @@ import ProfileBox from '../components/ProfileBox';
 import { useAuthContext } from '../utils/useAuthContext';
 import { useDashboardContext } from '../utils/useDashboardContext';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    margin: theme.spacing(1, 1),
-  },
-  grid: {
-    margin: theme.spacing(2, 1),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    // color: theme.palette.text.secondary,
-  },
-}));
-
-function Dashboard(props) {
+export default function Dashboard() {
   const classes = useStyles();
   const authContext = useAuthContext();
   const [state] = useDashboardContext();
-  console.log(props);
+  const path = useRouteMatch();
+  console.log(path);
 
   return (
     <div className={classes.root}>
@@ -85,5 +71,16 @@ function Dashboard(props) {
   );
 }
 
-
-export default Dashboard;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    margin: theme.spacing(1, 1),
+  },
+  grid: {
+    margin: theme.spacing(2, 1),
+  },
+  paper: {
+    padding: theme.spacing(2),
+    // color: theme.palette.text.secondary,
+  },
+}));

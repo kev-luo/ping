@@ -17,8 +17,8 @@ export default function SignUpOrIn(props) {
         <Tab label="Login" />
         <Tab label="Register" />
       </Tabs>
-      {selectedTab === 0 && <Login history={props.history}/>}
-      {selectedTab === 1 && <Register history={props.history}/>}
+      {selectedTab === 0 && <Login />}
+      {selectedTab === 1 && <Register />}
     </>
   );
 }
