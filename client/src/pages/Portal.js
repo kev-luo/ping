@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Tabs, Tab } from "@material-ui/core";
 
-import Login from "../components/Login";
-import Register from "../components/Register";
+import Login from "../components/User/Login";
+import Register from "../components/User/Register";
 
 export default function SignUpOrIn(props) {
   const [selectedTab, setSelectedTab] = useState(0);

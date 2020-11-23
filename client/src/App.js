@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Nav from './components/Nav';
 import Dashboard from "./pages/Dashboard";
 import Portal from './pages/Portal';
+import SinglePing from './pages/SinglePing';
 import { AuthProvider } from "./utils/useAuthContext";
 import { DashboardProvider } from "./utils/useDashboardContext";
 
@@ -19,6 +20,9 @@ function App() {
             </Route>
             <Route exact path="/portal" >
               <Portal />
+            </Route>
+            <Route exact path="/ping/:pingId" >
+              <SinglePing />
             </Route>
           </Switch>
         </Router>

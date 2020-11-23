@@ -3,7 +3,7 @@ import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import About from '../components/About';
+import About from '../components/User/About';
 import Feed from "../components/Feed/Feed";
 import Ping from "../components/SinglePing/Ping";
 import ProfileBox from '../components/ProfileBox';
@@ -59,9 +59,6 @@ export default function Dashboard() {
               }}
               className={classes.paper}
             >
-            <Switch>
-              <Route path={`/ping`}><div>hello</div></Route>
-            </Switch>
               {state.board === "ping" ? <Ping /> : <Feed />}
             </Paper>
           </Grid>

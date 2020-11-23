@@ -4,9 +4,9 @@ import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from 'react-router-dom';
 
-import { useForm } from "../utils/useForm";
-import { useAuthContext } from "../utils/useAuthContext";
-import { LOGIN_USER } from "../utils/graphql";
+import { useForm } from "../../utils/useForm";
+import { useAuthContext } from "../../utils/useAuthContext";
+import { LOGIN_USER } from "../../utils/graphql";
 
 export default function Login() {
   const classes = useStyles();

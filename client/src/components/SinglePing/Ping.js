@@ -5,6 +5,7 @@ import NewComment from "./NewComment";
 import { useQuery } from "@apollo/client";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useParams } from 'react-router-dom';
 
 import { useDashboardContext } from "../../utils/useDashboardContext";
 import { FETCH_PING_QUERY } from "../../utils/graphql";
@@ -27,9 +28,10 @@ import { FETCH_PING_QUERY } from "../../utils/graphql";
 
 export default function Feed() {
   // const classes = useStyles();
+  const { pingId } = useParams();
   const [state, dispatch] = useDashboardContext();
   const { loading, data } = useQuery(FETCH_PING_QUERY, {
-    variables: { pingId: state.details },
+    variables: { pingId },
   });
 
   const getComments = () => {
