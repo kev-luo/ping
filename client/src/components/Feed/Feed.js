@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import moment from "moment";
 import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,10 +17,6 @@ export default function Feed({ data }) {
   const classes = useStyles();
   const [_, dispatch] = useDashboardContext();
   const { user } = useAuthContext();
-
-  useEffect(() => {
-    user && dispatch({ type: Actions.SELECT_USER, payload: user });
-  }, []);
 
   function displayProfile(selectedUser) {
     if (user) {
@@ -68,7 +64,7 @@ export default function Feed({ data }) {
                 <Grid item>
                   <Link to={`/ping/${ping.id}`}>
                     <IconButton>
-                      <FaComments style={{ color: "blue" }} size={15} />
+                      <FaComments className={classes.commentIcon} size={15} />
                     </IconButton>
                   </Link>
                 </Grid>
@@ -107,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     "& > * ": {
       textDecoration: "none",
+      color: "grey",
     },
     "&:hover": {
       cursor: "pointer",
@@ -116,5 +113,8 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       cursor: "pointer",
     },
+  },
+  commentIcon: {
+    color: "blue",
   },
 }));

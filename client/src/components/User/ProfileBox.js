@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
+import Actions from "../../utils/dashboardActions";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 import { FETCH_USER_QUERY } from "../../utils/graphql";
@@ -12,9 +13,13 @@ import { FETCH_USER_QUERY } from "../../utils/graphql";
 export default function ProfileBox() {
   const classes = useStyles();
   const { user } = useAuthContext();
-  const [state] = useDashboardContext();
+  const [state, dispatch] = useDashboardContext();
 
   const currentUser = state.selectedUser || user;
+
+  useEffect(() => {
+    user && dispatch({ type: Actions.SELECT_USER, payload: user });
+  }, []);
 
   const { loading, data } = useQuery(FETCH_USER_QUERY, {
     variables: { userId: currentUser.id },
