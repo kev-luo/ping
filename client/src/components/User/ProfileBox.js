@@ -25,13 +25,21 @@ export default function ProfileBox() {
     variables: { userId: state.selectedUser?.id },
   });
 
+  function editProfile() {
+    if (user.id === state.selectedUser.id) {
+      return (
+        <Link to="settings">
+          <RiUserSettingsLine style={{ float: "right" }} />
+        </Link>
+      );
+    }
+  }
+
   return (
     <div className={classes.root}>
       {data ? (
         <>
-          <Link to="settings">
-            <RiUserSettingsLine style={{ float: "right" }} />
-          </Link>
+          {editProfile()}
           <Typography
             variant="h4"
             className={classes.handle}
