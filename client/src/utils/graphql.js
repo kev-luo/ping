@@ -65,6 +65,7 @@ export const FETCH_SUPPORTED_PINGS_QUERY = gql`
     getSupportedPings(userId: $userId) {
       id
       body
+      imageUrl
       createdAt
       author {
         id

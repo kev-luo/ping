@@ -15,18 +15,19 @@ import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 import { FETCH_PINGS_QUERY } from "../../utils/graphql";
 
-export default function Feed({data}) {
+export default function Feed() {
   const classes = useStyles();
   const [state, dispatch] = useDashboardContext();
   const context = useAuthContext();
-  // const { loading, data } = useQuery(FETCH_PINGS_QUERY);
-  const path = useRouteMatch();
+  const { loading, data } = useQuery(FETCH_PINGS_QUERY);
+  const path = useRouteMatch("/user/pinged/:userId");
+  console.log(path);
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
-  //   }
-  // }, [loading, data]);
+  useEffect(() => {
+    if (!loading) {
+      dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
+    }
+  }, [loading, data]);
 
   function displayProfile(selectedUser) {
     if (context.user) {
@@ -37,8 +38,8 @@ export default function Feed({data}) {
   return (
     <Paper className={classes.root}>
       {context.user && <NewPing />}
-      {data &&
-        data.map((ping) => {
+      {loading || data.getPings &&
+        data.getPings.map((ping) => {
           return (
             <Paper key={ping.id} className={classes.paper}>
               <Grid container wrap="nowrap" spacing={2} alignItems="center">

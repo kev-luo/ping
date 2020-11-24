@@ -55,10 +55,10 @@ export default function ProfileBox() {
               className={classes.handle}
             >{`@${data.getUser.username}`}</Typography>
             <Link to={`/user/supported/${data.getUser.id}`}>
-              <Button onClick={postedPings}>Posted Pings</Button>
+              <Button onClick={postedPings}>Supported Pings</Button>
             </Link>
             <Link to={`/user/pinged/${data.getUser.id}`}>
-              <Button>Supported Pings</Button>
+              <Button>Posted Pings</Button>
             </Link>
           </>
         ))}

@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useQuery } from "@apollo/client";
-import { useRouteMatch, useLocation } from "react-router-dom";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { useRouteMatch, useParams, Route, Switch, useLocation } from "react-router-dom";
 
 import { useAuthContext } from "../utils/useAuthContext";
-import { FETCH_PINGS_QUERY } from "../utils/graphql";
+import { FETCH_PINGS_QUERY, FETCH_SUPPORTED_PINGS_QUERY } from "../utils/graphql";
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
 import Feed from "../components/Feed/Feed";
 
 export default function Dashboard() {
   const classes = useStyles();
+  const route = useRouteMatch();
+  const routeParam = useParams();
   const { pathname } = useLocation();
-  const { loading, data } = useQuery(FETCH_PINGS_QUERY);
+  const [allPings, allPingsResult] = useLazyQuery(FETCH_PINGS_QUERY);
+  const [suppPings, suppPingsResult] = useLazyQuery(FETCH_SUPPORTED_PINGS_QUERY, { variables: {pingId: pathname.split('/')[3]}})
 
-  let message = null;
-  if (loading) message = <div>Loading...</div>;
-  if (!data) message = <div>No data found!</div>;
-
-  console.log(pathname);
+  console.log("route params", routeParam);
+  console.log("route match", route);
 
   return (
     <div className={classes.root}>
@@ -37,7 +37,11 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={8}>
-            {message || <Feed data={data.getPings}/>}
+          <Switch>
+            <Route path={`${route.url}/:userId`}>
+              <Feed data={{}}/>
+            </Route>
+          </Switch>
           </Grid>
         </Grid>
       </div>
