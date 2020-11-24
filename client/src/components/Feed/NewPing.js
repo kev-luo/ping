@@ -12,7 +12,7 @@ export default function NewComment() {
 
   const classes = useStyles();
   const initialState = { body: "", imageUrl: "" };
-  const { handleChange, handleSubmit, values, fileInputState, previewSource } = useForm(
+  const { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource } = useForm(
     createPingCb,
     initialState
   );
@@ -33,7 +33,8 @@ export default function NewComment() {
         },
       });
       values.body = "";
-      values.imageUrl = "";
+      setFileInputState("");
+      setPreviewSource("");
     },
   });
 
@@ -69,7 +70,6 @@ export default function NewComment() {
               type="file"
               onChange={handleChange}
               name="imageUrl"
-              // value={fileInputState}
               accept="image/*"
             />
             <label className={classes.fileBtn} htmlFor="file">

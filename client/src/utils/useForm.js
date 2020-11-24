@@ -47,15 +47,11 @@ export const useForm = (callback, initialState = {}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     let img = null;
-
     if(fileInputState) {
      img = await handleImageUpload(event)
-     console.log("lock n loaded");
     }
-
     callback(img);
-
   };
 
-  return { handleChange, handleSubmit, values, fileInputState, previewSource};
+  return { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource};
 };
