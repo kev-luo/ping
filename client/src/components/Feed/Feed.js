@@ -68,11 +68,9 @@ export default function Feed({ data }) {
                     </IconButton>
                   </Link>
                 </Grid>
-                {user && user.username === ping.author.username && (
-                  <Grid item>
-                    <DeleteButton pingId={ping.id} />
-                  </Grid>
-                )}
+                <Grid item>
+                  <DeleteButton pingId={ping.id} />
+                </Grid>
               </Grid>
             </Grid>
           </Paper>

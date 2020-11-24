@@ -24,14 +24,14 @@ export default function NewComment() {
     onError(err) {
       console.log(err);
     },
-    update(proxy, result) {
+    update(proxy, { data: { createPing }}) {
       const data = proxy.readQuery({
         query: FETCH_PINGS_QUERY,
       });
       proxy.writeQuery({
         query: FETCH_PINGS_QUERY,
         data: {
-          getPings: [result.data.createPing, ...data.getPings],
+          getPings: [createPing, ...data.getPings],
         },
       });
       values.body = "";
