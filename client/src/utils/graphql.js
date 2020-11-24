@@ -52,6 +52,7 @@ export const FETCH_USER_QUERY = gql`
       pings {
         id
         body
+        imageUrl
         createdAt
         supportCount
         commentCount

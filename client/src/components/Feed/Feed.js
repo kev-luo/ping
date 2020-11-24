@@ -20,7 +20,7 @@ export default function Feed({ data }) {
 
   useEffect(() => {
     user && dispatch({ type: Actions.SELECT_USER, payload: user });
-  }, [])
+  }, []);
 
   function displayProfile(selectedUser) {
     if (user) {
@@ -32,61 +32,56 @@ export default function Feed({ data }) {
     <Paper className={classes.root}>
       {user && <NewPing />}
       {data.map((ping) => {
-          return (
-            <Paper key={ping.id} className={classes.paper}>
-              <Grid container wrap="nowrap" spacing={2} alignItems="center">
+        return (
+          <Paper key={ping.id} className={classes.paper}>
+            <Grid container wrap="nowrap" spacing={2} alignItems="center">
+              <Grid item>
+                <Avatar className={classes.pic}>Pic</Avatar>
+              </Grid>
+              <Grid item>
+                {ping.imageUrl ? (
+                  <FiImage size={32} />
+                ) : (
+                  <FiFileText size={32} />
+                )}
+              </Grid>
+              <Grid item xs>
+                <Typography
+                  variant="subtitle2"
+                  className={classes.username}
+                  onClick={() => displayProfile(ping.author)}
+                >
+                  {ping.author.username}
+                </Typography>
+                <Typography variant="subtitle2" className={classes.meta}>
+                  <Link to={`/ping/${ping.id}`}>
+                    {moment(Number(ping.createdAt)).fromNow()} |{" "}
+                    {ping.supportCount} Supported | {ping.commentCount} Comments
+                  </Link>
+                </Typography>
+                <Typography variant="body2">{ping.body}</Typography>
+              </Grid>
+              <Grid item xs={2} container>
                 <Grid item>
-                  <Avatar className={classes.pic}>Pic</Avatar>
+                  <SupportPing user={user} ping={ping} />
                 </Grid>
                 <Grid item>
-                  {ping.imageUrl ? (
-                    <FiImage size={32} />
-                  ) : (
-                    <FiFileText size={32} />
-                  )}
-                </Grid>
-                <Grid item xs>
-                  <Typography
-                    variant="subtitle2"
-                    className={classes.username}
-                    onClick={() => displayProfile(ping.author)}
-                  >
-                    {ping.author.username}
-                  </Typography>
-                  <Typography variant="subtitle2" className={classes.meta}>
-                    <Link to={`/ping/${ping.id}`}>
-                      {moment(Number(ping.createdAt)).fromNow()} |{" "}
-                      {ping.supportCount} Supported | {ping.commentCount}{" "}
-                      Comments
-                    </Link>
-                  </Typography>
-                  <Typography variant="body2">{ping.body}</Typography>
-                </Grid>
-                <Grid item xs={2} container>
-                  <Grid item>
-                    <SupportPing user={user} ping={ping} />
-                  </Grid>
-                  <Grid item>
-                    <IconButton
-                      onClick={
-                        user
-                          ? () => dispatch({ type: "ping", payload: ping.id })
-                          : () => ""
-                      }
-                    >
+                  <Link to={`/ping/${ping.id}`}>
+                    <IconButton>
                       <FaComments style={{ color: "blue" }} size={15} />
                     </IconButton>
-                  </Grid>
-                  {user && user.username === ping.author.username && (
-                    <Grid item>
-                      <DeleteButton pingId={ping.id} />
-                    </Grid>
-                  )}
+                  </Link>
                 </Grid>
+                {user && user.username === ping.author.username && (
+                  <Grid item>
+                    <DeleteButton pingId={ping.id} />
+                  </Grid>
+                )}
               </Grid>
-            </Paper>
-          );
-        })}
+            </Grid>
+          </Paper>
+        );
+      })}
     </Paper>
   );
 }

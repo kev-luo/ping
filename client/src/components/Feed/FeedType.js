@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  useRouteMatch,
-  useLocation,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { useRouteMatch, useLocation, Route, Switch } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
 import {
   FETCH_PINGS_QUERY,
   FETCH_SUPPORTED_PINGS_QUERY,
-  FETCH_USER_QUERY,
 } from "../../utils/graphql";
 import Feed from "./Feed";
 import Loading from "../Loading";
@@ -18,19 +12,18 @@ import Loading from "../Loading";
 export default function FeedType() {
   const route = useRouteMatch();
   const { pathname } = useLocation();
+  const pathArray = pathname.split("/");
   const allPings = useQuery(FETCH_PINGS_QUERY, { skip: !route.isExact });
-  const suppPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
-    skip: pathname.split("/")[2] !== "supported",
-    variables: { userId: pathname.split("/")[3] },
+  const userPings = useQuery(FETCH_PINGS_QUERY, {
+    skip: pathArray[2] !== "pinged",
   });
-  const userPings = useQuery(FETCH_USER_QUERY, {
-    skip: pathname.split("/")[2] !== "pinged",
-    variables: { userId: pathname.split("/")[3] },
+  const suppPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
+    skip: pathArray[2] !== "supported",
+    variables: { userId: pathArray[3] },
   });
 
-  const pingedData = userPings.data?.getUser.pings.map((ping) => {
-    const author = userPings.data.getUser;
-    return { ...ping, author: { id: author.id, username: author.username } };
+  const pingedData = userPings.data?.getPings.filter((ping) => {
+    return ping.author.id === pathArray[3];
   });
 
   return (
