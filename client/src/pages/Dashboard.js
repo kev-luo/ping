@@ -2,24 +2,35 @@ import React, { useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useQuery, useLazyQuery } from "@apollo/client";
-import { useRouteMatch, useParams, Route, Switch, useLocation } from "react-router-dom";
+import {
+  useRouteMatch,
+  useParams,
+  useLocation,
+  Route,
+  Switch,
+} from "react-router-dom";
 
 import { useAuthContext } from "../utils/useAuthContext";
-import { FETCH_PINGS_QUERY, FETCH_SUPPORTED_PINGS_QUERY } from "../utils/graphql";
+import {
+  FETCH_PINGS_QUERY,
+  FETCH_SUPPORTED_PINGS_QUERY,
+} from "../utils/graphql";
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
 import Feed from "../components/Feed/Feed";
+import Loading from "../components/Loading";
 
 export default function Dashboard() {
   const classes = useStyles();
   const route = useRouteMatch();
   const routeParam = useParams();
   const { pathname } = useLocation();
-  const [allPings, allPingsResult] = useLazyQuery(FETCH_PINGS_QUERY);
-  const [suppPings, suppPingsResult] = useLazyQuery(FETCH_SUPPORTED_PINGS_QUERY, { variables: {pingId: pathname.split('/')[3]}})
-
-  console.log("route params", routeParam);
-  console.log("route match", route);
+  const allPings = useQuery(FETCH_PINGS_QUERY, { skip: !route.isExact });
+  const suppPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
+    skip: pathname.split("/")[2] !== "supported",
+    variables: { userId: pathname.split("/")[3] },
+  });
+  console.log(route);
 
   return (
     <div className={classes.root}>
@@ -37,11 +48,22 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={8}>
-          <Switch>
-            <Route path={`${route.url}/:userId`}>
-              <Feed data={{}}/>
-            </Route>
-          </Switch>
+            <Switch>
+              <Route exact path="/">
+                {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
+              </Route>
+              <Route exact path="/pinged/:userId">
+                <Feed />
+              </Route>
+              <Route exact path={`${route.url}/:userId`}>
+                <Loading />
+                {/* {suppPings.loading ? (
+                  <Loading />
+                ) : (
+                  <Feed data={suppPings.data.getSupportedPings} />
+                )} */}
+              </Route>
+            </Switch>
           </Grid>
         </Grid>
       </div>
