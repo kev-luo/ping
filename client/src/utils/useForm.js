@@ -34,6 +34,7 @@ export const useForm = (callback, initialState = {}) => {
 
     if (name === "imageUrl") {
       const file = event.target.files[0];
+      console.log(event, file);
       setFileInputState(file);
       previewFile(file);
     } else {
@@ -47,15 +48,11 @@ export const useForm = (callback, initialState = {}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     let img = null;
-
     if(fileInputState) {
      img = await handleImageUpload(event)
-     console.log("lock n loaded");
     }
-
     callback(img);
-
   };
 
-  return { handleChange, handleSubmit, values, fileInputState, previewSource};
+  return { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource};
 };

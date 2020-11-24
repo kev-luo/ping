@@ -19,6 +19,10 @@ export default function Feed() {
     variables: { pingId },
   });
 
+  if(!loading) {
+    console.log(data.getPing.imageUrl);
+  }
+
   const getComments = () => {
     const comments = data.getPing.comments;
     const commentComponents = comments.map((comment) => (
@@ -41,6 +45,7 @@ export default function Feed() {
           </Link>
           <h1>{`@${data.getPing.author.username}`}</h1>
           <h2>{data.getPing.body}</h2>
+          <img src={data.getPing.imageUrl} style={{ maxHeight: "250px"}}/>
           <p>{`Total Support: ${data.getPing.supportCount}`}</p>
           <p>{`Posted ${moment(Number(data.getPing.createdAt)).fromNow()}`}</p>
           <hr />

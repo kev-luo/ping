@@ -2,7 +2,8 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import {RiUserSettingsLine} from "react-icons/ri";
+import {Link} from "react-router-dom";
 
 import Actions from "../../utils/dashboardActions";
 import { useAuthContext } from "../../utils/useAuthContext";
@@ -50,6 +51,10 @@ export default function ProfileBox() {
           </>
         ) : (
           <>
+          <Link to="settings">
+          <RiUserSettingsLine style={{float: "right"}} />
+          </Link>
+            
             <Typography
               variant="h4"
               className={classes.handle}
