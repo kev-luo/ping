@@ -4,15 +4,13 @@ import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FaRegHeart } from "react-icons/fa";
 
-import { SUPPORT_PING } from "../utils/graphql";
+import { FETCH_SUPPORTED_PINGS_QUERY, SUPPORT_PING } from "../utils/graphql";
 
-export default function SupportPing({ user, ping: { id } }) {
+export default function SupportPing({ user, pingId }) {
   const classes = useStyles();
 
   const [supportMutation] = useMutation(SUPPORT_PING, {
-    variables: {
-      pingId: id,
-    },
+    variables: { pingId },
     onError(err) {
       console.log(err);
     },

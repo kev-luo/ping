@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useMutation } from "@apollo/client";
 import { Paper, Button, ButtonGroup, TextField, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,27 +9,29 @@ import { CREATE_PING, FETCH_PINGS_QUERY } from "../../utils/graphql";
 import { useForm } from "../../utils/useForm";
 
 export default function NewComment() {
-
   const classes = useStyles();
   const initialState = { body: "", imageUrl: "" };
-  const { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource } = useForm(
-    createPingCb,
-    initialState
-  );
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    setFileInputState,
+    setPreviewSource,
+    previewSource,
+  } = useForm(createPingCb, initialState);
 
   const [createPing] = useMutation(CREATE_PING, {
     onError(err) {
       console.log(err);
     },
-    update(proxy, result) {
-      console.log(result.data)
-      const data = proxy.readQuery({
+    update(cache, { data: { createPing }}) {
+      const data = cache.readQuery({
         query: FETCH_PINGS_QUERY,
       });
-      proxy.writeQuery({
+      cache.writeQuery({
         query: FETCH_PINGS_QUERY,
         data: {
-          getPings: [result.data.createPing, ...data.getPings],
+          getPings: [createPing, ...data.getPings],
         },
       });
       values.body = "";
@@ -39,7 +41,7 @@ export default function NewComment() {
   });
 
   function createPingCb(img) {
-    createPing({ variables: { ...values, imageUrl: img }});
+    createPing({ variables: { ...values, imageUrl: img } });
   }
 
   return (

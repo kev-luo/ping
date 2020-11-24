@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
 
+import Actions from "../../utils/dashboardActions";
 import ProfileBox from "./ProfileBox";
 import About from "./About";
-import { useAuthContext } from '../../utils/useAuthContext';
+import { useDashboardContext } from "../../utils/useDashboardContext";
+import { useAuthContext } from "../../utils/useAuthContext";
+import { FETCH_USER_QUERY } from "../../utils/graphql";
 
 export default function UserContainer() {
   const classes = useStyles();
-  const authContext = useAuthContext();
+  const { user } = useAuthContext();
+  const [state, dispatch] = useDashboardContext();
+
+  useEffect(() => {
+    user && dispatch({ type: Actions.SELECT_USER, payload: user });
+  }, [user]);
+
+  const { loading, data } = useQuery(FETCH_USER_QUERY, {
+    skip: !state.selectedUser,
+    variables: { userId: state.selectedUser?.id },
+  });
+
   return (
     <Grid item>
       <Paper className={classes.paper}>
-        {authContext.user ? <ProfileBox /> : <About />}
+        {user ? <ProfileBox userData={data?.getUser} /> : <About />}
       </Paper>
     </Grid>
   );
@@ -21,6 +36,6 @@ export default function UserContainer() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    backgroundColor: "#fcf8f2"
+    backgroundColor: "#fcf8f2",
   },
 }));

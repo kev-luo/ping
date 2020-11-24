@@ -117,7 +117,9 @@ module.exports = {
               },
             },
             { new: true }
-          ).populate({ path: "support", populate: { path: "user" } });
+          )
+            .populate("author")
+            .populate({ path: "support", populate: { path: "user" } });
 
           return updatePing;
         } else {
@@ -125,7 +127,9 @@ module.exports = {
             { _id: pingId },
             { $push: { support: { user: user.id, supported: true } } },
             { new: true }
-          ).populate({ path: "support", populate: { path: "user" } });
+          )
+            .populate("author")
+            .populate({ path: "support", populate: { path: "user" } });
 
           return updatePing;
         }

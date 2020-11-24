@@ -52,6 +52,7 @@ export const FETCH_USER_QUERY = gql`
       pings {
         id
         body
+        imageUrl
         createdAt
         supportCount
         commentCount
@@ -65,6 +66,7 @@ export const FETCH_SUPPORTED_PINGS_QUERY = gql`
     getSupportedPings(userId: $userId) {
       id
       body
+      imageUrl
       createdAt
       author {
         id
@@ -131,6 +133,22 @@ export const SUPPORT_PING = gql`
   mutation supportPing($pingId: ID!) {
     supportPing(pingId: $pingId) {
       id
+      body
+      imageUrl
+      createdAt
+      author {
+        id
+        username
+      }
+      support {
+        id
+        supported
+        user {
+          username
+        }
+      }
+      supportCount
+      commentCount
     }
   }
 `;
