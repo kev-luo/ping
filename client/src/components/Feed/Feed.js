@@ -18,9 +18,9 @@ import { FETCH_PINGS_QUERY } from "../../utils/graphql";
 export default function Feed() {
   const classes = useStyles();
   const [state, dispatch] = useDashboardContext();
-  const path = useRouteMatch();
   const context = useAuthContext();
   const { loading, data } = useQuery(FETCH_PINGS_QUERY);
+  const path = useRouteMatch();
 
   useEffect(() => {
     if (!loading) {

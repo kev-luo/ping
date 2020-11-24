@@ -2,18 +2,22 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
 import Actions from "../../utils/dashboardActions";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
-import { FETCH_USER_QUERY, FETCH_SUPPORTED_PINGS_QUERY } from "../../utils/graphql";
+import {
+  FETCH_USER_QUERY,
+  FETCH_SUPPORTED_PINGS_QUERY,
+} from "../../utils/graphql";
 
 export default function ProfileBox() {
   const classes = useStyles();
   const { user } = useAuthContext();
   const [state, dispatch] = useDashboardContext();
 
-  const currentUser = state.selectedUser || user
+  const currentUser = state.selectedUser || user;
 
   const { loading, data } = useQuery(FETCH_USER_QUERY, {
     variables: { userId: currentUser.id },
@@ -32,17 +36,8 @@ export default function ProfileBox() {
     dispatch({ type: Actions.TOGGLE_FEED, payload: pingData });
   };
 
-  const supportedPings = () => {
-    // const supportedPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
-    //   variables: { userId: state.selectedUser.id || user.id }
-    // })
-    // if(supportedPings) {
-    //   console.log(supportedPings);
-    // }
-  }
-
   return (
-    <div>
+    <div className={classes.root}>
       {loading ||
         (state.selectedUser ? (
           <>
@@ -59,8 +54,12 @@ export default function ProfileBox() {
               variant="h4"
               className={classes.handle}
             >{`@${data.getUser.username}`}</Typography>
-            <Button onClick={postedPings}>Posted Pings</Button>
-            <Button onClick={supportedPings}>Supported Pings</Button>
+            <Link to={`/user/supported/${data.getUser.id}`}>
+              <Button onClick={postedPings}>Posted Pings</Button>
+            </Link>
+            <Link to={`/user/pinged/${data.getUser.id}`}>
+              <Button>Supported Pings</Button>
+            </Link>
           </>
         ))}
     </div>
@@ -70,5 +69,10 @@ export default function ProfileBox() {
 const useStyles = makeStyles((themes) => ({
   handle: {
     textAlign: "center",
+  },
+  root: {
+    "& > *": {
+      textDecoration: "none",
+    },
   },
 }));

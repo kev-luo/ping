@@ -19,10 +19,8 @@ export default function NewComment() {
 
   const [createPing] = useMutation(CREATE_PING, {
     onError(err) {
-      console.log(err);
     },
     update(proxy, result) {
-      console.log(result.data)
       const data = proxy.readQuery({
         query: FETCH_PINGS_QUERY,
       });

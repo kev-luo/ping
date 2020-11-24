@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, Route, useLocation } from "react-router-dom";
 
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
@@ -9,7 +9,9 @@ import Feed from "../components/Feed/Feed";
 
 export default function Dashboard() {
   const classes = useStyles();
-  const path = useRouteMatch();
+  const route = useRouteMatch();
+  const location = useLocation();
+  console.log(location);
 
   return (
     <div className={classes.root}>

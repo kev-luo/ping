@@ -19,6 +19,9 @@ function App() {
             <Route exact path="/" >
               <Dashboard />
             </Route>
+            <Route path="/user/:feedType" >
+              <Dashboard />
+            </Route>
             <Route exact path="/portal" >
               <Portal />
             </Route>
