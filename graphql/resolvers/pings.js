@@ -11,6 +11,7 @@ module.exports = {
       try {
         const pings = await Ping.find({})
           .populate("author")
+          .populate({ path: "support", populate: { path: "user" } })
           .sort({ createdAt: -1 });
         return pings;
       } catch (err) {
