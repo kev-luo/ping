@@ -129,6 +129,7 @@ module.exports = {
         email,
         username,
         password,
+        imageUrl: null
       });
       const res = await newUser.save();
       const token = generateToken(res);
@@ -138,13 +139,16 @@ module.exports = {
         token,
       };
     },
-    async updateUser(_, { newImage }, context) {
+    async updateUser(_, { imageUrl }, context) {
       console.log("update user");
       const user = checkAuth(context);
       console.log(user);
 
-      //ADD IN CODE TO UPDATE IMAGE
-      //should return a user object - check typeDefs for structure reference
+      const updatedUser = await User.findOneAndUpdate(
+          {_id: user.id},
+          { imageUrl: imageUrl },
+          { new: true }
+      )
 
       return updatedUser;
     },
@@ -167,7 +171,7 @@ module.exports = {
 
       if (match) {
         try {
-          await Ping.deleteMany({ user: user.username });
+          await Ping.deleteMany({ author: user.id});
           await User.deleteOne({ _id: user.id });
         } catch (err) {
           throw new Error(err);

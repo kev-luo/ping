@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Nav from './components/Nav';
 import Dashboard from "./pages/Dashboard";
 import Portal from './pages/Portal';
+import UserSettings from "./pages/UserSettings"
 import SinglePing from './pages/SinglePing';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { AuthProvider } from "./utils/useAuthContext";
@@ -21,6 +22,9 @@ function App() {
             </Route>
             <Route exact path="/portal" >
               <Portal />
+            </Route>
+            <Route exact path="/settings" >
+              <UserSettings />
             </Route>
             <ProtectedRoute exact path="/ping/:pingId" component={SinglePing} />
           </Switch>
