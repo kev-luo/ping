@@ -2,7 +2,6 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { useAuthContext } from "../utils/useAuthContext";
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
 import FeedType from "../components/Feed/FeedType";

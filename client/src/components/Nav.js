@@ -4,6 +4,7 @@ import { Paper, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
+import Actions from '../utils/dashboardActions'
 import { useAuthContext } from "../utils/useAuthContext";
 import { useDashboardContext } from "../utils/useDashboardContext";
 
@@ -13,7 +14,7 @@ export default function Nav() {
   const [_, dispatch] = useDashboardContext();
 
   const logoutOps = () => {
-    dispatch({ type: "clearUser" });
+    dispatch({ type: Actions.CLEAR_USER });
     context.logout();
   };
 

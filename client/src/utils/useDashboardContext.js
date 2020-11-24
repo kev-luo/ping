@@ -22,7 +22,7 @@ function reducer(state, { type, payload }) {
         ...state,
         displayedFeed: payload,
       }; 
-    case "rawfeed":
+    case Actions.RAW_FEED:
       return {
         ...state,
         board: "rawfeed",
@@ -33,17 +33,17 @@ function reducer(state, { type, payload }) {
         board: "ping",
         details: payload,
       };
-    case "supportedpings":
-      return {
-        ...state,
-        board: "supportedpings",
-      };
+    // case "supportedpings":
+    //   return {
+    //     ...state,
+    //     board: "supportedpings",
+    //   };
     case Actions.SELECT_USER:
       return {
         ...state,
         selectedUser: payload,
       };
-    case "clearUser":
+    case Actions.CLEAR_USER:
       return {
         ...state,
         selectedUser: null,
