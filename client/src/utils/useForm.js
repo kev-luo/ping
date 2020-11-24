@@ -34,6 +34,7 @@ export const useForm = (callback, initialState = {}) => {
 
     if (name === "imageUrl") {
       const file = event.target.files[0];
+      console.log(event, file);
       setFileInputState(file);
       previewFile(file);
     } else {
