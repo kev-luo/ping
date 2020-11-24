@@ -25,6 +25,7 @@ module.exports = gql`
   }
   type User {
     id: ID!
+    imageUrl: String
     email: String!
     token: String!
     username: String!
@@ -55,8 +56,8 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User! #NOTE: checked
     login(username: String!, password: String!): User! #NOTE: checked
-    updateUser(newImage: String!): User!
-    deleteUser(username: String!, password: String!): String!
+    updateUser(imageUrl: String!): User!
+    deleteUser(password: String!): String!
     createPing(body: String!, imageUrl: String): Ping! #NOTE: checked
     deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping! #NOTE: checked
