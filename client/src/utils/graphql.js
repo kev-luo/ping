@@ -164,3 +164,19 @@ export const DELETE_PING = gql`
     deletePing(pingId: $pingId)
   }
 `;
+
+export const UPDATE_USER = gql`
+mutation updateUser($imageUrl: String!){
+  updateUser(imageUrl: $imageUrl){
+    id
+    email
+    username
+  }
+}
+`;
+
+export const DELETE_USER = gql`
+mutation deleteUser($password: String!){
+  deleteUser(password: $password)
+}
+`
