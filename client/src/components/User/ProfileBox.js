@@ -46,8 +46,8 @@ export default function ProfileBox() {
               variant="h4"
               className={classes.handle}
             >{`@${state.selectedUser.username}`}</Typography>
-            <Button onClick={postedPings}>Posted Pings</Button>
             <Button>Supported Pings</Button>
+            <Button onClick={postedPings}>Posted Pings</Button>
           </>
         ) : (
           <>

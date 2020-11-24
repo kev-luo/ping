@@ -14,6 +14,7 @@ import { useAuthContext } from "../utils/useAuthContext";
 import {
   FETCH_PINGS_QUERY,
   FETCH_SUPPORTED_PINGS_QUERY,
+  FETCH_USER_QUERY,
 } from "../utils/graphql";
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
@@ -30,7 +31,17 @@ export default function Dashboard() {
     skip: pathname.split("/")[2] !== "supported",
     variables: { userId: pathname.split("/")[3] },
   });
-  console.log(route);
+  const userPings = useQuery(FETCH_USER_QUERY, {
+    skip: pathname.split("/")[2] !== "pinged",
+    variables: { userId: pathname.split("/")[3] },
+  });
+
+  const pingedData = userPings.data?.getUser.pings.map((ping) => {
+    const author = userPings.data.getUser;
+    return { ...ping, author: { id: author.id, username: author.username } };
+  });
+
+  console.log(pingedData);
 
   return (
     <div className={classes.root}>
@@ -50,18 +61,21 @@ export default function Dashboard() {
           <Grid item xs={8}>
             <Switch>
               <Route exact path="/">
-                {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
+                {allPings.data ? (
+                  <Feed data={allPings.data.getPings} />
+                ) : (
+                  <Loading />
+                )}
               </Route>
-              <Route exact path="/pinged/:userId">
-                <Feed />
+              <Route exact path="/user/pinged/:userId">
+                {userPings.data ? <Feed data={pingedData} /> : <Loading />}
               </Route>
               <Route exact path={`${route.url}/:userId`}>
-                <Loading />
-                {/* {suppPings.loading ? (
-                  <Loading />
-                ) : (
+                {suppPings.data ? (
                   <Feed data={suppPings.data.getSupportedPings} />
-                )} */}
+                ) : (
+                  <Loading />
+                )}
               </Route>
             </Switch>
           </Grid>
