@@ -24,11 +24,11 @@ export default function NewComment() {
     onError(err) {
       console.log(err);
     },
-    update(proxy, { data: { createPing }}) {
-      const data = proxy.readQuery({
+    update(cache, { data: { createPing }}) {
+      const data = cache.readQuery({
         query: FETCH_PINGS_QUERY,
       });
-      proxy.writeQuery({
+      cache.writeQuery({
         query: FETCH_PINGS_QUERY,
         data: {
           getPings: [createPing, ...data.getPings],

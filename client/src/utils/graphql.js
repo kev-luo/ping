@@ -133,6 +133,13 @@ export const SUPPORT_PING = gql`
   mutation supportPing($pingId: ID!) {
     supportPing(pingId: $pingId) {
       id
+      body
+      imageUrl
+      createdAt
+      author {
+        id
+        username
+      }
       support {
         id
         supported
@@ -141,6 +148,7 @@ export const SUPPORT_PING = gql`
         }
       }
       supportCount
+      commentCount
     }
   }
 `;
