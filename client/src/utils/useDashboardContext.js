@@ -38,7 +38,7 @@ function reducer(state, { type, payload }) {
         ...state,
         board: "supportedpings",
       };
-    case "selectUser":
+    case Actions.SELECT_USER:
       return {
         ...state,
         selectedUser: payload,
