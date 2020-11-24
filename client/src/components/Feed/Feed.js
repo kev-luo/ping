@@ -59,7 +59,7 @@ export default function Feed({ data }) {
               </Grid>
               <Grid item xs={2} container>
                 <Grid item>
-                  <SupportPing user={user} ping={ping} />
+                  <SupportPing user={user} pingId={ping.id} />
                 </Grid>
                 <Grid item>
                   <Link to={`/ping/${ping.id}`}>

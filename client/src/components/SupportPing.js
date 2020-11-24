@@ -6,13 +6,11 @@ import { FaRegHeart } from "react-icons/fa";
 
 import { SUPPORT_PING } from "../utils/graphql";
 
-export default function SupportPing({ user, ping: { id } }) {
+export default function SupportPing({ user, pingId }) {
   const classes = useStyles();
 
   const [supportMutation] = useMutation(SUPPORT_PING, {
-    variables: {
-      pingId: id,
-    },
+    variables: { pingId },
     onError(err) {
       console.log(err);
     },
