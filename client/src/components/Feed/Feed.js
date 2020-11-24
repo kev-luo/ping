@@ -15,18 +15,18 @@ import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 import { FETCH_PINGS_QUERY } from "../../utils/graphql";
 
-export default function Feed() {
+export default function Feed({data}) {
   const classes = useStyles();
   const [state, dispatch] = useDashboardContext();
   const context = useAuthContext();
-  const { loading, data } = useQuery(FETCH_PINGS_QUERY);
+  // const { loading, data } = useQuery(FETCH_PINGS_QUERY);
   const path = useRouteMatch();
 
-  useEffect(() => {
-    if (!loading) {
-      dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
-    }
-  }, [loading, data]);
+  // useEffect(() => {
+  //   if (!loading) {
+  //     dispatch({ type: Actions.TOGGLE_FEED, payload: data.getPings });
+  //   }
+  // }, [loading, data]);
 
   function displayProfile(selectedUser) {
     if (context.user) {
@@ -37,8 +37,8 @@ export default function Feed() {
   return (
     <Paper className={classes.root}>
       {context.user && <NewPing />}
-      {state.displayedFeed &&
-        state.displayedFeed.map((ping) => {
+      {data &&
+        data.map((ping) => {
           return (
             <Paper key={ping.id} className={classes.paper}>
               <Grid container wrap="nowrap" spacing={2} alignItems="center">

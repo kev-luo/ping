@@ -19,7 +19,7 @@ function App() {
             <Route exact path="/" >
               <Dashboard />
             </Route>
-            <Route path="/user/:feedType" >
+            <Route path="/user/" >
               <Dashboard />
             </Route>
             <Route exact path="/portal" >
