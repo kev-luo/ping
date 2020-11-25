@@ -16,12 +16,28 @@ export default function ProfileBox({ userData }) {
   function editProfile() {
     if (user.id === state.selectedUser.id) {
       return (
+<<<<<<< HEAD
         // <Link to="settings" style={{textDecoration: "none"}}>
         //   <RiUserSettingsLine style={{ float: "right", textDecoration: "none" }} />
         // </Link>
         <Button component={Link} to={"/settings"} style={{ float: "right" }}>
           <RiUserSettingsLine />
         </Button>
+=======
+        <Link to="/settings">
+          <RiUserSettingsLine style={{ float: "right" }} />
+        </Link>
+>>>>>>> origin
+      );
+    }
+  }
+
+  function seeNewPings() {
+    if (user.id === state.selectedUser.id) {
+      return (
+        <Link to={`/user/${userData.id}`}>
+          <Button>New Pings</Button>
+        </Link>
       );
     }
   }
@@ -43,6 +59,7 @@ export default function ProfileBox({ userData }) {
           <Link to={`/user/pinged/${userData.id}`}>
             <Button>Posted Pings</Button>
           </Link>
+          {seeNewPings()}
         </>
       ) : (
           <Loading />

@@ -1,45 +1,47 @@
 import React from "react";
-import { useRouteMatch, useLocation, Route, Switch } from "react-router-dom";
+import { useLocation, Route, Switch } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
-import {
-  FETCH_PINGS_QUERY,
-  FETCH_SUPPORTED_PINGS_QUERY,
-} from "../../utils/graphql";
+import { FETCH_PINGS_QUERY } from "../../utils/graphql";
 import Feed from "./Feed";
 import Loading from "../Loading";
 
 export default function FeedType() {
-  const route = useRouteMatch();
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const allPings = useQuery(FETCH_PINGS_QUERY, { skip: !route.isExact });
-  const userPings = useQuery(FETCH_PINGS_QUERY, {
-    skip: pathArray[2] !== "pinged",
-  });
-  const suppPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
-    skip: pathArray[2] !== "supported",
-    variables: { userId: pathArray[3] },
+  const { data } = useQuery(FETCH_PINGS_QUERY);
+
+  const supportedPings = data?.getPings.filter((ping) => {
+    const isUserPresent = ping.support.filter((supporter) => {
+      return supporter.user.id === pathArray[3] && supporter.supported === true;
+    });
+    return isUserPresent.length > 0;
   });
 
-  const pingedData = userPings.data?.getPings.filter((ping) => {
+  const newPings = data?.getPings.filter((ping) => {
+    const isUserPresent = ping.support.filter((supporter) => {
+      return supporter.user.id === pathArray[2];
+    });
+    return isUserPresent.length === 0;
+  });
+
+  const authoredPings = data?.getPings.filter((ping) => {
     return ping.author.id === pathArray[3];
   });
 
   return (
     <Switch>
       <Route exact path="/">
-        {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
+        {data ? <Feed data={data.getPings} /> : <Loading />}
+      </Route>
+      <Route exact path="/user/:userId">
+        {newPings ? <Feed data={newPings} /> : <Loading />}
       </Route>
       <Route exact path="/user/pinged/:userId">
-        {userPings.data ? <Feed data={pingedData} /> : <Loading />}
+        {authoredPings ? <Feed data={authoredPings} /> : <Loading />}
       </Route>
       <Route exact path="/user/supported/:userId">
-        {suppPings.data ? (
-          <Feed data={suppPings.data.getSupportedPings} />
-        ) : (
-          <Loading />
-        )}
+        {supportedPings ? <Feed data={supportedPings} /> : <Loading />}
       </Route>
     </Switch>
   );

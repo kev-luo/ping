@@ -5,6 +5,7 @@
 // const User = require("../../models/User");
 // const checkAuth = require("../../utils/check-auth");
 
+<<<<<<< HEAD
 // module.exports = {
 //   Query: {
 //     async getPings() {
@@ -49,6 +50,55 @@
 //   Mutation: {
 //     async createPing(_, { body, imageUrl }, context) {
 //       const user = checkAuth(context);
+=======
+module.exports = {
+  Query: {
+    async getPings() {
+      try {
+        const pings = await Ping.find({})
+          .populate("author")
+          .populate({ path: "support", populate: { path: "user" } })
+          .sort({ createdAt: -1 });
+        return pings;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getPing(_, { pingId }) {
+      try {
+        const ping = await Ping.findById(pingId)
+          .populate("author")
+          .populate({ path: "comments", populate: { path: "author" } });
+        if (ping) {
+          return ping;
+        } else {
+          throw new Error("ping not found");
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    // NOTE: might not need this...
+    async getSupportedPings(_, { userId }) {
+      try {
+        const supportedPings = await Ping.find({
+          $and: [
+            { "support.user": mongoose.Types.ObjectId(userId) },
+            { "support.supported": true },
+          ],
+        })
+          .populate("author")
+          .populate({ path: "support", populate: { path: "user" } });
+        return supportedPings;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+  },
+  Mutation: {
+    async createPing(_, { body, imageUrl }, context) {
+      const user = checkAuth(context);
+>>>>>>> origin
 
 //       if (body.trim() === "") {
 //         throw new Error("post body must not be empty");

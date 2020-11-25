@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import Actions from "../../utils/dashboardActions";
 import NewPing from "./NewPing";
 import SupportPing from "../SupportPing";
-import DeleteButton from "../DeleteButton";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 
@@ -59,7 +58,7 @@ export default function Feed({ data }) {
               </Grid>
               <Grid item xs={2} container>
                 <Grid item>
-                  <SupportPing user={user} pingId={ping.id} />
+                  <SupportPing user={user} ping={ping} />
                 </Grid>
                 <Grid item>
                   <Link to={`/ping/${ping.id}`}>
@@ -67,9 +66,6 @@ export default function Feed({ data }) {
                       <FaComments className={classes.commentIcon} size={15} />
                     </IconButton>
                   </Link>
-                </Grid>
-                <Grid item>
-                  <DeleteButton pingId={ping.id} />
                 </Grid>
               </Grid>
             </Grid>
