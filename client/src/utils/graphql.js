@@ -123,6 +123,7 @@ export const LOGIN_USER = gql`
     login(username: $username, password: $password) {
       id
       email
+      imageUrl
       token
       username
       createdAt

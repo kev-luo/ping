@@ -18,6 +18,7 @@ export default function Feed({ data }) {
   const { user } = useAuthContext();
 
   function displayProfile(selectedUser) {
+    console.log('hello');
     if (user) {
       dispatch({ type: Actions.SELECT_USER, payload: selectedUser });
     }
@@ -46,7 +47,9 @@ export default function Feed({ data }) {
                   className={classes.username}
                   onClick={() => displayProfile(ping.author)}
                 >
-                  {ping.author.username}
+                  <Link to={`/user/supported/${ping.author.id}`}>
+                    {ping.author.username}
+                  </Link>
                 </Typography>
                 <Typography variant="subtitle2" className={classes.meta}>
                   <Link to={`/ping/${ping.id}`}>
@@ -107,6 +110,10 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       cursor: "pointer",
     },
+    "& > *": {
+      textDecoration: "none",
+      color: "black",
+    }
   },
   commentIcon: {
     color: "blue",

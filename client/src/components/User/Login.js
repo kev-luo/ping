@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
+import Actions from "../../utils/dashboardActions";
+import { useDashboardContext } from "../../utils/useDashboardContext";
 import { useForm } from "../../utils/useForm";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { LOGIN_USER } from "../../utils/graphql";
@@ -12,6 +14,7 @@ export default function Login() {
   const classes = useStyles();
   const history = useHistory();
   const context = useAuthContext();
+  const [_, dispatch] = useDashboardContext();
   const [errors, setErrors] = useState({});
   const initialState = {
     username: "",
@@ -26,6 +29,7 @@ export default function Login() {
     },
     update(_, result) {
       context.login(result.data.login);
+      dispatch({ type: Actions.SELECT_USER, payload: result.data.login });
       history.push(`/user/${result.data.login.id}`);
     },
   });
