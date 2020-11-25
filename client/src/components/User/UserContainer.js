@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
 
+import Actions from '../../utils/dashboardActions';
 import ProfileBox from "./ProfileBox";
 import About from "./About";
 import { useDashboardContext } from "../../utils/useDashboardContext";
@@ -12,7 +13,13 @@ import { FETCH_USER_QUERY } from "../../utils/graphql";
 export default function UserContainer() {
   const classes = useStyles();
   const { user } = useAuthContext();
-  const [state] = useDashboardContext();
+  const [state, dispatch] = useDashboardContext();
+
+  useEffect(() => {
+    if(!state.selectedUser) {
+      dispatch({type: Actions.SELECT_USER, payload: user})
+    }
+  }, [user])
 
   const { data } = useQuery(FETCH_USER_QUERY, {
     variables: { userId: state.selectedUser?.id },
