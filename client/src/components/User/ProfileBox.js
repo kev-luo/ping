@@ -1,7 +1,8 @@
 import React from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RiUserSettingsLine } from "react-icons/ri";
+import { FaUser } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 
 import Loading from "../Loading";
@@ -32,6 +33,14 @@ export default function ProfileBox({ userData }) {
       );
     }
   }
+  
+  const userProfile = userData?.imageUrl ? (
+    <Avatar src={userData.imageUrl} alt={userData.username} className={classes.profilePic} />
+  ) : (
+    <Avatar className={classes.missingPic}>
+      <FaUser />
+    </Avatar>
+  )
 
   return (
     <div className={classes.root}>
@@ -42,7 +51,7 @@ export default function ProfileBox({ userData }) {
             variant="h4"
             className={classes.handle}
           >{`@${userData.username}`}</Typography>
-          <img src={userData.imageUrl} alt={userData.username} />
+          {userProfile}
           <Link to={`/user/supported/${userData.id}`}>
             <Button>Supported Pings</Button>
           </Link>
@@ -67,4 +76,16 @@ const useStyles = makeStyles((themes) => ({
       textDecoration: "none",
     },
   },
+  missingPic: {
+    width: '6rem',
+    height: '6rem',
+    '& > *': {
+      width: '4rem',
+      height: '4rem',
+    }
+  },
+  profilePic: {
+    width: '6rem',
+    height: '6rem',
+  }
 }));

@@ -10,6 +10,7 @@ export const FETCH_PINGS_QUERY = gql`
       createdAt
       author {
         id
+        imageUrl
         username
       }
       support {
@@ -33,6 +34,7 @@ export const FETCH_PING_QUERY = gql`
       createdAt
       author {
         id
+        imageUrl
         username
       }
       comments {
