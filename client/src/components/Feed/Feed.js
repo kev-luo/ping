@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { FaComments } from "react-icons/fa";
+import { FaComments, FaUser } from "react-icons/fa";
 import { FiImage, FiFileText } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -18,10 +18,28 @@ export default function Feed({ data }) {
   const { user } = useAuthContext();
 
   function displayProfile(selectedUser) {
-    console.log('hello');
+    console.log("hello");
     if (user) {
       dispatch({ type: Actions.SELECT_USER, payload: selectedUser });
     }
+  }
+
+  function containsImage(ping) {
+    return ping.imageUrl ? <FiImage size={32} /> : <FiFileText size={32} />;
+  }
+
+  function authorPic(ping) {
+    return ping.author.imageUrl ? (
+      <Avatar
+        src={ping.author.imageUrl}
+        alt={ping.author.username}
+        className={classes.profilePic}
+      />
+    ) : (
+      <Avatar className={classes.missingPic}>
+        <FaUser />
+      </Avatar>
+    );
   }
 
   return (
@@ -32,15 +50,9 @@ export default function Feed({ data }) {
           <Paper key={ping.id} className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2} alignItems="center">
               <Grid item>
-                <Avatar className={classes.pic}>Pic</Avatar>
+                {authorPic(ping)}
               </Grid>
-              <Grid item>
-                {ping.imageUrl ? (
-                  <FiImage size={32} />
-                ) : (
-                  <FiFileText size={32} />
-                )}
-              </Grid>
+              <Grid item>{containsImage(ping)}</Grid>
               <Grid item xs>
                 <Typography
                   variant="subtitle2"
@@ -113,9 +125,21 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       textDecoration: "none",
       color: "black",
-    }
+    },
   },
   commentIcon: {
     color: "blue",
   },
+  missingPic: {
+    width: '3rem',
+    height: '3rem',
+    '& > *': {
+      width: '1.5rem',
+      height: '1.5rem',
+    }
+  },
+  profilePic: {
+    width: '3rem',
+    height: '3rem',
+  }
 }));
