@@ -20,15 +20,11 @@ function App() {
             <Route exact path="/" >
               <Dashboard />
             </Route>
-            <Route path="/user/:feedType" >
-              <Dashboard />
-            </Route>
             <Route exact path="/portal" >
               <Portal />
             </Route>
-            <Route exact path="/settings" >
-              <UserSettings />
-            </Route>
+            <ProtectedRoute path="/user/:feedType" component={Dashboard} />
+            <ProtectedRoute exact path="/settings" component={UserSettings} />
             <ProtectedRoute exact path="/ping/:pingId" component={SinglePing} />
           </Switch>
         </Router>

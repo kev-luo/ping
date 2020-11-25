@@ -11,6 +11,7 @@ module.exports = {
       try {
         const pings = await Ping.find({})
           .populate("author")
+          .populate({ path: "support", populate: { path: "user" } })
           .sort({ createdAt: -1 });
         return pings;
       } catch (err) {
@@ -39,7 +40,9 @@ module.exports = {
             { "support.user": mongoose.Types.ObjectId(userId) },
             { "support.supported": true },
           ],
-        }).populate("author");
+        })
+          .populate("author")
+          .populate({ path: "support", populate: { path: "user" } });
         return supportedPings;
       } catch (err) {
         throw new Error(err);

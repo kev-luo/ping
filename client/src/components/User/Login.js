@@ -26,10 +26,9 @@ export default function Login() {
     },
     update(_, result) {
       context.login(result.data.login);
-      history.push("/");
+      history.push(`/user/${result.data.login.id}`);
     },
   });
-
 
   function loginCb() {
     loginUser();
