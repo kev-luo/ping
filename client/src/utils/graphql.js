@@ -79,6 +79,13 @@ export const FETCH_SUPPORTED_PINGS_QUERY = gql`
         id
         username
       }
+      support {
+        id
+        supported
+        user {
+          id
+        }
+      }
       supportCount
       commentCount
     }

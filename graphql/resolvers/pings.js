@@ -40,7 +40,9 @@ module.exports = {
             { "support.user": mongoose.Types.ObjectId(userId) },
             { "support.supported": true },
           ],
-        }).populate("author");
+        })
+          .populate("author")
+          .populate({ path: "support", populate: { path: "user" } });
         return supportedPings;
       } catch (err) {
         throw new Error(err);

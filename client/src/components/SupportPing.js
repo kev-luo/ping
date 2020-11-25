@@ -26,9 +26,9 @@ export default function SupportPing({ user, ping }) {
 
   function isSupported() {
     const supportedUsers = ping.support.filter((supporter) => {
-      return supporter.supported && supporter.user.id === user.id;
+      return supporter.supported && supporter.user.id === user?.id;
     });
-    return supportedUsers.length > 0;
+    return supportedUsers.length === 0;
   }
 
   const displayIcon = suppOrNot ? (

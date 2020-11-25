@@ -31,6 +31,9 @@ export default function FeedType() {
       <Route exact path="/">
         {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
       </Route>
+      <Route exact path="/user/:userId">
+        {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
+      </Route>
       <Route exact path="/user/pinged/:userId">
         {userPings.data ? <Feed data={pingedData} /> : <Loading />}
       </Route>
