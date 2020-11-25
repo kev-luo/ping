@@ -5,7 +5,6 @@ import { Button, Paper, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams, useHistory } from "react-router-dom";
 
-
 import Comment from "./Comment";
 import NewComment from "./NewComment";
 import { FETCH_PING_QUERY } from "../../utils/graphql";
