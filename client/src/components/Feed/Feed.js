@@ -18,7 +18,6 @@ export default function Feed({ data }) {
   const { user } = useAuthContext();
 
   function displayProfile(selectedUser) {
-    console.log("hello");
     if (user) {
       dispatch({ type: Actions.SELECT_USER, payload: selectedUser });
     }

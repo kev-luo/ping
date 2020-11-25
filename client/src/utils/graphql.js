@@ -42,6 +42,7 @@ export const FETCH_PING_QUERY = gql`
         createdAt
         body
         author {
+          id
           username
           imageUrl
         }
