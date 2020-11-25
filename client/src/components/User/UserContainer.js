@@ -22,6 +22,7 @@ export default function UserContainer() {
   }, [user])
 
   const { data } = useQuery(FETCH_USER_QUERY, {
+    skip: !state.selectedUser,
     variables: { userId: state.selectedUser?.id },
   });
 

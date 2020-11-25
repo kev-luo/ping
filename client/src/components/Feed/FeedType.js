@@ -9,7 +9,7 @@ import Loading from "../Loading";
 export default function FeedType() {
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const { data } = useQuery(FETCH_PINGS_QUERY);
+  const { data, error } = useQuery(FETCH_PINGS_QUERY);
 
   const supportedPings = data?.getPings.filter((ping) => {
     const isUserPresent = ping.support.filter((supporter) => {
