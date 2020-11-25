@@ -42,6 +42,7 @@ export default function ProfileBox({ userData }) {
             variant="h4"
             className={classes.handle}
           >{`@${userData.username}`}</Typography>
+          <img src={userData.imageUrl} alt={userData.username} />
           <Link to={`/user/supported/${userData.id}`}>
             <Button>Supported Pings</Button>
           </Link>

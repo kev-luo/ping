@@ -55,6 +55,7 @@ export const FETCH_USER_QUERY = gql`
       id
       email
       username
+      imageUrl
       pings {
         id
         body
