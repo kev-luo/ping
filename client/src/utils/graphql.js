@@ -11,6 +11,7 @@ export const FETCH_PINGS_QUERY = gql`
       author {
         id
         username
+        imageUrl
       }
       supportCount
       commentCount
@@ -49,6 +50,7 @@ export const FETCH_USER_QUERY = gql`
       id
       email
       username
+      imageUrl
       pings {
         id
         body
@@ -108,6 +110,7 @@ export const LOGIN_USER = gql`
       id
       email
       token
+      imageUrl
       username
       createdAt
     }
@@ -188,6 +191,7 @@ mutation updateUser($imageUrl: String!){
   updateUser(imageUrl: $imageUrl){
     id
     email
+    imageUrl
     username
   }
 }

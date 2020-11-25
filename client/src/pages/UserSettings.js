@@ -1,86 +1,55 @@
 import React, { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button, Paper, Modal, Backdrop, Fade } from "@material-ui/core";
+import { TextField, Button, Paper, Modal, Backdrop, Fade, Avatar } from "@material-ui/core";
 import { FiImage } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { useAuthContext } from "../utils/useAuthContext";
 import { useForm } from "../utils/useForm";
-import { useMutation } from "@apollo/client";
-import { UPDATE_USER, DELETE_USER } from "../utils/graphql";
+import { useMutation, useQuery } from "@apollo/client";
+import { UPDATE_USER, DELETE_USER, FETCH_PINGS_QUERY, FETCH_USER_QUERY } from "../utils/graphql";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > *': {
-            margin: "0 auto",
-            marginTop: "150px",
-            padding: "33px",
-            width: "50%",
-            minWidth: "333px",
-            height: "auto",
-        },
-        pic: {
-            width: "150px",
-            height: "auto",
-        },
-        textAlign: "center"
-    },
-    media: {
-        display: "block",
-        width: "150px",
-        height: "150px",
-        backgroundPosition: "50% 50%",
-        backroundSize: "cover",
-        borderRadius: "50%",
-        margin: "0 auto"
-    },
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-    fileBtn: {
-        border: "2px solid black",
-        padding: "10px",
-    },
-    imgModal: {
-        padding: "33px",
-        width: "50%",
-        minWidth: "333px",
-        height: "auto",
-
-    }
-}));
+import { useHistory } from "react-router-dom";
+import Actions from '../utils/dashboardActions'
+import { useAuthContext } from "../utils/useAuthContext";
+import { useDashboardContext } from "../utils/useDashboardContext";
 
 export default function TransitionsModal() {
     // export default function UserSettings() {
+    const history = useHistory();
     const classes = useStyles();
+    const context = useAuthContext();
+    const [_, dispatch] = useDashboardContext();
     const initialState = { imageUrl: "" };
     const [password, setPassword] = useState("");
     const [openImg, setOpenImg] = useState(false);
     const [openDel, setOpenDel] = useState(false);
-    //     const { user } = useAuthContext();
+    const [errors, setErrors] = useState({});
+    
 
-    const handleOpenImg = () => {
+
+    const { loading, data } = useQuery(FETCH_USER_QUERY, {
+        variables: { userId: context.user.id }
+    });
+
+    console.log(data?.getUser.imageUrl);
+
+    function logoutOps() {
+        dispatch({ type: Actions.CLEAR_USER });
+        context.logout();
+    }
+
+    function handleOpenImg() {
         setOpenImg(true);
     };
 
-    const handleOpenDel = () => {
+    function handleOpenDel() {
         setOpenDel(true);
     };
 
-    const handleCloseImg = () => {
+    function handleCloseImg() {
         setOpenImg(false);
     };
 
-    const handleCloseDel = () => {
+    function handleCloseDel() {
         setOpenDel(false);
     };
 
@@ -91,7 +60,7 @@ export default function TransitionsModal() {
 
     const [updateUser] = useMutation(UPDATE_USER, {
         onError(err) {
-            console.log(err);
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
     });
 
@@ -99,33 +68,45 @@ export default function TransitionsModal() {
         onError(err) {
             console.log(err);
         },
+        update(cache) {
+            const data = cache.readQuery({
+                query: FETCH_PINGS_QUERY,
+            });
+            cache.writeQuery({
+                query: FETCH_PINGS_QUERY,
+                data: {
+                    getPings: data.getPings.filter(ping => ping.author.id !== context.user.id)
+                }
+            })
+
+            history.push("/");
+            logoutOps();
+        }
     });
 
     function updateUserCb(img) {
         updateUser({ variables: { ...values, imageUrl: img } });
     }
 
-    function deleteUserCb() {
-        deleteUser({ variables: { password }});
+    async function deleteUserCb() {
+        await deleteUser({ variables: { password } });
     }
 
     const handlePasswordChange = (event) => {
         const { value } = event.target;
-          setPassword(value);
-          console.log(password);
-      };
-
-
+        setPassword(value);
+    };
 
     return (
         <div className={classes.root}>
 
-            <form onSubmit={handleSubmit}>
+           { !loading && <form onSubmit={handleSubmit}>
                 <Paper>
-                    <div className={classes.media} style={{ background: "url('https://cdn.staticneo.com/w/bleach/thumb/Masked_Ichigo.jpg/200px-Masked_Ichigo.jpg')" }}></div>
-
+                    { data.getUser.imageUrl ? <Avatar className={classes.media} src={data.getUser.imageUrl}></Avatar>
+                    :<Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}
+                   
                     <Button endIcon={<FiImage />} onClick={handleOpenImg}>Update Profile Picture</Button>
-                    <Button endIcon={<MdDelete />}onClick={handleOpenDel}>Delete Profile</Button>
+                    <Button endIcon={<MdDelete />} onClick={handleOpenDel}>Delete Profile</Button>
                 </Paper>
 
                 <Modal
@@ -185,14 +166,71 @@ export default function TransitionsModal() {
                     <Fade in={openDel} style={{ minHeight: "250px", minWidth: "250px" }}>
                         <div className={classes.paper}>
                             <label>Please confirm your password</label>
-                            <br/>
-                            <input type="password" onChange={handlePasswordChange} value={password} name="password"/>
-                            <Button onClick={deleteUserCb} ><MdDelete /></Button>
+                            <br />
+                            <TextField
+                                type="password"
+                                onChange={handlePasswordChange}
+                                value={password} 
+                                name="password" 
+                                error={errors.password ? true : false}
+                                helperText={errors.password}
+                                />
+                            <Button onClick={deleteUserCb}><MdDelete /></Button>
                         </div>
                     </Fade>
                 </Modal>
-            </form>
+            </form>}
         </div>
     );
 }
+
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        '& > *': {
+            margin: "0 auto",
+            marginTop: "150px",
+            padding: "33px",
+            width: "50%",
+            minWidth: "333px",
+            height: "auto",
+        },
+        pic: {
+            width: "150px",
+            height: "auto",
+        },
+        textAlign: "center"
+    },
+    media: {
+        display: "block",
+        width: "150px",
+        height: "150px",
+        margin: "0 auto"
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
+    fileBtn: {
+        border: "2px solid black",
+        padding: "10px",
+    },
+    imgModal: {
+        padding: "33px",
+        width: "50%",
+        minWidth: "333px",
+        height: "auto",
+
+    }
+}));
 

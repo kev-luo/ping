@@ -86,6 +86,7 @@ module.exports = {
       }
 
       const token = generateToken(user);
+      console.log("THIS IS WHAT YOUR LOOKING FOR",user, user._doc)
       return {
         ...user._doc,
         id: user._id,
@@ -160,7 +161,7 @@ module.exports = {
 
       const { errors, valid } = validateDeleteUser(password);
       if (!valid) {
-        throw new UserInputError("wrong credentials", { errors });
+        throw new UserInputError("password must not be blank", { errors });
       }
 
       const match = await bcrypt.compare(password, userDeep.password);

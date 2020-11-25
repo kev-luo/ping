@@ -1,11 +1,9 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
 import { IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { FaRegMinusSquare } from "react-icons/fa";
 
 import {
-  DELETE_COMMENT,
   DELETE_PING,
   FETCH_PINGS_QUERY,
 } from "../utils/graphql";

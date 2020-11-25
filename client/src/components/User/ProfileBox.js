@@ -16,23 +16,30 @@ export default function ProfileBox({ userData }) {
   function editProfile() {
     if (user.id === state.selectedUser.id) {
       return (
-        <Link to="settings">
-          <RiUserSettingsLine style={{ float: "right" }} />
-        </Link>
+        // <Link to="settings" style={{textDecoration: "none"}}>
+        //   <RiUserSettingsLine style={{ float: "right", textDecoration: "none" }} />
+        // </Link>
+        <Button component={Link} to={"/settings"} style={{ float: "right" }}>
+          <RiUserSettingsLine  />
+        </Button>
       );
     }
   }
+
+  console.log(state.selectedUser?.imageUrl)
 
   return (
     <div className={classes.root}>
       {userData ? (
         <>
           {editProfile()}
+          { state.selectedUser.imageUrl ? <div className={classes.media} style={{ background: `url('${state.selectedUser.imageUrl}')` }}></div> 
+                    :<div className={classes.media} style={{ background: "url('https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g')" }}></div>}
           <Typography
             variant="h4"
             className={classes.handle}
           >{`@${userData.username}`}</Typography>
-          <Link to={`/user/supported/${userData.id}`}>
+          <Link to={`/user/supported/${userData.id}`} >
             <Button>Supported Pings</Button>
           </Link>
           <Link to={`/user/pinged/${userData.id}`}>
@@ -40,8 +47,8 @@ export default function ProfileBox({ userData }) {
           </Link>
         </>
       ) : (
-        <Loading />
-      )}
+          <Loading />
+        )}
     </div>
   );
 }
@@ -55,4 +62,13 @@ const useStyles = makeStyles((themes) => ({
       textDecoration: "none",
     },
   },
+  media: {
+    display: "block",
+    width: "150px",
+    height: "150px",
+    backgroundPosition: "center center",
+    backroundSize: "cover",
+    borderRadius: "50%",
+    margin: "0 auto"
+}
 }));

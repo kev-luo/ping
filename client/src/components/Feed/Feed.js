@@ -32,7 +32,7 @@ export default function Feed({ data }) {
           <Paper key={ping.id} className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2} alignItems="center">
               <Grid item>
-                <Avatar className={classes.pic}>Pic</Avatar>
+                <Avatar className={classes.pic} src={ping.author.imageUrl} ></Avatar>
               </Grid>
               <Grid item>
                 {ping.imageUrl ? (
