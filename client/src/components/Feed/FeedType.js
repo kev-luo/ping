@@ -10,7 +10,6 @@ export default function FeedType() {
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
   const { data } = useQuery(FETCH_PINGS_QUERY);
-  console.log("hello");
 
   const supportedPings = data?.getPings.filter((ping) => {
     const isUserPresent = ping.support.filter((supporter) => {
@@ -23,7 +22,7 @@ export default function FeedType() {
     const isUserPresent = ping.support.filter((supporter) => {
       return supporter.user.id === pathArray[2];
     });
-    return isUserPresent.length > 0;
+    return isUserPresent.length === 0;
   });
 
   const authoredPings = data?.getPings.filter((ping) => {
