@@ -12,7 +12,7 @@ import SupportPing from "../SupportPing";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 
-export default function Feed({ data }) {
+export default function Feed({ data, feedType }) {
   const classes = useStyles();
   const [_, dispatch] = useDashboardContext();
   const { user } = useAuthContext();
@@ -43,6 +43,9 @@ export default function Feed({ data }) {
 
   return (
     <Paper className={classes.root}>
+      <Typography variant="h5" className={classes.title}>
+        {feedType} Pings
+      </Typography>
       {user && <NewPing />}
       {data.map((ping) => {
         return (
@@ -101,6 +104,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 1),
     padding: theme.spacing(0, 2),
     paddingRight: 0,
+  },
+  title: {
+    textAlign: 'center',
   },
   meta: {
     color: theme.palette.text.secondary,
