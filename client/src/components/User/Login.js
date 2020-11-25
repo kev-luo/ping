@@ -29,7 +29,6 @@ export default function Login() {
     },
     update(_, result) {
       context.login(result.data.login);
-      dispatch({ type: Actions.SELECT_USER, payload: result.data.login });
       history.push(`/user/${result.data.login.id}`);
     },
   });
