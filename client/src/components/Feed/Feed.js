@@ -103,10 +103,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     paddingRight: 0,
   },
-  pic: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
-  },
   meta: {
     color: theme.palette.text.secondary,
     fontSize: 12,

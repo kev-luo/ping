@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-// NOTE:tested
+// NOTE: FeedType, NewPing
 export const FETCH_PINGS_QUERY = gql`
   {
     getPings {
@@ -43,10 +43,10 @@ export const FETCH_PING_QUERY = gql`
         body
         author {
           username
+          imageUrl
         }
       }
       supportCount
-      commentCount
     }
   }
 `;
@@ -130,6 +130,7 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+// NOTE: NewPing
 export const CREATE_PING = gql`
   mutation createPing($body: String! $imageUrl: String) {
     createPing(body: $body, imageUrl: $imageUrl) {
@@ -177,6 +178,7 @@ export const CREATE_COMMENT = gql`
       comments {
         id
       }
+      commentCount
     }
   }
 `;
