@@ -23,6 +23,16 @@ export default function ProfileBox({ userData }) {
     }
   }
 
+  function seeNewPings() {
+    if (user.id === state.selectedUser.id) {
+      return (
+        <Link to={`/user/${userData.id}`}>
+          <Button>New Pings</Button>
+        </Link>
+      );
+    }
+  }
+
   return (
     <div className={classes.root}>
       {userData ? (
@@ -38,6 +48,7 @@ export default function ProfileBox({ userData }) {
           <Link to={`/user/pinged/${userData.id}`}>
             <Button>Posted Pings</Button>
           </Link>
+          {seeNewPings()}
         </>
       ) : (
         <Loading />
