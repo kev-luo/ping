@@ -13,7 +13,6 @@ export const FETCH_PINGS_QUERY = gql`
         username
       }
       support {
-        id
         supported
         user {
           id

@@ -13,36 +13,35 @@ export default function FeedType() {
   const route = useRouteMatch();
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const allPings = useQuery(FETCH_PINGS_QUERY, { skip: !route.isExact });
-  const userPings = useQuery(FETCH_PINGS_QUERY, {
-    skip: pathArray[2] !== "pinged",
-  });
-  const suppPings = useQuery(FETCH_SUPPORTED_PINGS_QUERY, {
-    skip: pathArray[2] !== "supported",
-    variables: { userId: pathArray[3] },
-  });
+  const { loading, data } = useQuery(FETCH_PINGS_QUERY);
 
-  const pingedData = userPings.data?.getPings.filter((ping) => {
-    return ping.author.id === pathArray[3];
-  });
+  const transformedPings =
+    pathArray[2] === "supported"
+      ? data?.getPings.filter((ping) => {
+          return (
+            ping.support.filter(
+              (supporter) =>
+                supporter.user.id === pathArray[3] && supporter.supported
+            ).length > 0
+          );
+        })
+      : data?.getPings.filter((ping) => {
+          return ping.author.id === pathArray[3];
+        });
 
   return (
     <Switch>
       <Route exact path="/">
-        {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
+        {data ? <Feed data={data.getPings} /> : <Loading />}
       </Route>
-      <Route exact path="/user/:userId">
-        {allPings.data ? <Feed data={allPings.data.getPings} /> : <Loading />}
-      </Route>
+      {/* <Route exact path="/user/:userId">
+        {data ? <Feed data={data.getPings} /> : <Loading />}
+      </Route> */}
       <Route exact path="/user/pinged/:userId">
-        {userPings.data ? <Feed data={pingedData} /> : <Loading />}
+        {data ? <Feed data={transformedPings} /> : <Loading />}
       </Route>
       <Route exact path="/user/supported/:userId">
-        {suppPings.data ? (
-          <Feed data={suppPings.data.getSupportedPings} />
-        ) : (
-          <Loading />
-        )}
+        {data ? <Feed data={transformedPings} /> : <Loading />}
       </Route>
     </Switch>
   );
