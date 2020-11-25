@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { FaRegHeart, FaRegMinusSquare } from "react-icons/fa";
 
-import { FETCH_SUPPORTED_PINGS_QUERY, SUPPORT_PING } from "../utils/graphql";
+import { SUPPORT_PING } from "../utils/graphql";
 
 export default function SupportPing({ user, ping }) {
   const classes = useStyles();
@@ -16,6 +16,9 @@ export default function SupportPing({ user, ping }) {
     onError(err) {
       console.log(err);
     },
+    update() {
+      setSuppOrNot(!suppOrNot);
+    }
   });
 
   function handleClick() {

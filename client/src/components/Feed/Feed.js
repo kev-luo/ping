@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { FaComments } from "react-icons/fa";
+import { FaComments, FaUser } from "react-icons/fa";
 import { FiImage, FiFileText } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ import SupportPing from "../SupportPing";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 
-export default function Feed({ data }) {
+export default function Feed({ data, feedType }) {
   const classes = useStyles();
   const [_, dispatch] = useDashboardContext();
   const { user } = useAuthContext();
@@ -23,30 +23,47 @@ export default function Feed({ data }) {
     }
   }
 
+  function containsImage(ping) {
+    return ping.imageUrl ? <FiImage size={32} /> : <FiFileText size={32} />;
+  }
+
+  function authorPic(ping) {
+    return ping.author.imageUrl ? (
+      <Avatar
+        src={ping.author.imageUrl}
+        alt={ping.author.username}
+        className={classes.profilePic}
+      />
+    ) : (
+      <Avatar className={classes.missingPic}>
+        <FaUser />
+      </Avatar>
+    );
+  }
+
   return (
     <Paper className={classes.root}>
+      <Typography variant="h5" className={classes.title}>
+        {feedType} Pings
+      </Typography>
       {user && <NewPing />}
       {data.map((ping) => {
         return (
           <Paper key={ping.id} className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2} alignItems="center">
               <Grid item>
-                <Avatar className={classes.pic}>Pic</Avatar>
+                {authorPic(ping)}
               </Grid>
-              <Grid item>
-                {ping.imageUrl ? (
-                  <FiImage size={32} />
-                ) : (
-                  <FiFileText size={32} />
-                )}
-              </Grid>
+              <Grid item>{containsImage(ping)}</Grid>
               <Grid item xs>
                 <Typography
                   variant="subtitle2"
                   className={classes.username}
                   onClick={() => displayProfile(ping.author)}
                 >
-                  {ping.author.username}
+                  <Link to={`/user/supported/${ping.author.id}`}>
+                    {ping.author.username}
+                  </Link>
                 </Typography>
                 <Typography variant="subtitle2" className={classes.meta}>
                   <Link to={`/ping/${ping.id}`}>
@@ -88,9 +105,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     paddingRight: 0,
   },
-  pic: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
+  title: {
+    textAlign: 'center',
   },
   meta: {
     color: theme.palette.text.secondary,
@@ -107,8 +123,24 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       cursor: "pointer",
     },
+    "& > *": {
+      textDecoration: "none",
+      color: "black",
+    },
   },
   commentIcon: {
     color: "blue",
   },
+  missingPic: {
+    width: '3rem',
+    height: '3rem',
+    '& > *': {
+      width: '1.5rem',
+      height: '1.5rem',
+    }
+  },
+  profilePic: {
+    width: '3rem',
+    height: '3rem',
+  }
 }));

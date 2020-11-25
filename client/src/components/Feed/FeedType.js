@@ -9,7 +9,7 @@ import Loading from "../Loading";
 export default function FeedType() {
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const { data } = useQuery(FETCH_PINGS_QUERY);
+  const { data, error } = useQuery(FETCH_PINGS_QUERY);
 
   const supportedPings = data?.getPings.filter((ping) => {
     const isUserPresent = ping.support.filter((supporter) => {
@@ -32,16 +32,16 @@ export default function FeedType() {
   return (
     <Switch>
       <Route exact path="/">
-        {data ? <Feed data={data.getPings} /> : <Loading />}
+        {data ? <Feed data={data.getPings} feedType="All"/> : <Loading />}
       </Route>
       <Route exact path="/user/:userId">
-        {newPings ? <Feed data={newPings} /> : <Loading />}
+        {newPings ? <Feed data={newPings} feedType="New"/> : <Loading />}
       </Route>
       <Route exact path="/user/pinged/:userId">
-        {authoredPings ? <Feed data={authoredPings} /> : <Loading />}
+        {authoredPings ? <Feed data={authoredPings} feedType="Posted"/> : <Loading />}
       </Route>
       <Route exact path="/user/supported/:userId">
-        {supportedPings ? <Feed data={supportedPings} /> : <Loading />}
+        {supportedPings ? <Feed data={supportedPings} feedType="Supported"/> : <Loading />}
       </Route>
     </Switch>
   );

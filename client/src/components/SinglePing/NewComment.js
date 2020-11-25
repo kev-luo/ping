@@ -4,12 +4,7 @@ import { Paper, IconButton, TextField, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FaComments } from "react-icons/fa";
 
-import {
-  CREATE_PING,
-  FETCH_PING_QUERY,
-  CREATE_COMMENT,
-} from "../../utils/graphql";
-import { useAuthContext } from "../../utils/useAuthContext";
+import { CREATE_COMMENT } from "../../utils/graphql";
 
 export default function NewPing(props) {
   const pingId = props.pingId;

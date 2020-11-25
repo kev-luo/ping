@@ -24,7 +24,7 @@ export default function NewComment() {
     onError(err) {
       console.log(err);
     },
-    update(cache, { data: { createPing }}) {
+    update(cache, { data: { createPing } }) {
       const data = cache.readQuery({
         query: FETCH_PINGS_QUERY,
       });
