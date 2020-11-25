@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -20,21 +20,19 @@ export default function ProfileBox({ userData }) {
         //   <RiUserSettingsLine style={{ float: "right", textDecoration: "none" }} />
         // </Link>
         <Button component={Link} to={"/settings"} style={{ float: "right" }}>
-          <RiUserSettingsLine  />
+          <RiUserSettingsLine />
         </Button>
       );
     }
   }
-
-  console.log(state.selectedUser?.imageUrl)
 
   return (
     <div className={classes.root}>
       {userData ? (
         <>
           {editProfile()}
-          { state.selectedUser.imageUrl ? <div className={classes.media} style={{ background: `url('${state.selectedUser.imageUrl}')` }}></div> 
-                    :<div className={classes.media} style={{ background: "url('https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g')" }}></div>}
+          {state.selectedUser.imageUrl ? <Avatar className={classes.media} src={state.selectedUser.imageUrl}></Avatar>
+            : <Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}
           <Typography
             variant="h4"
             className={classes.handle}
@@ -70,5 +68,5 @@ const useStyles = makeStyles((themes) => ({
     backroundSize: "cover",
     borderRadius: "50%",
     margin: "0 auto"
-}
+  }
 }));

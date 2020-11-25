@@ -104,7 +104,6 @@ export default function TransitionsModal() {
                 <Paper>
                     { data.getUser.imageUrl ? <Avatar className={classes.media} src={data.getUser.imageUrl}></Avatar>
                     :<Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}
-                   
                     <Button endIcon={<FiImage />} onClick={handleOpenImg}>Update Profile Picture</Button>
                     <Button endIcon={<MdDelete />} onClick={handleOpenDel}>Delete Profile</Button>
                 </Paper>

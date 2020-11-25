@@ -15,7 +15,7 @@ import { useDashboardContext } from "../../utils/useDashboardContext";
 
 export default function Feed({ data }) {
   const classes = useStyles();
-  const [_, dispatch] = useDashboardContext();
+  const [state, dispatch] = useDashboardContext();
   const { user } = useAuthContext();
 
   function displayProfile(selectedUser) {
@@ -32,7 +32,7 @@ export default function Feed({ data }) {
           <Paper key={ping.id} className={classes.paper}>
             <Grid container wrap="nowrap" spacing={2} alignItems="center">
               <Grid item>
-                <Avatar className={classes.pic} src={ping.author.imageUrl} ></Avatar>
+                <Avatar className={classes.pic} src={ping.author.imageUrl}></Avatar>
               </Grid>
               <Grid item>
                 {ping.imageUrl ? (
@@ -49,7 +49,7 @@ export default function Feed({ data }) {
                 >
                   {ping.author.username}
                 </Typography>
-                <Typography variant="subtitle2" className={classes.meta}>
+                <Typography variant="subtitle2" className={classes.meta} onClick={() => displayProfile(ping.author)}>
                   <Link to={`/ping/${ping.id}`}>
                     {moment(Number(ping.createdAt)).fromNow()} |{" "}
                     {ping.supportCount} Supported | {ping.commentCount} Comments

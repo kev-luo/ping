@@ -8,6 +8,7 @@ import Ping from "../components/SinglePing/Ping";
 
 export default function SinglePing() {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <div className={classes.grid}>

@@ -1,15 +1,16 @@
 import React from "react";
 import moment from "moment";
 import { useQuery } from "@apollo/client";
-import { Button, Paper } from "@material-ui/core";
+import { Button, Paper, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams, useHistory } from "react-router-dom";
+
 
 import Comment from "./Comment";
 import NewComment from "./NewComment";
 import { FETCH_PING_QUERY } from "../../utils/graphql";
 
-export default function Feed() {
+export default function Ping(props) {
   const classes = useStyles();
   const { pingId } = useParams();
   const history = useHistory();
@@ -32,6 +33,7 @@ export default function Feed() {
           <Button color="primary" onClick={() => history.goBack()}>
             Go Back
           </Button>
+          <Avatar></Avatar>
           <h1>{`@${data.getPing.author.username}`}</h1>
           <h2>{data.getPing.body}</h2>
           <img src={data.getPing.imageUrl} style={{ maxHeight: "250px" }} />
