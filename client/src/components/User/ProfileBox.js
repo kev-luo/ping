@@ -37,6 +37,7 @@ export default function ProfileBox({ userData }) {
     <div className={classes.root}>
       {userData ? (
         <>
+        {/* NOTE: JD - this is still sort of patchy. it works when you log in but the re-render wipes the url image and sets to default */}
           {editProfile()}
           {state.selectedUser.imageUrl ? <Avatar className={classes.media} src={state.selectedUser.imageUrl}></Avatar>
             : <Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}

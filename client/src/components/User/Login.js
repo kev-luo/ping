@@ -26,15 +26,12 @@ export default function Login() {
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
+    // NOTE: JD - there is a problem here with loggin in but I dont think this is the root of it
     update(_, result) {
-      context.login(result.data.login);
-<<<<<<< HEAD
-      history.push("/");
-      // console.log(result.data.login)
+      history.push(`/`);
+      // history.push(`/user/${result.data.login.id}`);
+      console.log(result);
       dispatch({ type: Actions.SELECT_USER, payload: result.data.login })
-=======
-      history.push(`/user/${result.data.login.id}`);
->>>>>>> origin
     },
   });
 

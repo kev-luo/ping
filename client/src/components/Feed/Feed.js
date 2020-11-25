@@ -48,6 +48,7 @@ export default function Feed({ data }) {
                 >
                   {ping.author.username}
                 </Typography>
+                {/* NOTE: JD - tryin to figure out a way to send over the ping author user data. I was having some troubles using the dashboard context. It'll also be hard to use that state for both the ping author and the current user */}
                 <Typography variant="subtitle2" className={classes.meta} onClick={() => displayProfile(ping.author)}>
                   <Link to={`/ping/${ping.id}`}>
                     {moment(Number(ping.createdAt)).fromNow()} |{" "}

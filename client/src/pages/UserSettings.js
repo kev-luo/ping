@@ -23,14 +23,12 @@ export default function TransitionsModal() {
     const [openImg, setOpenImg] = useState(false);
     const [openDel, setOpenDel] = useState(false);
     const [errors, setErrors] = useState({});
-    
+
 
 
     const { loading, data } = useQuery(FETCH_USER_QUERY, {
         variables: { userId: context.user.id }
     });
-
-    console.log(data?.getUser.imageUrl);
 
     function logoutOps() {
         dispatch({ type: Actions.CLEAR_USER });
@@ -62,6 +60,13 @@ export default function TransitionsModal() {
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
+        update() {
+            // NOTE: JD - need to add some sort of LOADING indicator for user
+            values.body = "";
+            setFileInputState("");
+            setPreviewSource("");
+            handleCloseImg();
+        }
     });
 
     const [deleteUser] = useMutation(DELETE_USER, {
@@ -78,7 +83,7 @@ export default function TransitionsModal() {
                     getPings: data.getPings.filter(ping => ping.author.id !== context.user.id)
                 }
             })
-
+            
             history.push("/");
             logoutOps();
         }
@@ -100,10 +105,10 @@ export default function TransitionsModal() {
     return (
         <div className={classes.root}>
 
-           { !loading && <form onSubmit={handleSubmit}>
+            {!loading && <form onSubmit={handleSubmit}>
                 <Paper>
-                    { data.getUser.imageUrl ? <Avatar className={classes.media} src={data.getUser.imageUrl}></Avatar>
-                    :<Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}
+                    {data.getUser.imageUrl ? <Avatar className={classes.media} src={data.getUser.imageUrl}></Avatar>
+                        : <Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}
                     <Button endIcon={<FiImage />} onClick={handleOpenImg}>Update Profile Picture</Button>
                     <Button endIcon={<MdDelete />} onClick={handleOpenDel}>Delete Profile</Button>
                 </Paper>
@@ -169,11 +174,11 @@ export default function TransitionsModal() {
                             <TextField
                                 type="password"
                                 onChange={handlePasswordChange}
-                                value={password} 
-                                name="password" 
+                                value={password}
+                                name="password"
                                 error={errors.password ? true : false}
                                 helperText={errors.password}
-                                />
+                            />
                             <Button onClick={deleteUserCb}><MdDelete /></Button>
                         </div>
                     </Fade>
