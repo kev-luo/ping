@@ -7,13 +7,17 @@ import {
   Modal,
   Backdrop,
   Fade,
+  Avatar
 } from "@material-ui/core";
 import { FiImage } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { useAuthContext } from "../utils/useAuthContext";
 import { useForm } from "../utils/useForm";
-import { useMutation } from "@apollo/client";
-import { UPDATE_USER, DELETE_USER } from "../utils/graphql";
+import { useMutation, useQuery } from "@apollo/client";
+import { UPDATE_USER, DELETE_USER, FETCH_USER_QUERY, FETCH_PINGS_QUERY } from "../utils/graphql";
+import { useDashboardContext } from "../utils/useDashboardContext";
+import Actions from "../utils/dashboardActions";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +74,21 @@ export default function TransitionsModal() {
   const classes = useStyles();
   const initialState = { imageUrl: "" };
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const [openImg, setOpenImg] = useState(false);
   const [openDel, setOpenDel] = useState(false);
-  //     const { user } = useAuthContext();
+  const [_, dispatch] = useDashboardContext();
+  const context = useAuthContext();
+  const history = useHistory();
+
+  const { loading, data } = useQuery(FETCH_USER_QUERY, {
+    variables: { userId: context.user.id }
+  });
+
+  function logoutOps() {
+    dispatch({ type: Actions.CLEAR_USER });
+    context.logout();
+  }
 
   const handleOpenImg = () => {
     setOpenImg(!openImg);
@@ -82,21 +98,41 @@ export default function TransitionsModal() {
     setOpenDel(!openDel);
   };
 
-  const { handleChange, handleSubmit, values, previewSource } = useForm(
+  const { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource } = useForm(
     updateUserCb,
     initialState
   );
 
   const [updateUser] = useMutation(UPDATE_USER, {
     onError(err) {
-      console.log(err);
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
+    update() {
+      values.body = "";
+      setFileInputState("");
+      setPreviewSource("");
+      handleOpenImg();
+    }
   });
 
   const [deleteUser] = useMutation(DELETE_USER, {
     onError(err) {
       console.log(err);
     },
+    update(cache) {
+      const data = cache.readQuery({
+        query: FETCH_PINGS_QUERY,
+      });
+      cache.writeQuery({
+        query: FETCH_PINGS_QUERY,
+        data: {
+          getPings: data.getPings.filter(ping => ping.author.id !== context.user.id)
+        }
+      })
+
+      history.push("/");
+      logoutOps();
+    }
   });
 
   function updateUserCb(img) {
@@ -107,18 +143,18 @@ export default function TransitionsModal() {
     deleteUser({ variables: { password } });
   }
 
+  const handlePasswordChange = (event) => {
+    const { value } = event.target;
+    setPassword(value);
+  };
+
   return (
     <div className={classes.root}>
-      <form onSubmit={handleSubmit}>
+      {!loading && <form onSubmit={handleSubmit}>
         <Paper>
-          <div
-            className={classes.media}
-            style={{
-              background:
-                "url('https://cdn.staticneo.com/w/bleach/thumb/Masked_Ichigo.jpg/200px-Masked_Ichigo.jpg')",
-            }}
-          ></div>
 
+          {data.getUser.imageUrl ? <Avatar className={classes.media} src={data.getUser.imageUrl}></Avatar>
+            : <Avatar className={classes.media} src="https://secure.gravatar.com/avatar/eb75ef0fcc9982ff515270a4c00ee18f?s=256&d=mm&r=g"></Avatar>}
           <Button endIcon={<FiImage />} onClick={handleOpenImg}>
             Update Profile Picture
           </Button>
@@ -193,9 +229,11 @@ export default function TransitionsModal() {
               <br />
               <input
                 type="password"
-                onChange={handleChange}
-                value={values.password}
+                onChange={handlePasswordChange}
+                value={password}
                 name="password"
+                error={errors.password ? true : false}
+                helperText={errors.password}
               />
               <Button onClick={deleteUserCb}>
                 <MdDelete />
@@ -203,7 +241,7 @@ export default function TransitionsModal() {
             </div>
           </Fade>
         </Modal>
-      </form>
+      </form>}
     </div>
   );
 }
