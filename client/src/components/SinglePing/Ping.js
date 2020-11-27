@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import moment from "moment";
 import { useQuery } from "@apollo/client";
-import { Button, Paper } from "@material-ui/core";
+import { Button, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -57,14 +57,21 @@ export default function Feed() {
             <Button color="primary" onClick={() => history.goBack()}>
               Go Back
             </Button>
-            <h1>{`@${data.getPing.author.username}`}</h1>
-            <h2>{data.getPing.body}</h2>
-            <img src={data.getPing.imageUrl} style={{ maxHeight: "250px" }} />
-            <p>{`Total Support: ${data.getPing.supportCount}`}</p>
-            <p>{`Posted ${moment(
-              Number(data.getPing.createdAt)
-            ).fromNow()}`}</p>
-            <hr />
+            <Typography variant="h6">
+              {`@${data.getPing.author.username}`}
+            </Typography>
+            <div className={classes.metaContainer}>
+              <Typography variant="subtitle2">
+                {`${data.getPing.supportCount} Supported`}
+              </Typography>
+              <Typography variant="subtitle2">
+                {`Posted ${moment(Number(data.getPing.createdAt)).fromNow()}`}
+              </Typography>
+            </div>
+            <Typography variant="body1">{data.getPing.body}</Typography>
+            {data.getPing.imageUrl && (
+              <img src={data.getPing.imageUrl} style={{ maxHeight: "250px" }} />
+            )}
             <NewComment pingId={data.getPing.id} />
           </>
         )}
@@ -83,5 +90,18 @@ const useStyles = makeStyles((theme) => ({
   },
   backLink: {
     textDecoration: "none",
+  },
+  metaContainer: {
+    display: "flex",
+    marginBottom: "1rem",
+    "& > *": {
+      marginRight: "0.34rem",
+      color: "#C0C0C0",
+      fontSize: "12px",
+      textDecoration: "none",
+      "& > * ": {
+        fontSize: "12px",
+      },
+    },
   },
 }));

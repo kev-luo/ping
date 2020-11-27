@@ -26,7 +26,7 @@ export default function Nav() {
     <Paper elevation={3}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="overline" className={classes.title}>
             <Link to="/" className={classes.link}>
               Ping
             </Link>
@@ -64,6 +64,9 @@ export default function Nav() {
 const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
+    fontSize: "2rem",
+    padding: "0 2px",
+    margin: "0 0"
   },
   logout: {
     marginLeft: theme.spacing(1),

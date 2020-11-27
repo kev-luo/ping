@@ -39,13 +39,14 @@ export default function Comment({ id, createdAt, body, author }) {
       <Grid container wrap="nowrap" spacing={2} alignItems="center">
         <Grid item>{authorPic(author)}</Grid>
         <Grid item xs>
-          <Typography
-            variant="subtitle2"
-            className={classes.username}
-            onClick={() => displayProfile(author)}
-          >
-            <Link to={`/user/supported/${author.id}`}>{author.username}</Link>
-          </Typography>
+          <Link to={`/user/supported/${author.id}`} className={classes.username}>
+            <Typography
+              variant="subtitle2"
+              onClick={() => displayProfile(author)}
+            >
+              {author.username}
+            </Typography>
+          </Link>
           <Typography variant="subtitle2" className={classes.meta}>
             {moment(Number(createdAt)).fromNow()}
           </Typography>
@@ -59,16 +60,15 @@ export default function Comment({ id, createdAt, body, author }) {
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "5px 8px",
-    marginTop: "0.7rem"
+    marginTop: "0.7rem",
   },
   username: {
     "&:hover": {
       cursor: "pointer",
+      color: "#DC143C",
     },
-    "& > *": {
-      textDecoration: "none",
-      color: "black",
-    },
+    textDecoration: "none",
+    color: "black",
   },
   missingPic: {
     width: "3rem",
