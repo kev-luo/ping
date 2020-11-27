@@ -35,6 +35,7 @@ export const useForm = (callback, initialState = {}) => {
   async function handleSubmit(e) {
     e.preventDefault();
     let img = null;
+    console.log(values.imageUrl === true);
     if(values.imageUrl) {
       img = await handleImageUpload();
     }
