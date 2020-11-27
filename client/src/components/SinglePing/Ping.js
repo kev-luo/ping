@@ -5,9 +5,13 @@ import { Button, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams, useHistory } from "react-router-dom";
 
+import Loading from "../Loading";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
-import { FETCH_PING_QUERY, NEW_COMMENT_SUBSCRIPTION } from "../../utils/graphql";
+import {
+  FETCH_PING_QUERY,
+  NEW_COMMENT_SUBSCRIPTION,
+} from "../../utils/graphql";
 
 export default function Feed() {
   const classes = useStyles();
@@ -19,20 +23,20 @@ export default function Feed() {
   useEffect(() => {
     const unsubscribe = newCommentSubscription();
     return () => unsubscribe();
-  }, [])
+  }, []);
 
   function newCommentSubscription() {
     return subscribeToMore({
       document: NEW_COMMENT_SUBSCRIPTION,
       variables: { pingId },
       updateQuery: (prevPing, { subscriptionData }) => {
-        if(!subscriptionData) return prevPing;
+        if (!subscriptionData) return prevPing;
         return {
           ...prevPing,
-          getPing: subscriptionData.getPing
-        } 
-      }
-    })
+          getPing: subscriptionData.getPing,
+        };
+      },
+    });
   }
 
   const getComments = () => {
@@ -44,30 +48,36 @@ export default function Feed() {
   };
 
   return (
-    <Paper className={classes.root}>
-      {!loading && (
-        <>
-          <Button color="primary" onClick={() => history.goBack()}>
-            Go Back
-          </Button>
-          <h1>{`@${data.getPing.author.username}`}</h1>
-          <h2>{data.getPing.body}</h2>
-          <img src={data.getPing.imageUrl} style={{ maxHeight: "250px" }} />
-          <p>{`Total Support: ${data.getPing.supportCount}`}</p>
-          <p>{`Posted ${moment(Number(data.getPing.createdAt)).fromNow()}`}</p>
-          <hr />
-          <NewComment pingId={data.getPing.id} />
-          {getComments()}
-        </>
-      )}
-    </Paper>
+    <>
+      <Paper className={classes.root}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <Button color="primary" onClick={() => history.goBack()}>
+              Go Back
+            </Button>
+            <h1>{`@${data.getPing.author.username}`}</h1>
+            <h2>{data.getPing.body}</h2>
+            <img src={data.getPing.imageUrl} style={{ maxHeight: "250px" }} />
+            <p>{`Total Support: ${data.getPing.supportCount}`}</p>
+            <p>{`Posted ${moment(
+              Number(data.getPing.createdAt)
+            ).fromNow()}`}</p>
+            <hr />
+            <NewComment pingId={data.getPing.id} />
+          </>
+        )}
+      </Paper>
+      {loading ? <Loading /> : getComments()}
+    </>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#fcf8f2",
-    height: "80vh",
+    maxHeight: "80vh",
     overflow: "auto",
     padding: theme.spacing(2),
   },
