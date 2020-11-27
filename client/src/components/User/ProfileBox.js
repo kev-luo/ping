@@ -135,6 +135,10 @@ const useStyles = makeStyles((themes) => ({
       "&:focus": {
         outline: 0,
       },
+      "&:hover": {
+        cursor: "pointer",
+        color: "#DC143C",
+      }
     },
   },
   activeFeedButton: {
