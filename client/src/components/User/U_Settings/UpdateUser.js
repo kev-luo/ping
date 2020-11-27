@@ -10,7 +10,7 @@ import { UPDATE_USER } from "../../../utils/graphql";
 export default function UpdateUser(props) {
   const classes = useStyles();
   const initialState = { imageUrl: "" };
-  const { handleChange, handleSubmit, values, previewSource } = useForm(
+  const { handleChange, handleSubmit, values } = useForm(
     updateUserCb,
     initialState
   );
@@ -43,9 +43,9 @@ export default function UpdateUser(props) {
         <Button type="submit" endIcon={<FiImage />}>
           Set Picture
         </Button>
-        {previewSource && (
+        {values.imageUrl && (
           <img
-            src={previewSource}
+            src={values.imageUrl[0]}
             alt="preview of choosen file"
             className={classes.imgPrev}
           />

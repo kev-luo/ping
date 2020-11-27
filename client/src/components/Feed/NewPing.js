@@ -27,10 +27,10 @@ export default function NewComment() {
     onError(err) {
       console.log(err);
     },
-    update() {
+    onCompleted() {
       setValues(initialState);
       setIsLoading(!isLoading);
-    },
+    }
   });
 
   function createPingCb(img) {
