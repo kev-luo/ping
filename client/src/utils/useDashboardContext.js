@@ -1,5 +1,6 @@
 import React, { useContext, useReducer } from "react";
 import Actions from './dashboardActions';
+import { GraphQLNonNull } from "graphql";
 
 const DashboardContext = React.createContext({
   displayedFeed: [],
@@ -13,6 +14,16 @@ const initialState = {
   board: "rawfeed",
   details: "",
   selectedUser: null,
+  userPosition: [{
+    latitude: null,
+    longitude: null,
+  }],
+  viewport: [{
+    latitude: 37.7577,
+    longitude: -122.4376,
+    zoom: 13
+  }]
+
 };
 
 function reducer(state, { type, payload }) {
@@ -21,7 +32,7 @@ function reducer(state, { type, payload }) {
       return {
         ...state,
         displayedFeed: payload,
-      }; 
+      };
     case Actions.RAW_FEED:
       return {
         ...state,
