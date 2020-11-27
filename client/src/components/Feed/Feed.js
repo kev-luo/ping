@@ -93,10 +93,9 @@ export default function Feed({ data, feedType }) {
                   <Grid item>
                     <Link to={`/ping/${ping.id}`}>
                       <Tooltip title="Comment">
-                        <IconButton>
+                        <IconButton onClick={() => displayProfile(ping.author)}>
                           <FaComments
                             className={classes.commentIcon}
-                            onClick={() => displayProfile(ping.author)}
                             size={15}
                           />
                         </IconButton>
