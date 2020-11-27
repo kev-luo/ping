@@ -18,7 +18,7 @@ export default function NewComment() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
   const initialState = { body: "", imageUrl: "" };
-  const { handleChange, handleSubmit, values, previewSource } = useForm(
+  const { handleChange, handleSubmit, values, setValues } = useForm(
     createPingCb,
     initialState
   );
@@ -28,7 +28,7 @@ export default function NewComment() {
       console.log(err);
     },
     update() {
-      values.body = "";
+      setValues(initialState);
       setIsLoading(!isLoading);
     },
   });
@@ -84,9 +84,9 @@ export default function NewComment() {
           </Grid>
         </Grid>
       </form>
-      {previewSource && (
+      {values.imageUrl && (
         <img
-          src={previewSource}
+          src={values.imageUrl[0]}
           alt="preview of choosen file"
           className={classes.imgPrev}
         />
