@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
@@ -9,7 +9,9 @@ import Loading from "../Loading";
 export default function FeedType() {
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const { data, error } = useQuery(FETCH_PINGS_QUERY);
+  const { subscribeToMore, loading, error, data } = useQuery(FETCH_PINGS_QUERY);
+
+
 
   const supportedPings = data?.getPings.filter((ping) => {
     const isUserPresent = ping.support.filter((supporter) => {

@@ -25,15 +25,17 @@ export default function NewComment() {
       console.log(err);
     },
     update(cache, { data: { createPing } }) {
-      const data = cache.readQuery({
-        query: FETCH_PINGS_QUERY,
-      });
-      cache.writeQuery({
-        query: FETCH_PINGS_QUERY,
-        data: {
-          getPings: [createPing, ...data.getPings],
-        },
-      });
+      // console.log(createPing);
+      // const data = cache.readQuery({
+      //   query: FETCH_PINGS_QUERY,
+      // });
+      // console.log(data.getPings);
+      // cache.writeQuery({
+      //   query: FETCH_PINGS_QUERY,
+      //   data: {
+      //     getPings: [createPing, ...data.getPings],
+      //   },
+      // });
       values.body = "";
       setFileInputState("");
       setPreviewSource("");

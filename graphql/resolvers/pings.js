@@ -70,13 +70,14 @@ module.exports = {
         { $push: { pings: ping._id } }
       );
 
-      const newPing = await Ping.populate(ping, "author");
+      await Ping.populate(ping, "author")
+      await Ping.populate(ping, {path: "support", populate: {path: "user"}})
 
       context.pubsub.publish(NEW_PING, {
-        newPing: newPing,
+        newPing: ping,
       });
 
-      return newPing;
+      return ping;
     },
     async deletePing(_, { pingId }, context) {
       console.log("delete ping");
