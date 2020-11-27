@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import { deepPurple, amber, grey } from "@material-ui/core/colors";
+import { deepPurple, amber, grey, red } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {
     type: "light",
     primary: {
+      light: grey[700],
       main: grey[800],
+      dark: grey[900],
+      contrastText: "#fff",
     },
     secondary: {
-      main: "#C13838",
-      contrastText: deepPurple[500],
+      light: red[500],
+      main: red[700],
+      dark: "#C13838", // deep red
+      contrastText: "#fff",
     },
   },
 });
@@ -19,6 +24,7 @@ const themeDark = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
+      light: grey[800],
       main: grey[900],
     },
     secondary: {
@@ -35,8 +41,7 @@ const themeOverrides = {
     },
     containedPrimary: {
       "&:hover": {
-        backgroundColor: amber[500],
-        color: deepPurple[900],
+        color: theme.palette.secondary.light,
       },
     },
     containedSecondary: {
@@ -45,13 +50,9 @@ const themeOverrides = {
   },
   MuiInput: {
     root: {
-      top: theme.spacing(2),
-      border: `1px solid ${grey[500]}`,
       padding: theme.spacing(1),
-      outline: "1px solid transparent",
       "&$focused": {
-        border: `1px solid ${theme.palette.primary.main}`,
-        outline: `1px solid ${theme.palette.primary.main}`,
+        borderBottom: `2px solid ${theme.palette.secondary.main}`,
       },
     },
   },
@@ -80,9 +81,6 @@ const themeProps = {
   MuiInputLabel: {
     shrink: true,
   },
-  MuiInput: {
-    disableUnderline: true,
-  },
   MuiTooltip: {
     arrow: true,
   },
@@ -95,7 +93,7 @@ themeDark.overrides = themeOverrides;
 
 const Theme = (props) => {
   const { children, darkMode } = props;
-  const setTheme = darkMode ? themeDark : theme
+  const setTheme = darkMode ? theme : themeDark
   return <ThemeProvider theme={setTheme}>{children}</ThemeProvider>;
 };
 

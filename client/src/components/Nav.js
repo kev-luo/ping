@@ -8,7 +8,6 @@ import {
   Button,
   FormControlLabel,
   Switch,
-  FormControl,
 } from "@material-ui/core";
 import { BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -35,7 +34,7 @@ export default function Nav({darkMode, setDarkMode}) {
     <Paper elevation={3}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="overline" color="secondary" className={classes.title}>
+          <Typography variant="overline" className={classes.title}>
             <Link to="/" className={classes.link}>
               Ping
             </Link>
@@ -85,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
   link: {
-    color: theme.palette.grey[400],
+    color: theme.palette.secondary.dark,
     textDecoration: "none",
   },
 }));
