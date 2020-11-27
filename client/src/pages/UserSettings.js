@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography,
-  Button,
-  Paper,
-  Modal,
-  Backdrop,
-  Fade,
-} from "@material-ui/core";
+import { Button, Paper, Modal, Backdrop, Fade } from "@material-ui/core";
 import { FiImage } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-import { useAuthContext } from "../utils/useAuthContext";
+
+import UserSettingsModal from "../components/User/UserSettingsModal";
 import { useForm } from "../utils/useForm";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER, DELETE_USER } from "../utils/graphql";
@@ -70,6 +64,8 @@ export default function TransitionsModal() {
   const classes = useStyles();
   const initialState = { imageUrl: "" };
   const [password, setPassword] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [userSettings, setUserSettings] = useState("");
   const [openImg, setOpenImg] = useState(false);
   const [openDel, setOpenDel] = useState(false);
   //     const { user } = useAuthContext();
@@ -107,6 +103,11 @@ export default function TransitionsModal() {
     deleteUser({ variables: { password } });
   }
 
+  function handleClick(e) {
+    setIsOpen(!isOpen)
+    setUserSettings(e.target.textContent);
+  }
+
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
@@ -119,14 +120,14 @@ export default function TransitionsModal() {
             }}
           ></div>
 
-          <Button endIcon={<FiImage />} onClick={handleOpenImg}>
+          <Button endIcon={<FiImage />} onClick={handleClick}>
             Update Profile Picture
           </Button>
-          <Button endIcon={<MdDelete />} onClick={handleOpenDel}>
+          <Button endIcon={<MdDelete />} onClick={handleClick}>
             Delete Profile
           </Button>
         </Paper>
-
+        {/* <UserSettingsModal isOpen={isOpen} setIsOpen={setIsOpen} userSettings={userSettings}/> */}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"

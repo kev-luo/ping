@@ -1,36 +1,36 @@
-import React from "react";
-import { Modal, Fade, Button } from '@material-ui/core';
-import { MdDelete } from 'react-icons/md';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Modal, Fade, Backdrop } from "@material-ui/core";
 
-export default function UserSettingsModal() {
+import DeleteUser from "./DeleteUser";
+import UpdateUser from "./UpdateUser";
+
+export default function UserSettingsModal(props) {
+  const classes = useStyles();
   return (
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       className={classes.modal}
-      open={openDel}
-      onClose={handleOpenDel}
+      open={props.isOpen}
+      onClose={props.setIsOpen(!props.isOpen)}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
       }}
     >
-      <Fade in={openDel} style={{ minHeight: "250px", minWidth: "250px" }}>
-        <div className={classes.paper}>
-          <label>Please confirm your password</label>
-          <br />
-          <input
-            type="password"
-            onChange={handleChange}
-            value={values.password}
-            name="password"
-          />
-          <Button onClick={deleteUserCb}>
-            <MdDelete />
-          </Button>
-        </div>
+      <Fade in={props.isOpen} style={{ minHeight: "250px", minWidth: "250px" }}>
+        {props.userSettings === "Update Profile Picture" ? (
+          <UpdateUser />
+        ) : (
+          <DeleteUser />
+        )}
       </Fade>
     </Modal>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  modal: {},
+}));
