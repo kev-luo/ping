@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactMapGL, { NavigationControl, Marker } from "react-map-gl";
 import PlaceTwoTone from "@material-ui/icons/PlaceTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
 
-const INITIAL_VIEWPORT = {
-  latitude: 37.7577,
-  longitude: -122.4376,
-  zoom: 13
-}
+import { useDashboardContext } from "../../utils/useDashboardContext";
+import Actions from "../../utils/dashboardActions";
 
 export default function Map() {
   const classes = useStyles();
-  const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
-  const [userPosition, setUserPosition] = useState(null);
+  const [{ viewport, userPosition }, dispatch] = useDashboardContext();
 
   useEffect(() => {
+    console.log("fired");
     getUserPosition();
   }, [])
 
@@ -23,9 +20,9 @@ export default function Map() {
     if("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords;
-        setViewport({...viewport, latitude, longitude});
-        setUserPosition({ latitude, longitude });
-        console.log(userPosition, viewport)
+        console.log(latitude, longitude);
+        dispatch({type: Actions.UPDATE_VIEWPORT, payload: { ...viewport, latitude, longitude }});
+        dispatch({ type: Actions.UPDATE_USER_POSITION, payload: { latitude, longitude }});
       })
     }
   }
@@ -38,12 +35,13 @@ export default function Map() {
         height= "100%"
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken="pk.eyJ1IjoiZ29vZGx2biIsImEiOiJja2h6OXcwdG0wcXo5MnJubXRkcm93bGh4In0.7lgoZXg3FQincUmupVj4tQ"
-        onViewportChange={newViewport => setViewport(newViewport)}
+        onViewportChange={newViewport => { dispatch({ type: Actions.UPDATE_VIEWPORT, payload: newViewport }) }}
         {...viewport}
+      
         >
           <div className={classes.navigationControl}>
             <NavigationControl
-             onViewportChange={newViewport => setViewport(newViewport)}
+             onViewportChange={newViewport => { dispatch({ type: Actions.UPDATE_VIEWPORT, payload: newViewport }) }}
              />
           </div>
           {userPosition && (
