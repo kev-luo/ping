@@ -35,14 +35,14 @@ export default function Nav({darkMode, setDarkMode}) {
     <Paper elevation={3}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="overline" className={classes.title}>
+          <Typography variant="overline" color="secondary" className={classes.title}>
             <Link to="/" className={classes.link}>
               Ping
             </Link>
           </Typography>
           <FormControlLabel
             control={<Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />}
-            label="Secondary"
+            label="Secondary" labelPlacement="start"
           />
           {context.user && (
             <>
@@ -50,7 +50,7 @@ export default function Nav({darkMode, setDarkMode}) {
                 <Button
                   onClick={userProfile}
                   variant="contained"
-                  color="default"
+                  color="primary"
                   size="small"
                 >
                   Profile
@@ -58,7 +58,7 @@ export default function Nav({darkMode, setDarkMode}) {
               </Link>
               <Button
                 variant="contained"
-                color="default"
+                color="primary"
                 endIcon={<BiExit />}
                 size="small"
                 className={classes.logout}

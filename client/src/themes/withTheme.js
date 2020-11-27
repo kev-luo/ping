@@ -6,11 +6,11 @@ const theme = createMuiTheme({
   palette: {
     type: "light",
     primary: {
-      main: deepPurple[500],
+      main: grey[800],
     },
     secondary: {
-      main: amber[500],
-      contrastTest: deepPurple[500],
+      main: "#C13838",
+      contrastText: deepPurple[500],
     },
   },
 });
@@ -19,7 +19,7 @@ const themeDark = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
-      main: deepPurple[500],
+      main: grey[900],
     },
     secondary: {
       main: amber[500],
@@ -28,25 +28,9 @@ const themeDark = createMuiTheme({
   },
 });
 
-theme.props = {
-  MuiButton: {
-    disableElevation: true,
-  },
-  MuiInputLabel: {
-    shrink: true,
-  },
-  MuiInput: {
-    disableUnderline: true,
-  },
-  MuiTooltip: {
-    arrow: true,
-  },
-};
-
-theme.overrides = {
+const themeOverrides = {
   MuiButton: {
     root: {
-      borderRadius: 0,
       textTransform: "none",
     },
     containedPrimary: {
@@ -88,6 +72,26 @@ theme.overrides = {
     },
   },
 };
+
+const themeProps = {
+  MuiButton: {
+    disableElevation: true,
+  },
+  MuiInputLabel: {
+    shrink: true,
+  },
+  MuiInput: {
+    disableUnderline: true,
+  },
+  MuiTooltip: {
+    arrow: true,
+  },
+}
+
+theme.props = themeProps;
+theme.overrides = themeOverrides;
+themeDark.props = themeProps;
+themeDark.overrides = themeOverrides;
 
 const Theme = (props) => {
   const { children, darkMode } = props;

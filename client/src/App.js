@@ -9,7 +9,7 @@ import SinglePing from "./pages/SinglePing";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import { AuthProvider } from "./utils/useAuthContext";
 import { DashboardProvider } from "./utils/useDashboardContext";
-import { withTheme } from "./withTheme";
+import { withTheme } from "./themes/withTheme";
 
 function App(props) {
   const { darkMode, setDarkMode } = props;
