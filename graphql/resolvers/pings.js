@@ -59,6 +59,8 @@ module.exports = {
         throw new Error("post body must not be empty");
       }
 
+      // log the coordinates to send to the db
+
       const ping = await new Ping({
         body,
         imageUrl,
