@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMapGL, { NavigationControl } from "react-map-gl";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
@@ -12,6 +12,20 @@ const INITIAL_VIEWPORT = {
 export default function Map() {
   const classes = useStyles();
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
+  const [userPosition, setUserPosition] = useState(null);
+
+  useEffect(() => {
+    getUserPosition();
+  }, [])
+
+  const getUserPosition = () => {
+    if("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords
+        console.log(latitude, longitude)
+      })
+    }
+  }
 
   return (
     <Grid item>
@@ -25,7 +39,9 @@ export default function Map() {
         {...viewport}
         >
           <div className={classes.navigationControl}>
-            <NavigationControl />
+            <NavigationControl
+             onViewportChange={newViewport => setViewport(newViewport)}
+             />
           </div>
           
         </ReactMapGL>
