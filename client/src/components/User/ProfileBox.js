@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Button, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { FaUser } from 'react-icons/fa';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import Loading from "../Loading";
 import { useAuthContext } from "../../utils/useAuthContext";
@@ -11,8 +11,16 @@ import { useDashboardContext } from "../../utils/useDashboardContext";
 
 export default function ProfileBox({ userData }) {
   const classes = useStyles();
+  const { pathname } = useLocation();
+  const feedType = pathname.split('/')[2];
+
+  const [highlightFeed, setHighlightFeed] = useState(feedType);
   const { user } = useAuthContext();
   const [state] = useDashboardContext();
+
+  useEffect(() => {
+    setHighlightFeed(feedType);
+  }, [feedType])
 
   function editProfile() {
     if (user.id === state.selectedUser.id) {
@@ -28,7 +36,7 @@ export default function ProfileBox({ userData }) {
     if (user.id === state.selectedUser.id) {
       return (
         <Link to={`/user/${userData.id}`}>
-          <Button>New Pings</Button>
+          <Button className={highlightFeed !== "supported" && highlightFeed !== "pinged" ? classes.activeFeedButton : ""}>New Pings</Button>
         </Link>
       );
     }
@@ -53,10 +61,10 @@ export default function ProfileBox({ userData }) {
           >{`@${userData.username}`}</Typography>
           {userProfile}
           <Link to={`/user/supported/${userData.id}`}>
-            <Button>Supported Pings</Button>
+            <Button className={highlightFeed === "supported" ? classes.activeFeedButton : ""}>Supported Pings</Button>
           </Link>
           <Link to={`/user/pinged/${userData.id}`}>
-            <Button>Posted Pings</Button>
+            <Button className={highlightFeed === "pinged" ? classes.activeFeedButton : ""}>Posted Pings</Button>
           </Link>
           {seeNewPings()}
         </>
@@ -87,5 +95,8 @@ const useStyles = makeStyles((themes) => ({
   profilePic: {
     width: '6rem',
     height: '6rem',
+  },
+  activeFeedButton: {
+    borderBottom: "2px solid red" 
   }
 }));

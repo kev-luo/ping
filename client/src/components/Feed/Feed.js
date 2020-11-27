@@ -41,51 +41,54 @@ export default function Feed({ data, feedType }) {
   }
 
   return (
-    <Grid item className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        {feedType} Pings
-      </Typography>
-      {data.map((ping) => {
-        return (
-          <Paper key={ping.id} className={classes.paper}>
-            <Grid container wrap="nowrap" spacing={2} alignItems="center">
-              <Grid item>{authorPic(ping)}</Grid>
-              <Grid item>{containsImage(ping)}</Grid>
-              <Grid item xs>
-                <Typography
-                  variant="subtitle2"
-                  className={classes.username}
-                  onClick={() => displayProfile(ping.author)}
-                >
-                  <Link to={`/user/supported/${ping.author.id}`}>
-                    {ping.author.username}
-                  </Link>
-                </Typography>
-                <Typography variant="subtitle2" className={classes.meta}>
-                  <Link to={`/ping/${ping.id}`}>
-                    {moment(Number(ping.createdAt)).fromNow()} |{" "}
-                    {ping.supportCount} Supported | {ping.commentCount} Comments
-                  </Link>
-                </Typography>
-                <Typography variant="body2">{ping.body}</Typography>
-              </Grid>
-              <Grid item xs={2} container>
-                <Grid item>
-                  <SupportPing user={user} ping={ping} />
+    <Paper>
+      <Grid item className={classes.root}>
+        <Typography variant="h5" className={classes.title}>
+          {feedType} Pings
+        </Typography>
+        {data.map((ping) => {
+          return (
+            <Paper key={ping.id} className={classes.paper}>
+              <Grid container wrap="nowrap" spacing={2} alignItems="center">
+                <Grid item>{authorPic(ping)}</Grid>
+                <Grid item>{containsImage(ping)}</Grid>
+                <Grid item xs>
+                  <Typography
+                    variant="subtitle2"
+                    className={classes.username}
+                    onClick={() => displayProfile(ping.author)}
+                  >
+                    <Link to={`/user/supported/${ping.author.id}`}>
+                      {ping.author.username}
+                    </Link>
+                  </Typography>
+                  <Typography variant="subtitle2" className={classes.meta}>
+                    <Link to={`/ping/${ping.id}`}>
+                      {moment(Number(ping.createdAt)).fromNow()} |{" "}
+                      {ping.supportCount} Supported | {ping.commentCount}{" "}
+                      Comments
+                    </Link>
+                  </Typography>
+                  <Typography variant="body2">{ping.body}</Typography>
                 </Grid>
-                <Grid item>
-                  <Link to={`/ping/${ping.id}`}>
-                    <IconButton>
-                      <FaComments className={classes.commentIcon} size={15} />
-                    </IconButton>
-                  </Link>
+                <Grid item xs={2} container>
+                  <Grid item>
+                    <SupportPing user={user} ping={ping} />
+                  </Grid>
+                  <Grid item>
+                    <Link to={`/ping/${ping.id}`}>
+                      <IconButton>
+                        <FaComments className={classes.commentIcon} size={15} />
+                      </IconButton>
+                    </Link>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        );
-      })}
-    </Grid>
+            </Paper>
+          );
+        })}
+      </Grid>
+    </Paper>
   );
 }
 

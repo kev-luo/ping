@@ -27,7 +27,7 @@ export default function Dashboard() {
             <Map />
           </Grid>
 
-          <Grid item direction="column" lg={8}>
+          <Grid item container direction="column" lg={8}>
             {user && <NewPing />}
             <FeedType />
           </Grid>
