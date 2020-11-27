@@ -60,22 +60,24 @@ export default function Feed({ data, feedType }) {
                 <Grid item>{authorPic(ping)}</Grid>
                 <Grid item>{containsImage(ping)}</Grid>
                 <Grid item xs>
-                  <Typography
-                    variant="subtitle2"
+                  <Link
+                    to={`/user/supported/${ping.author.id}`}
                     className={classes.username}
-                    onClick={() => displayProfile(ping.author)}
                   >
-                    <Link to={`/user/supported/${ping.author.id}`}>
+                    <Typography
+                      variant="subtitle2"
+                      onClick={() => displayProfile(ping.author)}
+                    >
                       {ping.author.username}
-                    </Link>
-                  </Typography>
+                    </Typography>
+                  </Link>
                   <div className={classes.metaContainer}>
-                      <Typography variant="subtitle2">
-                        {`${moment(Number(ping.createdAt)).fromNow()} |`}
-                      </Typography>
-                      <Typography variant="subtitle2">
-                        {`${ping.supportCount} Supported |`}
-                      </Typography>
+                    <Typography variant="subtitle2">
+                      {`${moment(Number(ping.createdAt)).fromNow()} |`}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      {`${ping.supportCount} Supported |`}
+                    </Typography>
                     <Link to={`/ping/${ping.id}`} className={classes.meta}>
                       <Typography variant="subtitle2">
                         {`${ping.commentCount} Comments`}
@@ -133,9 +135,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "12px",
       textDecoration: "none",
       "& > * ": {
-        fontSize: "12px"
-      }
-    }
+        fontSize: "12px",
+      },
+    },
   },
   meta: {
     "&:hover": {
@@ -146,12 +148,10 @@ const useStyles = makeStyles((theme) => ({
   username: {
     "&:hover": {
       cursor: "pointer",
-      color: "blue",
+      color: "#DC143C",
     },
-    "& > *": {
-      textDecoration: "none",
-      color: "black",
-    },
+    textDecoration: "none",
+    color: "black",
   },
   commentIcon: {
     color: "blue",
