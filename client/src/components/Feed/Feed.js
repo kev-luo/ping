@@ -1,13 +1,19 @@
 import React from "react";
 import moment from "moment";
-import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Avatar,
+  Typography,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FaComments, FaUser } from "react-icons/fa";
 import { FiImage, FiFileText } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import Actions from "../../utils/dashboardActions";
-import NewPing from "./NewPing";
 import SupportPing from "../SupportPing";
 import { useAuthContext } from "../../utils/useAuthContext";
 import { useDashboardContext } from "../../utils/useDashboardContext";
@@ -42,53 +48,67 @@ export default function Feed({ data, feedType }) {
   }
 
   return (
-    <Paper className={classes.root}>
-      <Typography variant="h5" className={classes.title}>
-        {feedType} Pings
-      </Typography>
-      {user && <NewPing />}
-      {data.map((ping) => {
-        return (
-          <Paper key={ping.id} className={classes.paper}>
-            <Grid container wrap="nowrap" spacing={2} alignItems="center">
-              <Grid item>
-                {authorPic(ping)}
-              </Grid>
-              <Grid item>{containsImage(ping)}</Grid>
-              <Grid item xs>
-                <Typography
-                  variant="subtitle2"
-                  className={classes.username}
-                  onClick={() => displayProfile(ping.author)}
-                >
-                  <Link to={`/user/supported/${ping.author.id}`}>
-                    {ping.author.username}
+    <Paper>
+      <Grid item className={classes.root}>
+        <Typography variant="h5" className={classes.title}>
+          {feedType} Pings
+        </Typography>
+        {data.map((ping) => {
+          return (
+            <Paper key={ping.id} className={classes.paper}>
+              <Grid container wrap="nowrap" spacing={2} alignItems="center">
+                <Grid item>{authorPic(ping)}</Grid>
+                <Grid item>{containsImage(ping)}</Grid>
+                <Grid item xs>
+                  <Link
+                    to={`/user/supported/${ping.author.id}`}
+                    className={classes.username}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      onClick={() => displayProfile(ping.author)}
+                    >
+                      {ping.author.username}
+                    </Typography>
                   </Link>
-                </Typography>
-                <Typography variant="subtitle2" className={classes.meta}>
-                  <Link to={`/ping/${ping.id}`}>
-                    {moment(Number(ping.createdAt)).fromNow()} |{" "}
-                    {ping.supportCount} Supported | {ping.commentCount} Comments
-                  </Link>
-                </Typography>
-                <Typography variant="body2">{ping.body}</Typography>
-              </Grid>
-              <Grid item xs={2} container>
-                <Grid item>
-                  <SupportPing user={user} ping={ping} />
+                  <div className={classes.metaContainer}>
+                    <Typography variant="subtitle2">
+                      {`${moment(Number(ping.createdAt)).fromNow()} |`}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      {`${ping.supportCount} Supported |`}
+                    </Typography>
+                    <Link to={`/ping/${ping.id}`} className={classes.meta}>
+                      <Typography variant="subtitle2" onClick={() => displayProfile(ping.author)}>
+                        {`${ping.commentCount} Comments`}
+                      </Typography>
+                    </Link>
+                  </div>
+                  <Typography variant="body2">{ping.body}</Typography>
                 </Grid>
-                <Grid item>
-                  <Link to={`/ping/${ping.id}`}>
-                    <IconButton>
-                      <FaComments className={classes.commentIcon} size={15} />
-                    </IconButton>
-                  </Link>
+                <Grid item xs={2} container>
+                  <Grid item>
+                    <SupportPing user={user} ping={ping} />
+                  </Grid>
+                  <Grid item>
+                    <Link to={`/ping/${ping.id}`}>
+                      <Tooltip title="Comment">
+                        <IconButton>
+                          <FaComments
+                            className={classes.commentIcon}
+                            onClick={() => displayProfile(ping.author)}
+                            size={15}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </Link>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        );
-      })}
+            </Paper>
+          );
+        })}
+      </Grid>
     </Paper>
   );
 }
@@ -106,41 +126,47 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 0,
   },
   title: {
-    textAlign: 'center',
+    textAlign: "center",
+  },
+  metaContainer: {
+    display: "flex",
+    "& > *": {
+      marginRight: "0.34rem",
+      color: "#C0C0C0",
+      fontSize: "12px",
+      textDecoration: "none",
+      "& > * ": {
+        fontSize: "12px",
+      },
+    },
   },
   meta: {
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-    "& > * ": {
-      textDecoration: "none",
-      color: "grey",
-    },
     "&:hover": {
+      color: "#708090",
       cursor: "pointer",
     },
   },
   username: {
     "&:hover": {
       cursor: "pointer",
+      color: "#DC143C",
     },
-    "& > *": {
-      textDecoration: "none",
-      color: "black",
-    },
+    textDecoration: "none",
+    color: "black",
   },
   commentIcon: {
     color: "blue",
   },
   missingPic: {
-    width: '3rem',
-    height: '3rem',
-    '& > *': {
-      width: '1.5rem',
-      height: '1.5rem',
-    }
+    width: "3rem",
+    height: "3rem",
+    "& > *": {
+      width: "1.5rem",
+      height: "1.5rem",
+    },
   },
   profilePic: {
-    width: '3rem',
-    height: '3rem',
-  }
+    width: "3rem",
+    height: "3rem",
+  },
 }));

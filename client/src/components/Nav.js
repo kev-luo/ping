@@ -4,7 +4,7 @@ import { Paper, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-import Actions from '../utils/dashboardActions'
+import Actions from "../utils/dashboardActions";
 import { useAuthContext } from "../utils/useAuthContext";
 import { useDashboardContext } from "../utils/useDashboardContext";
 
@@ -18,6 +18,10 @@ export default function Nav() {
     context.logout();
   };
 
+  const userProfile = () => {
+    dispatch({ type: Actions.SELECT_USER, payload: context.user });
+  };
+
   return (
     <Paper elevation={3}>
       <AppBar position="static">
@@ -28,16 +32,28 @@ export default function Nav() {
             </Link>
           </Typography>
           {context.user && (
-            <Button
-              variant="contained"
-              color="default"
-              endIcon={<BiExit />}
-              size="small"
-              className={classes.logout}
-              onClick={logoutOps}
-            >
-              Logout
-            </Button>
+            <>
+              <Link to={`/user/${context.user.id}`} className={classes.link}>
+                <Button
+                  onClick={userProfile}
+                  variant="contained"
+                  color="default"
+                  size="small"
+                >
+                  Profile
+                </Button>
+              </Link>
+              <Button
+                variant="contained"
+                color="default"
+                endIcon={<BiExit />}
+                size="small"
+                className={classes.logout}
+                onClick={logoutOps}
+              >
+                Logout
+              </Button>
+            </>
           )}
         </Toolbar>
       </AppBar>

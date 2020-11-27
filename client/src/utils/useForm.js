@@ -3,55 +3,56 @@ import axios from "axios";
 
 export const useForm = (callback, initialState = {}) => {
   const [values, setValues] = useState(initialState);
-  const [fileInputState, setFileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
 
+  function handleChange(e) {
+    const { name, value } = e.target;
 
-  const handleImageUpload = async (e) => {
+    if (name === "imageUrl") {
+      const file = e.target.files[0];
+      console.log(file);
+      previewFile(file, name, value);
+    } else {
+      setValues({
+        ...values,
+        [name]: value
+      })
+    }
+  }
+
+  function previewFile(file, name, value) {
+    const reader = new FileReader();
+    //converts file into a string
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setValues({
+        ...values,
+        [name]: value,
+        imageUrl: [reader.result, file]
+      })
+    };
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let img = null;
+    console.log(values.imageUrl === true);
+    if(values.imageUrl) {
+      img = await handleImageUpload();
+    }
+    callback(img);
+  }
+
+  async function handleImageUpload() {
     const data = new FormData();
-    data.append("file", fileInputState);
+    data.append("file", values.imageUrl[1]);
     data.append("upload_preset", "pingImgs");
     data.append("cloud_name", "goodlvn");
     const res = await axios.post(
       "https://api.cloudinary.com/v1_1/goodlvn/image/upload",
       data
     );
+    return res.data.url;
+  }
 
-    return res.data.url
-  };
-
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    //converts file into a string
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    if (name === "imageUrl") {
-      const file = event.target.files[0];
-      setFileInputState(file);
-      previewFile(file);
-    } else {
-      setValues({
-        ...values,
-        [name]: value,
-      });
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    let img = null;
-    if(fileInputState) {
-     img = await handleImageUpload(event)
-    }
-    callback(img);
-  };
-
-  return { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource};
+  return { handleChange, handleSubmit, values, setValues };
 };

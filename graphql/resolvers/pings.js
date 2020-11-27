@@ -5,6 +5,8 @@ const Ping = require("../../models/Ping");
 const User = require("../../models/User");
 const checkAuth = require("../../utils/check-auth");
 
+const NEW_PING = "NEW_PING";
+
 module.exports = {
   Query: {
     async getPings() {
@@ -22,7 +24,7 @@ module.exports = {
       try {
         const ping = await Ping.findById(pingId)
           .populate("author")
-          .populate({ path: "comments", populate: { path: "author" } });
+          .populate("comments.author");
         if (ping) {
           return ping;
         } else {
@@ -42,7 +44,7 @@ module.exports = {
           ],
         })
           .populate("author")
-          .populate({ path: "support", populate: { path: "user" } });
+          .populate("support.user");
         return supportedPings;
       } catch (err) {
         throw new Error(err);
@@ -68,22 +70,20 @@ module.exports = {
         { $push: { pings: ping._id } }
       );
 
-      const newPing = await Ping.populate(ping, "author");
+      await Ping.populate(ping, "author");
+      await Ping.populate(ping, "support.user");
 
-      context.pubsub.publish("NEW_PING", {
-        newPing,
+      context.pubsub.publish(NEW_PING, {
+        newPing: ping,
       });
 
-      return newPing;
+      return ping;
     },
     async deletePing(_, { pingId }, context) {
-      console.log("delete ping");
       const user = checkAuth(context);
-      console.log(user);
 
       try {
         const ping = await Ping.findById(pingId);
-        console.log(ping);
         if (user.username === ping.user) {
           await ping.deleteOne();
           return "ping deleted succesfully";
@@ -122,7 +122,7 @@ module.exports = {
             { new: true }
           )
             .populate("author")
-            .populate({ path: "support", populate: { path: "user" } });
+            .populate("support.user");
 
           return updatePing;
         } else {
@@ -132,7 +132,7 @@ module.exports = {
             { new: true }
           )
             .populate("author")
-            .populate({ path: "support", populate: { path: "user" } });
+            .populate("support.user");
 
           return updatePing;
         }
@@ -141,7 +141,7 @@ module.exports = {
   },
   Subscription: {
     newPing: {
-      subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PING"),
+      subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(NEW_PING),
     },
   },
 };

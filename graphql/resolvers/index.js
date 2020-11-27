@@ -25,5 +25,6 @@ module.exports = {
     },
     Subscription: {
         ...pingsResolvers.Subscription,
+        ...commentsResolvers.Subscription,
     }
 }

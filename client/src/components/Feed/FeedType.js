@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
-import { FETCH_PINGS_QUERY } from "../../utils/graphql";
+import { FETCH_PINGS_QUERY, NEW_PING_SUBSCRIPTION } from "../../utils/graphql";
 import Feed from "./Feed";
 import Loading from "../Loading";
 
 export default function FeedType() {
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const { data, error } = useQuery(FETCH_PINGS_QUERY);
+  const { subscribeToMore, loading, error, data } = useQuery(FETCH_PINGS_QUERY);
+
+  useEffect(() => {
+    const unsubscribe = newPingSubscription();
+    return () => unsubscribe();
+  }, [])
+
+  function newPingSubscription() {
+    return subscribeToMore({
+      document: NEW_PING_SUBSCRIPTION,
+      updateQuery: (prevPings, { subscriptionData }) => {
+        if(!subscriptionData) return prevPings;
+        const pingAdded = subscriptionData.data.newPing;
+        return {
+          ...prevPings,
+          getPings: [pingAdded, ...prevPings.getPings]
+        }
+      }
+    })
+  }
 
   const supportedPings = data?.getPings.filter((ping) => {
     const isUserPresent = ping.support.filter((supporter) => {

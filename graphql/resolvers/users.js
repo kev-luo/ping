@@ -140,9 +140,7 @@ module.exports = {
       };
     },
     async updateUser(_, { imageUrl }, context) {
-      console.log("update user");
       const user = checkAuth(context);
-      console.log(user);
 
       const updatedUser = await User.findOneAndUpdate(
           {_id: user.id},
@@ -153,10 +151,8 @@ module.exports = {
       return updatedUser;
     },
     async deleteUser(_, { password }, context) {
-      console.log("delete user");
       const user = checkAuth(context);
       const userDeep = await User.findById(user.id);
-      console.log(user, userDeep);
 
       const { errors, valid } = validateDeleteUser(password);
       if (!valid) {
