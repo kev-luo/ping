@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-// NOTE: FeedType, NewPing
+// NOTE: FeedType
 export const FETCH_PINGS_QUERY = gql`
   {
     getPings {
@@ -198,6 +198,7 @@ export const DELETE_USER = gql`
     deleteUser(password: $password)
   }
 `;
+// NOTE: FeedType
 export const NEW_PING_SUBSCRIPTION = gql`
   subscription {
     newPing {
@@ -221,6 +222,7 @@ export const NEW_PING_SUBSCRIPTION = gql`
     }
   }
 `;
+// NOTE: Ping
 export const NEW_COMMENT_SUBSCRIPTION = gql`
   subscription($pingId: ID!) {
     newComment(pingId: $pingId) {
