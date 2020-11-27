@@ -1,18 +1,27 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { FiImage } from 'react-icons/fi';
-import { useMutation } from '@apollo/client';
+import { FiImage } from "react-icons/fi";
+import { useMutation } from "@apollo/client";
 
 import { useForm } from "../../utils/useForm";
-import { UPDATE_USER } from '../../utils/graphql';
+import { UPDATE_USER } from "../../utils/graphql";
 
 export default function UpdateUser() {
   const classes = useStyles();
-  const { handleChange, handleSubmit, values, previewSource } = useForm();
-  
-  
-  
+  const initialState = { imageUrl: "" };
+  const { handleChange, handleSubmit, values, previewSource } = useForm(updateUserCb, initialState);
+
+  const [updateUser] = useMutation(UPDATE_USER, {
+    onError(err) {
+      console.log(err);
+    },
+  });
+
+  function updateUserCb(img) {
+    updateUser({ variables: { ...values, imageUrl: img } });
+  }
+
   return (
     <div className={classes.paper}>
       <form onSubmit={handleSubmit}>
