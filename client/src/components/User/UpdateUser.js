@@ -7,10 +7,13 @@ import { useMutation } from "@apollo/client";
 import { useForm } from "../../utils/useForm";
 import { UPDATE_USER } from "../../utils/graphql";
 
-export default function UpdateUser() {
+export default function UpdateUser(props) {
   const classes = useStyles();
   const initialState = { imageUrl: "" };
-  const { handleChange, handleSubmit, values, previewSource } = useForm(updateUserCb, initialState);
+  const { handleChange, handleSubmit, values, previewSource } = useForm(
+    updateUserCb,
+    initialState
+  );
 
   const [updateUser] = useMutation(UPDATE_USER, {
     onError(err) {
@@ -20,11 +23,12 @@ export default function UpdateUser() {
 
   function updateUserCb(img) {
     updateUser({ variables: { ...values, imageUrl: img } });
+    props.setIsOpen(false);
   }
 
   return (
-    <div className={classes.paper}>
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <div className={classes.paper}>
         <input
           id="file"
           style={{ display: "none" }}
@@ -43,19 +47,29 @@ export default function UpdateUser() {
           <img
             src={previewSource}
             alt="preview of choosen file"
-            style={{
-              height: "250px",
-              display: "block",
-              margin: "0 auto",
-              marginTop: 20,
-            }}
+            className={classes.imgPrev}
           />
         )}
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
-  modal: {},
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  fileBtn: {
+    border: "2px solid black",
+    padding: "10px",
+  },
+  imgPrev: {
+    height: "250px",
+    display: "block",
+    margin: "0 auto",
+    marginTop: 20,
+  },
 }));

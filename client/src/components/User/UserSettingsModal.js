@@ -13,7 +13,7 @@ export default function UserSettingsModal(props) {
       aria-describedby="transition-modal-description"
       className={classes.modal}
       open={props.isOpen}
-      onClose={props.setIsOpen(!props.isOpen)}
+      onClose={() => props.setIsOpen(!props.isOpen)}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
@@ -22,7 +22,7 @@ export default function UserSettingsModal(props) {
     >
       <Fade in={props.isOpen} style={{ minHeight: "250px", minWidth: "250px" }}>
         {props.userSettings === "Update Profile Picture" ? (
-          <UpdateUser />
+          <UpdateUser setIsOpen={props.setIsOpen}/>
         ) : (
           <DeleteUser />
         )}
@@ -32,5 +32,9 @@ export default function UserSettingsModal(props) {
 }
 
 const useStyles = makeStyles((theme) => ({
-  modal: {},
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
