@@ -1,8 +1,9 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { deepPurple, amber, grey } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {
+    // type: "dark",
     primary: {
       main: deepPurple[500],
     },
@@ -25,7 +26,7 @@ theme.props = {
   },
   MuiTooltip: {
     arrow: true,
-  }
+  },
 };
 
 theme.overrides = {
@@ -66,12 +67,25 @@ theme.overrides = {
     tooltip: {
       backgroundColor: "#fff",
       border: `2px solid ${theme.palette.primary.main}`,
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
     },
     arrow: {
       color: theme.palette.primary.main,
-    }
-  }
+    },
+  },
 };
 
-export default theme;
+const Theme = (props) => {
+  const { children } = props;
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+};
+
+export const withTheme = (Component) => {
+  return (props) => {
+    return (
+      <Theme>
+        <Component {...props} />
+      </Theme>
+    )
+  }
+}
