@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
-import { green } from '@material-ui/core/colors'
+import { green } from "@material-ui/core/colors";
 
 import { CREATE_PING } from "../../utils/graphql";
 import { useForm } from "../../utils/useForm";
@@ -18,14 +18,10 @@ export default function NewComment() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
   const initialState = { body: "", imageUrl: "" };
-  const {
-    handleChange,
-    handleSubmit,
-    values,
-    setFileInputState,
-    setPreviewSource,
-    previewSource,
-  } = useForm(createPingCb, initialState);
+  const { handleChange, handleSubmit, values, previewSource } = useForm(
+    createPingCb,
+    initialState
+  );
 
   const [createPing] = useMutation(CREATE_PING, {
     onError(err) {
@@ -33,9 +29,7 @@ export default function NewComment() {
     },
     update() {
       values.body = "";
-      setFileInputState("");
-      setPreviewSource("");
-      setIsLoading(!isLoading)
+      setIsLoading(!isLoading);
     },
   });
 
@@ -67,7 +61,12 @@ export default function NewComment() {
               <Button type="submit" endIcon={<SendIcon />}>
                 Ping
               </Button>
-              {isLoading && <CircularProgress size={24} className={classes.buttonProgress} />}
+              {isLoading && (
+                <CircularProgress
+                  size={24}
+                  className={classes.buttonProgress}
+                />
+              )}
             </div>
           </Grid>
           <Grid item style={{ margin: 10, marginTop: 25 }}>
