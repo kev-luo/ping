@@ -5,6 +5,8 @@ const Ping = require("../../models/Ping");
 const User = require("../../models/User");
 const checkAuth = require("../../utils/check-auth");
 
+const NEW_PING = "NEW_PING";
+
 module.exports = {
   Query: {
     async getPings() {
@@ -70,8 +72,8 @@ module.exports = {
 
       const newPing = await Ping.populate(ping, "author");
 
-      context.pubsub.publish("NEW_PING", {
-        newPing,
+      context.pubsub.publish(NEW_PING, {
+        newPing: newPing,
       });
 
       return newPing;
