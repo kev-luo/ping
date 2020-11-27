@@ -109,6 +109,7 @@ export default function ProfileBox({ userData }) {
 const useStyles = makeStyles((themes) => ({
   handle: {
     textAlign: "center",
+    marginBottom: "0.6rem",
   },
   missingPic: {
     width: "6rem",
@@ -139,7 +140,7 @@ const useStyles = makeStyles((themes) => ({
   activeFeedButton: {
     borderBottom: "2px solid red",
     "& > *": {
-      color: "#DC143C"
-    }
+      color: "#DC143C",
+    },
   },
 }));

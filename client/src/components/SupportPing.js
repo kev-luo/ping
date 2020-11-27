@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { FaRegHeart, FaRegMinusSquare } from "react-icons/fa";
@@ -18,7 +18,7 @@ export default function SupportPing({ user, ping }) {
     },
     update() {
       setSuppOrNot(!suppOrNot);
-    }
+    },
   });
 
   function handleClick() {
@@ -38,12 +38,12 @@ export default function SupportPing({ user, ping }) {
     <FaRegHeart className={classes.support} size={15} />
   ) : (
     <FaRegMinusSquare className={classes.dismiss} size={15} />
-  )
+  );
 
   return (
-    <IconButton onClick={handleClick}>
-      {displayIcon}
-    </IconButton>
+    <Tooltip title={suppOrNot ? "Support" : "Dismiss"}>
+      <IconButton onClick={handleClick}>{displayIcon}</IconButton>
+    </Tooltip>
   );
 }
 
@@ -52,6 +52,6 @@ const useStyles = makeStyles((themes) => ({
     color: "red",
   },
   dismiss: {
-    color: "gray"
-  }
+    color: "gray",
+  },
 }));

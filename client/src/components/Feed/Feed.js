@@ -1,6 +1,13 @@
 import React from "react";
 import moment from "moment";
-import { Grid, Paper, Avatar, Typography, IconButton } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Avatar,
+  Typography,
+  IconButton,
+  Tooltip,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FaComments, FaUser } from "react-icons/fa";
 import { FiImage, FiFileText } from "react-icons/fi";
@@ -62,13 +69,19 @@ export default function Feed({ data, feedType }) {
                       {ping.author.username}
                     </Link>
                   </Typography>
-                  <Typography variant="subtitle2" className={classes.meta}>
-                    <Link to={`/ping/${ping.id}`}>
-                      {moment(Number(ping.createdAt)).fromNow()} |{" "}
-                      {ping.supportCount} Supported | {ping.commentCount}{" "}
-                      Comments
+                  <div className={classes.metaContainer}>
+                      <Typography variant="subtitle2">
+                        {`${moment(Number(ping.createdAt)).fromNow()} |`}
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {`${ping.supportCount} Supported |`}
+                      </Typography>
+                    <Link to={`/ping/${ping.id}`} className={classes.meta}>
+                      <Typography variant="subtitle2">
+                        {`${ping.commentCount} Comments`}
+                      </Typography>
                     </Link>
-                  </Typography>
+                  </div>
                   <Typography variant="body2">{ping.body}</Typography>
                 </Grid>
                 <Grid item xs={2} container>
@@ -77,9 +90,14 @@ export default function Feed({ data, feedType }) {
                   </Grid>
                   <Grid item>
                     <Link to={`/ping/${ping.id}`}>
-                      <IconButton>
-                        <FaComments className={classes.commentIcon} size={15} />
-                      </IconButton>
+                      <Tooltip title="Comment">
+                        <IconButton>
+                          <FaComments
+                            className={classes.commentIcon}
+                            size={15}
+                          />
+                        </IconButton>
+                      </Tooltip>
                     </Link>
                   </Grid>
                 </Grid>
@@ -107,20 +125,28 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
   },
-  meta: {
-    color: theme.palette.text.secondary,
-    fontSize: 12,
-    "& > * ": {
+  metaContainer: {
+    display: "flex",
+    "& > *": {
+      marginRight: "0.34rem",
+      color: "#C0C0C0",
+      fontSize: "12px",
       textDecoration: "none",
-      color: "grey",
-    },
+      "& > * ": {
+        fontSize: "12px"
+      }
+    }
+  },
+  meta: {
     "&:hover": {
+      color: "#708090",
       cursor: "pointer",
     },
   },
   username: {
     "&:hover": {
       cursor: "pointer",
+      color: "blue",
     },
     "& > *": {
       textDecoration: "none",
