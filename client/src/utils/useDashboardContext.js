@@ -14,15 +14,12 @@ const initialState = {
   board: "rawfeed",
   details: "",
   selectedUser: null,
-  userPosition: [{
-    latitude: null,
-    longitude: null,
-  }],
-  viewport: [{
+  userPosition: null,
+  viewport:{
     latitude: 37.7577,
     longitude: -122.4376,
     zoom: 13
-  }]
+  }
 
 };
 
@@ -59,6 +56,16 @@ function reducer(state, { type, payload }) {
         ...state,
         selectedUser: null,
       };
+    case Actions.UPDATE_VIEWPORT:
+      return {
+        ...state, 
+        viewport: payload
+      }
+    case Actions.UPDATE_USER_POSITION:
+      return {
+        ...state,
+        userPosition: payload
+      }
     default:
       return state;
   }
