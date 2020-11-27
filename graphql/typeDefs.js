@@ -67,5 +67,6 @@ module.exports = gql`
   }
   type Subscription {
     newPing: Ping!
+    newComment(pingId: ID!): Ping!
   }
 `;

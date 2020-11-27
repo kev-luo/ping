@@ -1,7 +1,13 @@
-const { AuthenticationError, UserInputError } = require("apollo-server");
+const {
+  AuthenticationError,
+  UserInputError,
+  withFilter,
+} = require("apollo-server");
 
 const Ping = require("../../models/Ping");
 const checkAuth = require("../../utils/check-auth");
+
+const NEW_COMMENT = "NEW_COMMENT";
 
 module.exports = {
   Mutation: {
@@ -16,15 +22,19 @@ module.exports = {
         });
       }
 
-      const newComment = { body, author: user.id };
+      const commentAdded = { body, author: user.id };
       const pingUpdated = await Ping.findOneAndUpdate(
         { _id: pingId },
-        { $push: { comments: newComment } },
+        { $push: { comments: commentAdded } },
         { new: true }
       )
         .populate("author")
         .populate("comments.author");
       if (pingUpdated) {
+        context.pubsub.publish(NEW_COMMENT, {
+          pingId: pingId,
+          newComment: pingUpdated,
+        });
         return pingUpdated;
       } else {
         throw new UserInputError("Ping not found");
@@ -49,6 +59,16 @@ module.exports = {
       } else {
         throw new UserInputError("ping not found");
       }
+    },
+  },
+  Subscription: {
+    newComment: {
+      subscribe: withFilter(
+        (_, __, { pubsub }) => pubsub.asyncIterator(NEW_COMMENT),
+        (payload, args) => {
+          return payload.pingId === args.pingId
+        }
+      ),
     },
   },
 };
