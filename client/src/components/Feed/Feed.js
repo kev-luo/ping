@@ -79,7 +79,7 @@ export default function Feed({ data, feedType }) {
                       {`${ping.supportCount} Supported |`}
                     </Typography>
                     <Link to={`/ping/${ping.id}`} className={classes.meta}>
-                      <Typography variant="subtitle2">
+                      <Typography variant="subtitle2" onClick={() => displayProfile(ping.author)}>
                         {`${ping.commentCount} Comments`}
                       </Typography>
                     </Link>
@@ -96,6 +96,7 @@ export default function Feed({ data, feedType }) {
                         <IconButton>
                           <FaComments
                             className={classes.commentIcon}
+                            onClick={() => displayProfile(ping.author)}
                             size={15}
                           />
                         </IconButton>

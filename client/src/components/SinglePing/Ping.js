@@ -16,7 +16,6 @@ export default function Feed() {
   const { subscribeToMore, loading, data } = useQuery(FETCH_PING_QUERY, {
     variables: { pingId },
   });
-
   useEffect(() => {
     const unsubscribe = newCommentSubscription();
     return () => unsubscribe();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button, Avatar, Grid } from "@material-ui/core";
+import { Typography, Avatar, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
@@ -12,21 +12,21 @@ import { useDashboardContext } from "../../utils/useDashboardContext";
 export default function ProfileBox({ userData }) {
   const classes = useStyles();
   const { pathname } = useLocation();
-  const feedType = pathname.split("/")[2];
+  const feedType = pathname.split("/");
 
-  const [highlightFeed, setHighlightFeed] = useState(feedType);
+  const [highlightFeed, setHighlightFeed] = useState(feedType[2]);
   const { user } = useAuthContext();
   const [state] = useDashboardContext();
 
   useEffect(() => {
-    setHighlightFeed(feedType);
+    setHighlightFeed(feedType[2]);
   }, [feedType]);
 
   function editProfile() {
     if (user.id === state.selectedUser.id) {
       return (
         <Link to="/settings">
-          <RiUserSettingsLine style={{ float: "right" }} />
+          <RiUserSettingsLine style={{ float: "right"}}/>
         </Link>
       );
     }
@@ -40,7 +40,7 @@ export default function ProfileBox({ userData }) {
           className={
             highlightFeed !== "supported" &&
             highlightFeed !== "pinged" &&
-            highlightFeed
+            feedType[1] === "user"
               ? classes.activeFeedButton
               : ""
           }
@@ -138,7 +138,7 @@ const useStyles = makeStyles((themes) => ({
       "&:hover": {
         cursor: "pointer",
         color: "#DC143C",
-      }
+      },
     },
   },
   activeFeedButton: {
@@ -146,5 +146,5 @@ const useStyles = makeStyles((themes) => ({
     "& > *": {
       color: "#DC143C",
     },
-  },
+  }
 }));
