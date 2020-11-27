@@ -11,12 +11,13 @@ import { AuthProvider } from "./utils/useAuthContext";
 import { DashboardProvider } from "./utils/useDashboardContext";
 import { withTheme } from "./withTheme";
 
-function App() {
+function App(props) {
+  const { darkMode, setDarkMode } = props;
   return (
     <AuthProvider>
       <DashboardProvider>
         <Router>
-          <Nav />
+          <Nav darkMode={darkMode} setDarkMode={setDarkMode}/>
           <Switch>
             <Route exact path="/">
               <Dashboard />

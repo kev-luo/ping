@@ -1,9 +1,23 @@
+import React, { useState } from 'react';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { deepPurple, amber, grey } from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
   palette: {
-    // type: "dark",
+    type: "light",
+    primary: {
+      main: deepPurple[500],
+    },
+    secondary: {
+      main: amber[500],
+      contrastTest: deepPurple[500],
+    },
+  },
+});
+
+const themeDark = createMuiTheme({
+  palette: {
+    type: "dark",
     primary: {
       main: deepPurple[500],
     },
@@ -76,15 +90,17 @@ theme.overrides = {
 };
 
 const Theme = (props) => {
-  const { children } = props;
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  const { children, darkMode } = props;
+  const setTheme = darkMode ? themeDark : theme
+  return <ThemeProvider theme={setTheme}>{children}</ThemeProvider>;
 };
 
 export const withTheme = (Component) => {
   return (props) => {
+    const [darkMode, setDarkMode] = useState(false);
     return (
-      <Theme>
-        <Component {...props} />
+      <Theme darkMode={darkMode}>
+        <Component {...props} darkMode={darkMode} setDarkMode={setDarkMode}/>
       </Theme>
     )
   }
