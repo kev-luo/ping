@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 import { useQuery } from "@apollo/client";
 import { Button, Paper } from "@material-ui/core";
@@ -7,18 +7,37 @@ import { useParams, useHistory } from "react-router-dom";
 
 import Comment from "./Comment";
 import NewComment from "./NewComment";
-import { FETCH_PING_QUERY } from "../../utils/graphql";
+import { FETCH_PING_QUERY, NEW_COMMENT_SUBSCRIPTION } from "../../utils/graphql";
 
 export default function Feed() {
   const classes = useStyles();
   const { pingId } = useParams();
   const history = useHistory();
-  const { loading, data } = useQuery(FETCH_PING_QUERY, {
+  const { subscribeToMore, loading, data } = useQuery(FETCH_PING_QUERY, {
     variables: { pingId },
   });
 
+  useEffect(() => {
+    const unsubscribe = newCommentSubscription();
+    return () => unsubscribe();
+  }, [])
+
+  function newCommentSubscription() {
+    return subscribeToMore({
+      document: NEW_COMMENT_SUBSCRIPTION,
+      variables: { pingId },
+      updateQuery: (prevPing, { subscriptionData }) => {
+        if(!subscriptionData) return prevPing;
+        return {
+          ...prevPing,
+          getPing: subscriptionData.getPing
+        } 
+      }
+    })
+  }
+
   const getComments = () => {
-    const comments = data.getPing.comments;
+    const comments = data?.getPing?.comments;
     const commentComponents = comments.map((comment) => (
       <Comment key={comment.id} {...comment} />
     ));

@@ -80,13 +80,10 @@ module.exports = {
       return ping;
     },
     async deletePing(_, { pingId }, context) {
-      console.log("delete ping");
       const user = checkAuth(context);
-      console.log(user);
 
       try {
         const ping = await Ping.findById(pingId);
-        console.log(ping);
         if (user.username === ping.user) {
           await ping.deleteOne();
           return "ping deleted succesfully";

@@ -109,7 +109,7 @@ export const LOGIN_USER = gql`
 `;
 // NOTE: NewPing
 export const CREATE_PING = gql`
-  mutation createPing($body: String! $imageUrl: String) {
+  mutation createPing($body: String!, $imageUrl: String) {
     createPing(body: $body, imageUrl: $imageUrl) {
       id
       body
@@ -160,32 +160,47 @@ export const CREATE_COMMENT = gql`
   mutation createComment($pingId: ID!, $body: String!) {
     createComment(pingId: $pingId, body: $body) {
       id
+      body
+      imageUrl
+      createdAt
+      author {
+        id
+        imageUrl
+        username
+      }
       comments {
         id
+        createdAt
+        body
+        author {
+          id
+          username
+          imageUrl
+        }
       }
-      commentCount
+      supportCount
     }
   }
 `;
 // NOTE: UserSettings
 export const UPDATE_USER = gql`
-mutation updateUser($imageUrl: String!){
-  updateUser(imageUrl: $imageUrl){
-    id
-    email
-    username
+  mutation updateUser($imageUrl: String!) {
+    updateUser(imageUrl: $imageUrl) {
+      id
+      email
+      username
+    }
   }
-}
 `;
 // NOTE: UserSettings
 export const DELETE_USER = gql`
-mutation deleteUser($password: String!){
-  deleteUser(password: $password)
-}
+  mutation deleteUser($password: String!) {
+    deleteUser(password: $password)
+  }
 `;
 export const NEW_PING_SUBSCRIPTION = gql`
   subscription {
-    newPing{
+    newPing {
       id
       body
       imageUrl
@@ -205,4 +220,30 @@ export const NEW_PING_SUBSCRIPTION = gql`
       commentCount
     }
   }
-`
+`;
+export const NEW_COMMENT_SUBSCRIPTION = gql`
+  subscription($pingId: ID!) {
+    newComment(pingId: $pingId) {
+      id
+      body
+      imageUrl
+      createdAt
+      author {
+        id
+        imageUrl
+        username
+      }
+      comments {
+        id
+        createdAt
+        body
+        author {
+          id
+          username
+          imageUrl
+        }
+      }
+      supportCount
+    }
+  }
+`;

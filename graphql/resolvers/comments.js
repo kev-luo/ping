@@ -66,8 +66,6 @@ module.exports = {
       subscribe: withFilter(
         (_, __, { pubsub }) => pubsub.asyncIterator(NEW_COMMENT),
         (payload, args) => {
-          console.log(payload);
-          console.log(args);
           return payload.pingId === args.pingId
         }
       ),
