@@ -3,11 +3,14 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import UserContainer from "../components/User/UserContainer";
+import { useAuthContext } from '../utils/useAuthContext';
 import Map from "../components/Map/Map";
+import NewPing from "../components/Feed/NewPing";
 import FeedType from "../components/Feed/FeedType";
 
 export default function Dashboard() {
   const classes = useStyles();
+  const { user } = useAuthContext();
 
   return (
     <div className={classes.root}>
@@ -17,14 +20,15 @@ export default function Dashboard() {
             item
             container
             direction="column"
-            xs={4}
+            lg={4}
             justify="space-between"
           >
             <UserContainer />
             <Map />
           </Grid>
 
-          <Grid item xs={8}>
+          <Grid item direction="column" lg={8}>
+            {user && <NewPing />}
             <FeedType />
           </Grid>
         </Grid>

@@ -97,7 +97,7 @@ export default function NewComment() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    margin: theme.spacing(2, 1),
+    marginBottom: theme.spacing(2),
     padding: theme.spacing(2, 2),
   },
   buttonGroup: {
