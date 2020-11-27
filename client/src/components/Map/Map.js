@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import ReactMapGL, { NavigationControl, Marker } from "react-map-gl";
 import PlaceTwoTone from "@material-ui/icons/PlaceTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
+
+import { useDashboardContext } from "../../utils/useDashboardContext";
+import Actions from "../../utils/dashboardActions";
 
 const INITIAL_VIEWPORT = {
   latitude: 37.7577,
@@ -12,8 +15,11 @@ const INITIAL_VIEWPORT = {
 
 export default function Map() {
   const classes = useStyles();
+  const [state, dispatch] = useDashboardContext();
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
   const [userPosition, setUserPosition] = useState(null);
+
+  console.log(state);
 
   useEffect(() => {
     getUserPosition();
@@ -25,7 +31,6 @@ export default function Map() {
         const { latitude, longitude } = position.coords;
         setViewport({...viewport, latitude, longitude});
         setUserPosition({ latitude, longitude });
-        console.log(userPosition, viewport)
       })
     }
   }
