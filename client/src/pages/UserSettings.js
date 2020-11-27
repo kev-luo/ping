@@ -5,6 +5,7 @@ import { FiImage } from "react-icons/fi";
 import { FaUser } from 'react-icons/fa';
 import { MdDelete } from "react-icons/md";
 import { useQuery } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 import { FETCH_USER_QUERY } from '../utils/graphql';
 import { useDashboardContext } from '../utils/useDashboardContext';
@@ -12,6 +13,7 @@ import UserSettingsModal from "../components/User/U_Settings/UserSettingsModal";
 
 export default function UserSettings() {
   const classes = useStyles();
+  const history = useHistory();
   const [state] = useDashboardContext();
   const [isOpen, setIsOpen] = useState(false);
   const [userSettings, setUserSettings] = useState("");
@@ -36,6 +38,9 @@ export default function UserSettings() {
   return (
     <div className={classes.root}>
       <Paper>
+        <Button color="primary" onClick={() => history.goBack()}>
+          Go Back
+        </Button>
         {userProfile}
         <Button endIcon={<FiImage />} onClick={handleClick}>
           Update Profile Picture
