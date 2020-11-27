@@ -17,7 +17,7 @@ const server = new ApolloServer({
 
 mongoose
   // NOTE: test
-  .connect(process.env.MONGODB_URI_TEST|| "mongodb://localhost/pings_db", {
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/pings_db", {
     useNewUrlParser: true,
     useFindAndModify: false,
     useUnifiedTopology: true
