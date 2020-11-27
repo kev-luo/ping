@@ -4,8 +4,8 @@ import { Button } from "@material-ui/core";
 import { FiImage } from "react-icons/fi";
 import { useMutation } from "@apollo/client";
 
-import { useForm } from "../../utils/useForm";
-import { UPDATE_USER } from "../../utils/graphql";
+import { useForm } from "../../../utils/useForm";
+import { UPDATE_USER } from "../../../utils/graphql";
 
 export default function UpdateUser(props) {
   const classes = useStyles();

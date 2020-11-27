@@ -4,8 +4,8 @@ import { Button } from "@material-ui/core";
 import { MdDelete } from "react-icons/md";
 import { useMutation } from "@apollo/client";
 
-import { useForm } from "../../utils/useForm";
-import { DELETE_USER } from "../../utils/graphql";
+import { useForm } from "../../../utils/useForm";
+import { DELETE_USER } from "../../../utils/graphql";
 
 export default function DeleteUser() {
   const classes = useStyles();

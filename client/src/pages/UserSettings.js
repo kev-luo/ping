@@ -8,7 +8,7 @@ import { useQuery } from '@apollo/client';
 
 import { FETCH_USER_QUERY } from '../utils/graphql';
 import { useDashboardContext } from '../utils/useDashboardContext';
-import UserSettingsModal from "../components/User/UserSettingsModal";
+import UserSettingsModal from "../components/User/U_Settings/UserSettingsModal";
 
 export default function UserSettings() {
   const classes = useStyles();
