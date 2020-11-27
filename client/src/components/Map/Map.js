@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGL, { NavigationControl } from "react-map-gl";
+import ReactMapGL, { NavigationControl, Marker } from "react-map-gl";
+import PlaceTwoTone from "@material-ui/icons/PlaceTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
 
@@ -21,8 +22,10 @@ export default function Map() {
   const getUserPosition = () => {
     if("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords
-        setViewport({...viewport, latitude, longitude})
+        const { latitude, longitude } = position.coords;
+        setViewport({...viewport, latitude, longitude});
+        setUserPosition({ latitude, longitude });
+        console.log(userPosition, viewport)
       })
     }
   }
@@ -43,7 +46,18 @@ export default function Map() {
              onViewportChange={newViewport => setViewport(newViewport)}
              />
           </div>
-          
+          {userPosition && (
+            <Marker 
+              latitude={userPosition.latitude}
+              longitude={userPosition.longitude}
+              offsetLeft={-19}
+              offsetTop={-37}
+            >
+              <PlaceTwoTone 
+              style={{fontSize: "40px", color: "red"}}
+              ></PlaceTwoTone>
+            </Marker>
+          )}
         </ReactMapGL>
       </Paper>
         
