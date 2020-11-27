@@ -2,6 +2,9 @@ import React from "react";
 import { Button } from '@material-ui/core';
 import { MdDelete } from 'react-icons/md';
 
+import { useForm } from "../../utils/useForm";
+import { UPDATE_USER } from '../../utils/graphql';
+
 export default function DeleteUser() {
   return (
     <div className={classes.paper}>
