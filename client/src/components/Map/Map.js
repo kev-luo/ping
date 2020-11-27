@@ -22,7 +22,7 @@ export default function Map() {
     if("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords
-        console.log(latitude, longitude)
+        setViewport({...viewport, latitude, longitude})
       })
     }
   }
