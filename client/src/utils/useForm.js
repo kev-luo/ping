@@ -50,7 +50,7 @@ export const useForm = (callback, initialState = {}) => {
     if(fileInputState) {
      img = await handleImageUpload(event)
     }
-    callback(img);
+    return callback(img);
   };
 
   return { handleChange, handleSubmit, values, setFileInputState, setPreviewSource, previewSource};
