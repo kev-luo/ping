@@ -1,32 +1,42 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Paper } from "@material-ui/core";
+import { Button, Paper, Avatar } from "@material-ui/core";
 import { FiImage } from "react-icons/fi";
+import { FaUser } from 'react-icons/fa';
 import { MdDelete } from "react-icons/md";
+import { useQuery } from '@apollo/client';
 
+import { FETCH_USER_QUERY } from '../utils/graphql';
+import { useDashboardContext } from '../utils/useDashboardContext';
 import UserSettingsModal from "../components/User/UserSettingsModal";
 
 export default function UserSettings() {
   const classes = useStyles();
+  const [state] = useDashboardContext();
   const [isOpen, setIsOpen] = useState(false);
   const [userSettings, setUserSettings] = useState("");
+
+  const { data } = useQuery(FETCH_USER_QUERY, {
+    variables: { userId: state.selectedUser?.id }
+  })
 
   function handleClick(e) {
     setIsOpen(!isOpen);
     setUserSettings(e.target.textContent);
   }
 
+  const userProfile = data?.getUser ? (
+    <Avatar src={data.getUser.imageUrl} alt={data.getUser.username} className={classes.media} />
+  ) : (
+    <Avatar className={classes.missingPic}>
+      <FaUser />
+    </Avatar>
+  )
+
   return (
     <div className={classes.root}>
       <Paper>
-        <div
-          className={classes.media}
-          style={{
-            background:
-              "url('https://cdn.staticneo.com/w/bleach/thumb/Masked_Ichigo.jpg/200px-Masked_Ichigo.jpg')",
-          }}
-        ></div>
-
+        {userProfile}
         <Button endIcon={<FiImage />} onClick={handleClick}>
           Update Profile Picture
         </Button>

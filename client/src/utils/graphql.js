@@ -189,6 +189,7 @@ export const UPDATE_USER = gql`
       id
       email
       username
+      imageUrl
     }
   }
 `;
