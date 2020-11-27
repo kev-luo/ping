@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SendIcon from "@material-ui/icons/Send";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
-import { CREATE_PING, FETCH_PINGS_QUERY } from "../../utils/graphql";
+import { CREATE_PING } from "../../utils/graphql";
 import { useForm } from "../../utils/useForm";
 
 export default function NewComment() {
@@ -24,18 +24,7 @@ export default function NewComment() {
     onError(err) {
       console.log(err);
     },
-    update(cache, { data: { createPing } }) {
-      // console.log(createPing);
-      // const data = cache.readQuery({
-      //   query: FETCH_PINGS_QUERY,
-      // });
-      // console.log(data.getPings);
-      // cache.writeQuery({
-      //   query: FETCH_PINGS_QUERY,
-      //   data: {
-      //     getPings: [createPing, ...data.getPings],
-      //   },
-      // });
+    update() {
       values.body = "";
       setFileInputState("");
       setPreviewSource("");

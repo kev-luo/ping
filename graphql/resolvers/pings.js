@@ -24,7 +24,7 @@ module.exports = {
       try {
         const ping = await Ping.findById(pingId)
           .populate("author")
-          .populate({ path: "comments", populate: { path: "author" } });
+          .populate("comments.author");
         if (ping) {
           return ping;
         } else {
@@ -44,7 +44,7 @@ module.exports = {
           ],
         })
           .populate("author")
-          .populate({ path: "support", populate: { path: "user" } });
+          .populate("support.user");
         return supportedPings;
       } catch (err) {
         throw new Error(err);
@@ -70,8 +70,8 @@ module.exports = {
         { $push: { pings: ping._id } }
       );
 
-      await Ping.populate(ping, "author")
-      await Ping.populate(ping, {path: "support", populate: {path: "user"}})
+      await Ping.populate(ping, "author");
+      await Ping.populate(ping, "support.user");
 
       context.pubsub.publish(NEW_PING, {
         newPing: ping,
@@ -125,7 +125,7 @@ module.exports = {
             { new: true }
           )
             .populate("author")
-            .populate({ path: "support", populate: { path: "user" } });
+            .populate("support.user");
 
           return updatePing;
         } else {
@@ -135,7 +135,7 @@ module.exports = {
             { new: true }
           )
             .populate("author")
-            .populate({ path: "support", populate: { path: "user" } });
+            .populate("support.user");
 
           return updatePing;
         }
@@ -144,7 +144,7 @@ module.exports = {
   },
   Subscription: {
     newPing: {
-      subscribe: (_, __, { pubsub }) => pubsub.asyncIterator("NEW_PING"),
+      subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(NEW_PING),
     },
   },
 };
