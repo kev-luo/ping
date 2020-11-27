@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Avatar, Divider } from "@material-ui/core";
+import { Grid, Typography, Avatar, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -35,41 +35,40 @@ export default function Comment({ id, createdAt, body, author }) {
   }
 
   return (
-    <div>
-      <Grid container wrap="nowrap" spacing={2} alignItems="center" className={classes.root}>
+    <Paper className={classes.root}>
+      <Grid container wrap="nowrap" spacing={2} alignItems="center">
         <Grid item>{authorPic(author)}</Grid>
         <Grid item xs>
-          <Typography
-            variant="subtitle2"
-            className={classes.username}
-            onClick={() => displayProfile(author)}
-          >
-            <Link to={`/user/supported/${author.id}`}>{author.username}</Link>
-          </Typography>
+          <Link to={`/user/supported/${author.id}`} className={classes.username}>
+            <Typography
+              variant="subtitle2"
+              onClick={() => displayProfile(author)}
+            >
+              {author.username}
+            </Typography>
+          </Link>
           <Typography variant="subtitle2" className={classes.meta}>
             {moment(Number(createdAt)).fromNow()}
           </Typography>
           <Typography variant="body2">{body}</Typography>
         </Grid>
       </Grid>
-      <Divider variant="middle" />
-    </div>
+    </Paper>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    padding: "5px 8px",
+    marginTop: "0.7rem",
   },
   username: {
     "&:hover": {
       cursor: "pointer",
+      color: "#DC143C",
     },
-    "& > *": {
-      textDecoration: "none",
-      color: "black",
-    },
+    textDecoration: "none",
+    color: "black",
   },
   missingPic: {
     width: "3rem",

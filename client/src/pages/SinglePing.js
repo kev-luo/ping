@@ -16,14 +16,14 @@ export default function SinglePing() {
             item
             container
             direction="column"
-            xs={4}
+            lg={4}
             justify="space-between"
           >
             <UserContainer />
             <Map />
           </Grid>
 
-          <Grid item xs={8}>
+          <Grid item container direction="column" lg={8}>
             <Ping />
           </Grid>
         </Grid>
