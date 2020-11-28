@@ -66,6 +66,8 @@ export default function Map() {
               ></PlaceTwoTone>
             </Marker>
           )}
+
+          
         </ReactMapGL>
       </Paper>
     </Grid>

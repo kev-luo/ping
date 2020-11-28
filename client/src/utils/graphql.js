@@ -29,8 +29,8 @@ export const FETCH_PINGS_QUERY = gql`
   }
 `;
 export const FETCH_PINGS_BY_LOCATION = gql`
-  {
-    getPingsByLocation {
+query getPingsByLocation($long: Float!, $latt: Float!){
+    getPingsByLocation(long: $long, latt: $latt){
       id
       body
       location {
