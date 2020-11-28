@@ -5,6 +5,9 @@ import { Button, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams, useHistory } from "react-router-dom";
 
+import { useDashboardContext } from "../../utils/useDashboardContext";
+import Actions from "../../utils/dashboardActions";
+
 import Loading from "../Loading";
 import Comment from "./Comment";
 import NewComment from "./NewComment";
@@ -17,6 +20,7 @@ export default function Feed() {
   const classes = useStyles();
   const { pingId } = useParams();
   const history = useHistory();
+  const [_, dispatch] = useDashboardContext();
   const { subscribeToMore, loading, data } = useQuery(FETCH_PING_QUERY, {
     variables: { pingId },
   });
@@ -46,6 +50,10 @@ export default function Feed() {
     ));
     return commentComponents;
   };
+
+  
+  // data && console.log(data.getPing.location.coordinates)
+  // data && dispatch({type: Actions.UPDATE_VIEWPORT, payload: { latitude: data.getPing.location.coordinates[1], longitude: data.getPing.location.coordinates[0], zoom: 13}})
 
   return (
     <>
