@@ -34,8 +34,8 @@ export default function NewPing(props) {
 
   return (
     <Paper className={classes.paper}>
-      <Grid container alignItems="center" justify="center">
-        <form style={{ display: "flex" }} onSubmit={(e) => handleSubmit(e)}>
+      <form style={{ display: "flex" }} onSubmit={(e) => handleSubmit(e)}>
+        <Grid container alignItems="center" justify="center">
           <Grid item xs={10}>
             <TextField
               name="body"
@@ -51,8 +51,8 @@ export default function NewPing(props) {
               <FaComments style={{ color: "blue" }} size={15} />
             </IconButton>
           </Grid>
-        </form>
-      </Grid>
+        </Grid>
+      </form>
     </Paper>
   );
 }
@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(2, 1),
     padding: theme.spacing(2, 2),
+    background: theme.palette.primary.light,
   },
   buttonGroup: {
     marginLeft: "1rem",

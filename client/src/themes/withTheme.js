@@ -13,7 +13,7 @@ const theme = createMuiTheme({
     },
     secondary: {
       light: red[500],
-      main: red[700],
+      main: "#B81C1C",
       dark: "#C13838", // deep red
       contrastText: "#fff",
     },
@@ -26,11 +26,13 @@ const themeDark = createMuiTheme({
     primary: {
       light: grey[800],
       main: grey[900],
+      contrastText: "#C44714"
     },
     secondary: {
       main: amber[500],
-      contrastTest: deepPurple[500],
+      contrastText: amber[500],
     },
+    
   },
 });
 
@@ -65,11 +67,10 @@ const themeOverrides = {
   MuiTooltip: {
     tooltip: {
       backgroundColor: "#fff",
-      border: `2px solid ${theme.palette.primary.main}`,
       color: theme.palette.primary.main,
     },
     arrow: {
-      color: theme.palette.primary.main,
+      color: "#fff",
     },
   },
 };

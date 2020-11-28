@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import {
   Paper,
   Button,
+  ButtonGroup,
   TextField,
   Grid,
   CircularProgress,
@@ -34,13 +35,20 @@ export default function NewComment() {
     onCompleted() {
       setValues(initialState);
       setIsLoading(!isLoading);
-    }
+    },
   });
 
   function createPingCb(img) {
-    console.log(userPosition.latitude)
+    console.log(userPosition.latitude);
     // setValues({...values, imageUrl: img, lat: userPosition.latitude, long: userPosition.longitude})
-    createPing({ variables: {...values, imageUrl: img, lat: userPosition.latitude, long: userPosition.longitude} });
+    createPing({
+      variables: {
+        ...values,
+        imageUrl: img,
+        lat: userPosition.latitude,
+        long: userPosition.longitude,
+      },
+    });
   }
 
   function loaderSubmit(e) {
@@ -53,7 +61,7 @@ export default function NewComment() {
     <Paper className={classes.paper}>
       <form style={{ display: "flex" }} onSubmit={loaderSubmit}>
         <Grid container alignItems="center" justify="center">
-          <Grid item xs={10}>
+          <Grid item sm={9}>
             <TextField
               name="body"
               value={values.body}
@@ -63,9 +71,31 @@ export default function NewComment() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
-            <div size="small" className={classes.buttonGroup}>
-              <Button type="submit" endIcon={<SendIcon />}>
+          <Grid item sm={3}>
+            <ButtonGroup size="small" className={classes.buttonGroup}>
+              <Button
+                component="label"
+                className={classes.fileBtn}
+                htmlFor="file"
+                variant="contained"
+                color="primary"
+              >
+                Add an Image
+              </Button>
+              <input
+                id="file"
+                style={{ display: "none" }}
+                type="file"
+                onChange={handleChange}
+                name="imageUrl"
+                accept="image/*"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                endIcon={<SendIcon />}
+              >
                 Ping
               </Button>
               {isLoading && (
@@ -74,21 +104,9 @@ export default function NewComment() {
                   className={classes.buttonProgress}
                 />
               )}
-            </div>
+            </ButtonGroup>
           </Grid>
-          <Grid item style={{ margin: 10, marginTop: 25 }}>
-            <label className={classes.fileBtn} htmlFor="file">
-              Choose a file
-            </label>
-            <input
-              id="file"
-              style={{ display: "none" }}
-              type="file"
-              onChange={handleChange}
-              name="imageUrl"
-              accept="image/*"
-            />
-          </Grid>
+          <Grid item style={{ margin: 10, marginTop: 25 }}></Grid>
         </Grid>
       </form>
       {values.imageUrl && (
@@ -106,14 +124,13 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2, 2),
-    background: theme.palette.primary.main
+    background: theme.palette.primary.main,
   },
   buttonGroup: {
     margin: theme.spacing(1),
     position: "relative",
   },
   fileBtn: {
-    border: "2px solid black",
     padding: "10px",
   },
   imgPrev: {
