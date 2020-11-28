@@ -37,8 +37,8 @@ export default function UserSettings() {
 
   return (
     <div className={classes.root}>
-      <Paper>
-        <Button color="primary" onClick={() => history.goBack()}>
+      <Paper className={classes.paper}>
+        <Button color="primary" variant="contained" onClick={() => history.goBack()}>
           Go Back
         </Button>
         {userProfile}
@@ -72,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
     },
     textAlign: "center",
   },
+  paper: {
+    backgroundColor: theme.palette.primary.main
+  },
   media: {
     display: "block",
     width: "150px",
@@ -79,6 +82,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "50% 50%",
     backroundSize: "cover",
     borderRadius: "50%",
-    margin: "0 auto",
+    margin: "1rem auto",
   },
 }));

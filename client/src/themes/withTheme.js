@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { deepPurple, amber, grey, red } from "@material-ui/core/colors";
 
@@ -6,15 +6,13 @@ const theme = createMuiTheme({
   palette: {
     type: "light",
     primary: {
-      light: grey[700],
-      main: grey[800],
-      dark: grey[900],
-      contrastText: "#fff",
+      light: grey[500],
+      main: grey[700],
     },
     secondary: {
       light: red[500],
-      main: red[700],
-      dark: "#C13838", // deep red
+      main: "#B81C1C", // red
+      dark: "#C13838", // red
       contrastText: "#fff",
     },
   },
@@ -24,12 +22,19 @@ const themeDark = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
-      light: grey[800],
+      light: "#313131",
       main: grey[900],
+      contrastText: "#C44714", // dark orange
     },
     secondary: {
       main: amber[500],
-      contrastTest: deepPurple[500],
+      contrastText: amber[500],
+    },
+    error: {
+      light: red[500],
+      main: "#B81C1C", // red
+      dark: "#C13838", // red
+      contrastText: "#fff",
     },
   },
 });
@@ -41,50 +46,38 @@ const themeOverrides = {
     },
     containedPrimary: {
       "&:hover": {
-        color: theme.palette.secondary.light,
+        color: themeDark.palette.error.light,
       },
-    },
-    containedSecondary: {
-      fontWeight: 700,
+      fontWeight: 500,
+      backgroundColor: themeDark.palette.primary.light
     },
   },
   MuiInput: {
     root: {
-      padding: theme.spacing(1),
       "&$focused": {
-        borderBottom: `2px solid ${theme.palette.secondary.main}`,
+        borderBottom: `2px solid ${themeDark.palette.error.main}`,
       },
-    },
-  },
-  MuiInputLabel: {
-    root: {
-      textTransform: "uppercase",
-      fontSize: "1.5rem",
     },
   },
   MuiTooltip: {
     tooltip: {
       backgroundColor: "#fff",
-      border: `2px solid ${theme.palette.primary.main}`,
-      color: theme.palette.primary.main,
+      color: themeDark.palette.primary.light,
     },
     arrow: {
-      color: theme.palette.primary.main,
+      color: "#fff",
     },
   },
 };
 
 const themeProps = {
   MuiButton: {
-    disableElevation: true,
-  },
-  MuiInputLabel: {
-    shrink: true,
+    // disableElevation: true,
   },
   MuiTooltip: {
     arrow: true,
   },
-}
+};
 
 theme.props = themeProps;
 theme.overrides = themeOverrides;
@@ -93,7 +86,7 @@ themeDark.overrides = themeOverrides;
 
 const Theme = (props) => {
   const { children, darkMode } = props;
-  const setTheme = darkMode ? theme : themeDark
+  const setTheme = darkMode ? theme : themeDark;
   return <ThemeProvider theme={setTheme}>{children}</ThemeProvider>;
 };
 
@@ -102,8 +95,8 @@ export const withTheme = (Component) => {
     const [darkMode, setDarkMode] = useState(false);
     return (
       <Theme darkMode={darkMode}>
-        <Component {...props} darkMode={darkMode} setDarkMode={setDarkMode}/>
+        <Component {...props} darkMode={darkMode} setDarkMode={setDarkMode} />
       </Theme>
-    )
-  }
-}
+    );
+  };
+};

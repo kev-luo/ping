@@ -106,7 +106,7 @@ export default function ProfileBox({ userData }) {
   );
 }
 
-const useStyles = makeStyles((themes) => ({
+const useStyles = makeStyles((theme) => ({
   handle: {
     textAlign: "center",
     marginBottom: "0.6rem",
@@ -131,11 +131,12 @@ const useStyles = makeStyles((themes) => ({
       textDecoration: "none",
       border: "none",
       fontSize: "17px",
+      margin: "0 0.2rem"
     },
   },
   activeFeedButton: {
     "& *": {
-      color: "#DC143C",
+      color: theme.palette.secondary.main,
     },
   }
 }));

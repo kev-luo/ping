@@ -115,7 +115,7 @@ export default function Feed({ data, feedType }) {
 const useStyles = makeStyles((theme) => ({
   root: {
     background: theme.palette.primary.main,
-    height: "80vh",
+    height: "70vh",
     overflow: "auto",
     padding: theme.spacing(2),
   },
@@ -152,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
       color: "#DC143C",
     },
     textDecoration: "none",
-    color: "black",
+    color: theme.palette.secondary.main,
   },
   commentIcon: {
     color: "blue",
