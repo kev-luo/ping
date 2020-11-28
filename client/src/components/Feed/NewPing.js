@@ -13,8 +13,10 @@ import { green } from "@material-ui/core/colors";
 
 import { CREATE_PING } from "../../utils/graphql";
 import { useForm } from "../../utils/useForm";
+import { useDashboardContext } from "../../utils/useDashboardContext";
 
 export default function NewComment() {
+  const [{ userPosition }] = useDashboardContext();
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
   const initialState = { body: "", imageUrl: "" };
@@ -22,6 +24,8 @@ export default function NewComment() {
     createPingCb,
     initialState
   );
+
+  console.log(values);
 
   const [createPing] = useMutation(CREATE_PING, {
     onError(err) {
@@ -34,10 +38,13 @@ export default function NewComment() {
   });
 
   function createPingCb(img) {
-    createPing({ variables: { ...values, imageUrl: img } });
+    console.log(userPosition.latitude)
+    // setValues({...values, imageUrl: img, lat: userPosition.latitude, long: userPosition.longitude})
+    createPing({ variables: {...values, imageUrl: img, lat: userPosition.latitude, long: userPosition.longitude} });
   }
 
   function loaderSubmit(e) {
+    // console.log(values);
     setIsLoading(!isLoading);
     handleSubmit(e);
   }

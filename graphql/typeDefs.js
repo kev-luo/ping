@@ -58,7 +58,7 @@ module.exports = gql`
     login(username: String!, password: String!): User! #NOTE: checked
     updateUser(imageUrl: String!): User!
     deleteUser(password: String!): String!
-    createPing(body: String!, imageUrl: String): Ping! #NOTE: checked
+    createPing(body: String!, imageUrl: String, lat: Float!, long: Float!): Ping! #NOTE: checked
     deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping! #NOTE: checked
     deleteComment(pingId: ID!, commentId: ID!): Ping!
