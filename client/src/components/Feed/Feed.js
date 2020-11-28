@@ -20,7 +20,7 @@ import { useDashboardContext } from "../../utils/useDashboardContext";
 
 export default function Feed({ data, feedType }) {
   const classes = useStyles();
-  const [_, dispatch] = useDashboardContext();
+  const [{ viewport }, dispatch] = useDashboardContext();
   const { user } = useAuthContext();
 
   function displayProfile(selectedUser) {
@@ -78,7 +78,7 @@ export default function Feed({ data, feedType }) {
                     <Typography variant="subtitle2">
                       {`${ping.supportCount} Supported |`}
                     </Typography>
-                    <Link to={`/ping/${ping.id}`} className={classes.meta}>
+                    <Link to={`/ping/${ping.id}`} onClick={()=> console.log("TEST")} className={classes.meta}>
                       <Typography variant="subtitle2" onClick={() => displayProfile(ping.author)}>
                         {`${ping.commentCount} Comments`}
                       </Typography>
