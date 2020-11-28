@@ -49,6 +49,8 @@ export default function Register() {
           error={errors.username ? true : false}
           helperText={errors.username}
           onChange={handleChange}
+          color="secondary"
+          style={{flexGrow: 1}}
         />
         <TextField
           label="Email"
@@ -58,6 +60,8 @@ export default function Register() {
           error={errors.email ? true : false}
           helperText={errors.email}
           onChange={handleChange}
+          color="secondary"
+          style={{flexGrow: 1}}
         />
         <TextField
           label="Password"
@@ -67,6 +71,7 @@ export default function Register() {
           error={errors.password ? true : false}
           helperText={errors.password}
           onChange={handleChange}
+          color="secondary"
           fullWidth
         />
         <TextField
@@ -77,6 +82,7 @@ export default function Register() {
           error={errors.confirmPassword ? true : false}
           helperText={errors.confirmPassword}
           onChange={handleChange}
+          color="secondary"
           fullWidth
         />
         <Button
@@ -98,7 +104,6 @@ const useStyles = makeStyles((themes) => ({
     flexWrap: "wrap",
     alignItems: "center",
     "& > *": {
-      flexGrow: 1,
       margin: themes.spacing(0.5, 1),
     },
   },

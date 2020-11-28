@@ -89,8 +89,6 @@ export default function Feed({ data, feedType }) {
                 <Grid item xs={2} container>
                   <Grid item>
                     <SupportPing user={user} ping={ping} />
-                  </Grid>
-                  <Grid item>
                     <Link to={`/ping/${ping.id}`}>
                       <Tooltip title="Comment">
                         <IconButton onClick={() => displayProfile(ping.author)}>

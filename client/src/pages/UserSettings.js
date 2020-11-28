@@ -8,18 +8,18 @@ import { useQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import { FETCH_USER_QUERY } from '../utils/graphql';
-import { useDashboardContext } from '../utils/useDashboardContext';
+import { useAuthContext } from '../utils/useAuthContext';
 import UserSettingsModal from "../components/User/U_Settings/UserSettingsModal";
 
 export default function UserSettings() {
   const classes = useStyles();
   const history = useHistory();
-  const [state] = useDashboardContext();
+  const { user } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const [userSettings, setUserSettings] = useState("");
 
   const { data } = useQuery(FETCH_USER_QUERY, {
-    variables: { userId: state.selectedUser?.id }
+    variables: { userId: user?.id }
   })
 
   function handleClick(e) {

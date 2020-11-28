@@ -28,7 +28,7 @@ const themeDark = createMuiTheme({
     },
     secondary: {
       main: amber[500],
-      contrastText: amber[500],
+      contrastText: "#C13838",
     },
     error: {
       light: red[500],
@@ -54,10 +54,17 @@ const themeOverrides = {
   },
   MuiInput: {
     root: {
-      "&$focused": {
-        borderBottom: `2px solid ${themeDark.palette.error.main}`,
-      },
+      "&$underline:after": {
+        borderBottomColor: themeDark.palette.error.main,
+      }
     },
+  },
+  MuiInputLabel: {
+    root: {
+      "&$focused": {
+        color: themeDark.palette.error.light
+      }
+    }
   },
   MuiTooltip: {
     tooltip: {

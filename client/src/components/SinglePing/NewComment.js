@@ -44,6 +44,7 @@ export default function NewPing(props) {
               rowsMax="3"
               multiline
               fullWidth
+              label="New comment"
             />
           </Grid>
           <Grid item xs={2}>
