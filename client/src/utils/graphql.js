@@ -109,8 +109,8 @@ export const LOGIN_USER = gql`
 `;
 // NOTE: NewPing
 export const CREATE_PING = gql`
-  mutation createPing($body: String!, $imageUrl: String) {
-    createPing(body: $body, imageUrl: $imageUrl) {
+  mutation createPing($body: String!, $imageUrl: String, $lat: Float!, $long: Float!) {
+    createPing(body: $body, imageUrl: $imageUrl, lat: $lat, long: $long) {
       id
       body
       imageUrl
