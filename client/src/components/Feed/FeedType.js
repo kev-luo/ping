@@ -1,29 +1,15 @@
 import React, { useEffect } from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
-import { useQuery } from "@apollo/client";
 
 import { NEW_PING_SUBSCRIPTION, FETCH_PINGS_BY_LOCATION } from "../../utils/graphql";
 import { useDashboardContext } from "../../utils/useDashboardContext";
 import Feed from "./Feed";
 import Loading from "../Loading";
 
-export default function FeedType() {
-  const [{userPosition}] = useDashboardContext();
-  let long;
-  let latt;
-
-  if(userPosition) {
-    long = userPosition.longitude;
-    latt = userPosition.latitude;
-  }
-  
+export default function FeedType({ subscribeToMore, data }) {
   const { pathname } = useLocation();
   const pathArray = pathname.split("/");
-  const { subscribeToMore, loading, error, data } = useQuery(FETCH_PINGS_BY_LOCATION,
-    { skip: !userPosition, variables: { long, latt } });
   
-  
-
   useEffect(() => {
     const unsubscribe = newPingSubscription();
     return () => unsubscribe();
