@@ -52,8 +52,11 @@ module.exports = {
     },
   },
   Mutation: {
-    async createPing(_, { body, imageUrl }, context) {
+    async createPing(_, { body, imageUrl, lat, long }, context) {
       const user = checkAuth(context);
+
+      console.log("coords are here:", lat, long);
+      console.log(body);
 
       if (body.trim() === "") {
         throw new Error("post body must not be empty");
