@@ -41,7 +41,7 @@ export default function Nav({darkMode, setDarkMode}) {
           </Typography>
           <FormControlLabel
             control={<Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />}
-            label="Secondary" labelPlacement="start"
+            label={darkMode ? "Dark Mode" : "Light Mode"} labelPlacement="start"
           />
           {context.user && (
             <>
