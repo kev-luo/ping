@@ -13,7 +13,7 @@ import { FETCH_PINGS_BY_LOCATION } from "../utils/graphql";
 
 export default function SinglePing() {
   const classes = useStyles();
-  const [{userPosition}] = useDashboardContext();
+  const [{ userPosition }] = useDashboardContext();
   let long;
   let latt;
 
