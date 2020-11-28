@@ -168,8 +168,8 @@ export const CREATE_PING = gql`
 `;
 // NOTE: SupportPing
 export const SUPPORT_PING = gql`
-  mutation supportPing($pingId: ID!) {
-    supportPing(pingId: $pingId) {
+  mutation supportPing($pingId: ID!, $support: Boolean!) {
+    supportPing(pingId: $pingId, support: $support) {
       id
       body
       imageUrl
