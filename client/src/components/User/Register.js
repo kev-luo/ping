@@ -50,6 +50,7 @@ export default function Register() {
           helperText={errors.username}
           onChange={handleChange}
           color="secondary"
+          style={{flexGrow: 1}}
         />
         <TextField
           label="Email"
@@ -60,6 +61,7 @@ export default function Register() {
           helperText={errors.email}
           onChange={handleChange}
           color="secondary"
+          style={{flexGrow: 1}}
         />
         <TextField
           label="Password"
@@ -102,7 +104,6 @@ const useStyles = makeStyles((themes) => ({
     flexWrap: "wrap",
     alignItems: "center",
     "& > *": {
-      flexGrow: 1,
       margin: themes.spacing(0.5, 1),
     },
   },

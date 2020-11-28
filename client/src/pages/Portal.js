@@ -13,7 +13,7 @@ export default function SignUpOrIn() {
 
   return (
     <Container>
-      <Tabs variant="fullWidth" value={selectedTab} onChange={handleChange}>
+      <Tabs variant="fullWidth" value={selectedTab} textColor="secondary" centered onChange={handleChange}>
         <Tab label="Login" />
         <Tab label="Register" />
       </Tabs>

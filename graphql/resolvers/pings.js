@@ -34,7 +34,7 @@ module.exports = {
           .populate("author")
           .populate({ path: "support", populate: { path: "user" } })
           .sort({ createdAt: -1 });
-          pings.map(ping => console.log(ping.location));
+          // pings.map(ping => console.log(ping.location));
         return pings;
 
       } catch (err) {

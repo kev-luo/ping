@@ -69,7 +69,7 @@ export default function NewComment() {
               rowsMax="3"
               multiline
               fullWidth
-              label="New ping..."
+              label="New ping"
             />
           </Grid>
           <Grid item sm={3}>
