@@ -49,6 +49,7 @@ export default function Login() {
           onChange={handleChange}
           error={errors.username ? true : false}
           helperText={errors.username}
+          color="secondary"
         />
         <TextField
           label="Password"
@@ -60,6 +61,7 @@ export default function Login() {
           onChange={handleChange}
           error={errors.password ? true : false}
           helperText={errors.password}
+          color="secondary"
         />
         <Button
           type="submit"

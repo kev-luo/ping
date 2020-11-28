@@ -55,7 +55,7 @@ const themeOverrides = {
   MuiInput: {
     root: {
       "&$focused": {
-        borderBottom: `2px solid ${themeDark.palette.error.main}`,
+        // borderBottom: `2px solid ${themeDark.palette.error.main}`,
       },
     },
   },
