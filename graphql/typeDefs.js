@@ -52,7 +52,7 @@ module.exports = gql`
   }
   type Query {
     getPings: [Ping!] #NOTE: checked
-    getPingsByLocation: [Ping!] #NOTE: checking
+    getPingsByLocation(long: Float!, latt: Float!): [Ping!] #NOTE: checking
     getPing(pingId: ID!): Ping #NOTE: checked
     getSupportedPings(userId: ID!): [Ping!] #NOTE: new
     getUsers: [User!] #NOTE: checked

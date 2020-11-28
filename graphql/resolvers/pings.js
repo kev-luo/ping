@@ -20,14 +20,15 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async getPingsByLocation() {
+    async getPingsByLocation(_, { long, latt }) {
+      console.log(long, latt);
       try {
         const pings = await Ping.find({location: {
           $near: {
-           $maxDistance: 100000000000,
+           $maxDistance: 100,
            $geometry: {
             type: "Point",
-            coordinates: [-122.13944319999999, 37.4669312]
+            coordinates: [long, latt]
            }
           }
          }})

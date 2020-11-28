@@ -26,8 +26,6 @@ export default function NewComment() {
     initialState
   );
 
-  console.log(values);
-
   const [createPing] = useMutation(CREATE_PING, {
     onError(err) {
       console.log(err);
