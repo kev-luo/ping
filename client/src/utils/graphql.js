@@ -6,6 +6,37 @@ export const FETCH_PINGS_QUERY = gql`
     getPings {
       id
       body
+      location {
+        type
+        coordinates 
+      }
+      imageUrl
+      createdAt
+      author {
+        id
+        imageUrl
+        username
+      }
+      support {
+        supported
+        user {
+          id
+        }
+      }
+      supportCount
+      commentCount
+    }
+  }
+`;
+export const FETCH_PINGS_BY_LOCATION = gql`
+  {
+    getPingsByLocation {
+      id
+      body
+      location {
+        type
+        coordinates 
+      }
       imageUrl
       createdAt
       author {
@@ -30,6 +61,10 @@ export const FETCH_PING_QUERY = gql`
     getPing(pingId: $pingId) {
       id
       body
+      location {
+        type
+        coordinates
+      }
       imageUrl
       createdAt
       author {
