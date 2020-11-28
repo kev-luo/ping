@@ -12,7 +12,6 @@ export default function Map() {
   const [{ viewport, userPosition }, dispatch] = useDashboardContext();
 
   useEffect(() => {
-    console.log("fired");
     getUserPosition();
   }, [])
 
@@ -20,7 +19,6 @@ export default function Map() {
     if("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
         const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude);
         dispatch({type: Actions.UPDATE_VIEWPORT, payload: { ...viewport, latitude, longitude }});
         dispatch({ type: Actions.UPDATE_USER_POSITION, payload: { latitude, longitude }});
       })
