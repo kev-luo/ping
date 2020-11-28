@@ -34,16 +34,15 @@ export default function SupportPing({ user, ping }) {
     return supportedUsers.length === 0;
   }
 
-  const displayIcon = suppOrNot ? (
-    <FaRegHeart className={classes.support} size={15} />
-  ) : (
-    <FaRegMinusSquare className={classes.dismiss} size={15} />
-  );
-
   return (
-    <Tooltip title={suppOrNot ? "Support" : "Dismiss"}>
-      <IconButton onClick={handleClick}>{displayIcon}</IconButton>
+    <>
+    <Tooltip title="Support">
+      <IconButton onClick={handleClick}><FaRegHeart className={classes.support} size={15} /></IconButton>
     </Tooltip>
+    <Tooltip title="Dismiss">
+      <IconButton onClick={handleClick}><FaRegMinusSquare className={classes.dismiss} size={15} /></IconButton>
+    </Tooltip>
+    </>
   );
 }
 
