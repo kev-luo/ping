@@ -78,9 +78,6 @@ const themeOverrides = {
 };
 
 const themeProps = {
-  MuiButton: {
-    // disableElevation: true,
-  },
   MuiTooltip: {
     arrow: true,
   },
