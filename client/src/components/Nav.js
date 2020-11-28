@@ -60,7 +60,6 @@ export default function Nav({darkMode, setDarkMode}) {
                 color="primary"
                 endIcon={<BiExit />}
                 size="small"
-                className={classes.logout}
                 onClick={logoutOps}
               >
                 Logout
@@ -80,11 +79,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 2px",
     margin: "0 0",
   },
-  logout: {
-    marginLeft: theme.spacing(1),
-  },
   link: {
     color: theme.palette.secondary.dark,
     textDecoration: "none",
+    margin: theme.spacing(1),
   },
 }));

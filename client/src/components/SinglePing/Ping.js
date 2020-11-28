@@ -54,24 +54,33 @@ export default function Feed() {
           <Loading />
         ) : (
           <>
-            <Button color="primary" onClick={() => history.goBack()}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => history.goBack()}
+            >
               Go Back
             </Button>
-            <Typography variant="h6">
-              {`@${data.getPing.author.username}`}
-            </Typography>
-            <div className={classes.metaContainer}>
-              <Typography variant="subtitle2">
-                {`${data.getPing.supportCount} Supported`}
+            <div className={classes.textContainer}>
+              <Typography variant="h6">
+                {`@${data.getPing.author.username}`}
               </Typography>
-              <Typography variant="subtitle2">
-                {`Posted ${moment(Number(data.getPing.createdAt)).fromNow()}`}
-              </Typography>
+              <div className={classes.metaContainer}>
+                <Typography variant="subtitle2">
+                  {`${data.getPing.supportCount} Supported`}
+                </Typography>
+                <Typography variant="subtitle2">
+                  {`Posted ${moment(Number(data.getPing.createdAt)).fromNow()}`}
+                </Typography>
+              </div>
+              <Typography variant="body1">{data.getPing.body}</Typography>
+              {data.getPing.imageUrl && (
+                <img
+                  src={data.getPing.imageUrl}
+                  style={{ maxHeight: "250px" }}
+                />
+              )}
             </div>
-            <Typography variant="body1">{data.getPing.body}</Typography>
-            {data.getPing.imageUrl && (
-              <img src={data.getPing.imageUrl} style={{ maxHeight: "250px" }} />
-            )}
             <NewComment pingId={data.getPing.id} />
           </>
         )}
@@ -90,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
   },
   backLink: {
     textDecoration: "none",
+  },
+  textContainer: {
+    marginLeft: theme.spacing(2)
   },
   metaContainer: {
     display: "flex",
