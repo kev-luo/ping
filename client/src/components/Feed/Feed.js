@@ -50,7 +50,7 @@ export default function Feed({ data, feedType }) {
   return (
     <Paper>
       <Grid item className={classes.root}>
-        <Typography variant="h5" className={classes.title}>
+        <Typography variant="h5" align="center" className={classes.title}>
           {feedType} Pings
         </Typography>
         {data.map((ping) => {
@@ -114,7 +114,7 @@ export default function Feed({ data, feedType }) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#fcf8f2",
+    background: theme.palette.primary.main,
     height: "80vh",
     overflow: "auto",
     padding: theme.spacing(2),
@@ -123,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 1),
     padding: theme.spacing(0, 2),
     paddingRight: 0,
+    background: theme.palette.primary.light
   },
   title: {
     textAlign: "center",

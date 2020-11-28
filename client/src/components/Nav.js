@@ -1,6 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper, AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import {
+  Paper,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core";
 import { BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
@@ -8,7 +16,7 @@ import Actions from "../utils/dashboardActions";
 import { useAuthContext } from "../utils/useAuthContext";
 import { useDashboardContext } from "../utils/useDashboardContext";
 
-export default function Nav() {
+export default function Nav({darkMode, setDarkMode}) {
   const classes = useStyles();
   const context = useAuthContext();
   const [_, dispatch] = useDashboardContext();
@@ -31,13 +39,17 @@ export default function Nav() {
               Ping
             </Link>
           </Typography>
+          <FormControlLabel
+            control={<Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />}
+            label={darkMode ? "Dark Mode" : "Light Mode"} labelPlacement="start"
+          />
           {context.user && (
             <>
               <Link to={`/user/${context.user.id}`} className={classes.link}>
                 <Button
                   onClick={userProfile}
                   variant="contained"
-                  color="default"
+                  color="primary"
                   size="small"
                 >
                   Profile
@@ -45,7 +57,7 @@ export default function Nav() {
               </Link>
               <Button
                 variant="contained"
-                color="default"
+                color="primary"
                 endIcon={<BiExit />}
                 size="small"
                 className={classes.logout}
@@ -66,13 +78,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     fontSize: "2rem",
     padding: "0 2px",
-    margin: "0 0"
+    margin: "0 0",
   },
   logout: {
     marginLeft: theme.spacing(1),
   },
   link: {
-    color: theme.palette.grey[400],
+    color: theme.palette.secondary.dark,
     textDecoration: "none",
   },
 }));

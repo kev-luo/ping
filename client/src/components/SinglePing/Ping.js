@@ -83,7 +83,7 @@ export default function Feed() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#fcf8f2",
+    backgroundColor: theme.palette.primary.main,
     maxHeight: "80vh",
     overflow: "auto",
     padding: theme.spacing(2),
