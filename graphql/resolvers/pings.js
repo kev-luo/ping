@@ -23,6 +23,19 @@ module.exports = {
     async getPingsByLocation(_, { long, latt }) {
       console.log(long, latt);
       try {
+<<<<<<< HEAD
+        const pings = await Ping.find({
+          location: {
+            $near: {
+              $maxDistance: 100,
+              $geometry: {
+                type: "Point",
+                coordinates: [long, latt],
+              },
+            },
+          },
+        })
+=======
         const pings = await Ping.find({location: {
           $near: {
            $maxDistance: 10000000,
@@ -32,12 +45,12 @@ module.exports = {
            }
           }
          }})
+>>>>>>> master
           .populate("author")
           .populate({ path: "support", populate: { path: "user" } })
           .sort({ createdAt: -1 });
-          // pings.map(ping => console.log(ping.location));
+        // pings.map(ping => console.log(ping.location));
         return pings;
-
       } catch (err) {
         throw new Error(err);
       }
@@ -56,7 +69,7 @@ module.exports = {
         throw new Error(err);
       }
     },
-    
+
     // NOTE: might not need this...
     async getSupportedPings(_, { userId }) {
       try {
@@ -89,8 +102,8 @@ module.exports = {
       const ping = await new Ping({
         body,
         imageUrl,
-        location:{
-          coordinates:[long, lat]
+        location: {
+          coordinates: [long, lat],
         },
         author: user.id,
       }).save();
@@ -124,7 +137,7 @@ module.exports = {
         throw new Error(err);
       }
     },
-    async supportPing(_, { pingId }, context) {
+    async supportPing(_, { pingId, support }, context) {
       const user = checkAuth(context);
       // find out if the ping exists
       const findPing = await Ping.findOne({ _id: pingId });
@@ -135,20 +148,9 @@ module.exports = {
         });
 
         if (currentUser) {
-          // if current user has interacted with the ping, remove the user from the supported list
-          await Ping.findOneAndUpdate(
-            { _id: pingId },
-            { $pull: { support: { user: user.id } } },
-            { new: true }
-          );
-          // re-add user with inverted boolean value
           const updatePing = await Ping.findOneAndUpdate(
-            { _id: pingId },
-            {
-              $push: {
-                support: { user: user.id, supported: !currentUser.supported },
-              },
-            },
+            { _id: pingId, "support.user": user.id },
+            { $set: { "support.$.supported": support } },
             { new: true }
           )
             .populate("author")
@@ -158,7 +160,7 @@ module.exports = {
         } else {
           const updatePing = await Ping.findOneAndUpdate(
             { _id: pingId },
-            { $push: { support: { user: user.id, supported: true } } },
+            { $push: { support: { user: user.id, supported: support } } },
             { new: true }
           )
             .populate("author")

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { IconButton, Tooltip } from "@material-ui/core";
+import { IconButton, Tooltip, Snackbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { FaRegHeart, FaRegMinusSquare } from "react-icons/fa";
@@ -9,39 +9,45 @@ import { SUPPORT_PING } from "../utils/graphql";
 
 export default function SupportPing({ user, ping }) {
   const classes = useStyles();
-  const [suppOrNot, setSuppOrNot] = useState(isSupported());
+  const [showFb, setShowFb] = useState(false);
 
   const [supportMutation] = useMutation(SUPPORT_PING, {
-    variables: { pingId: ping.id },
     onError(err) {
       console.log(err);
     },
-    update() {
-      setSuppOrNot(!suppOrNot);
-    },
   });
 
-  function handleClick() {
+  function handleClick(suppBool) {
     if (user) {
-      supportMutation();
+      const alreadySupported = ping.support.filter(supporter => {
+        return supporter.supported === suppBool && supporter.user.id === user.id
+      })
+      if(alreadySupported.length === 1) {
+        setShowFb(true);
+      } else {
+        supportMutation({variables: {pingId: ping.id, support: suppBool}});
+      }
     }
   }
 
-  function isSupported() {
-    const supportedUsers = ping.support.filter((supporter) => {
-      return supporter.supported && supporter.user.id === user?.id;
-    });
-    return supportedUsers.length === 0;
+  function handleClose() {
+    setShowFb(false);
   }
 
   return (
     <>
     <Tooltip title="Support">
-      <IconButton onClick={handleClick}><FaRegHeart className={classes.support} size={15} /></IconButton>
+      <IconButton onClick={() => handleClick(true)}><FaRegHeart className={classes.support} size={15} /></IconButton>
     </Tooltip>
     <Tooltip title="Dismiss">
-      <IconButton onClick={handleClick}><FaRegMinusSquare className={classes.dismiss} size={15} /></IconButton>
+      <IconButton onClick={() => handleClick(false)}><FaRegMinusSquare className={classes.dismiss} size={15} /></IconButton>
     </Tooltip>
+    <Snackbar 
+    anchorOrigin={{vertical: "bottom", horizontal: "center"}}
+      open={showFb}
+      onClose={handleClose}
+      message="You've done this already."
+    />
     </>
   );
 }

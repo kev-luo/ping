@@ -68,7 +68,7 @@ module.exports = gql`
     deletePing(pingId: ID!): String!
     createComment(pingId: ID!, body: String!): Ping! #NOTE: checked
     deleteComment(pingId: ID!, commentId: ID!): Ping!
-    supportPing(pingId: ID!): Ping! #NOTE: checked
+    supportPing(pingId: ID!, support: Boolean!): Ping! #NOTE: checked
     # TODO: test case oauth
   }
   type Subscription {
