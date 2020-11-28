@@ -3,17 +3,24 @@ import ReactMapGL, { NavigationControl, Marker } from "react-map-gl";
 import PlaceTwoTone from "@material-ui/icons/PlaceTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper } from "@material-ui/core";
+import PingPin from "./PingPin";
 
 import { useDashboardContext } from "../../utils/useDashboardContext";
 import Actions from "../../utils/dashboardActions";
+import Loading from "../Loading";
 
-export default function Map() {
+
+export default function Map({ data }) {
   const classes = useStyles();
   const [{ viewport, userPosition }, dispatch] = useDashboardContext();
 
   useEffect(() => {
     getUserPosition();
   }, []);
+
+  const PingPinsComponents = data ? data?.getPingsByLocation.map(ping => {
+    return (<PingPin key={ping.usernam} long={ping.location.coordinates[0]} latt={ping.location.coordinates[1]} />)
+  }) : Loading;
 
   const getUserPosition = () => {
     if ("geolocation" in navigator) {
@@ -54,6 +61,7 @@ export default function Map() {
               }}
             />
           </div>
+
           {userPosition && (
             <Marker
               latitude={userPosition.latitude}
@@ -65,9 +73,11 @@ export default function Map() {
                 style={{ fontSize: "40px", color: "red" }}
               ></PlaceTwoTone>
             </Marker>
+            // map through all of the pings in order to put pins on the map
           )}
 
-          
+          {PingPinsComponents}
+
         </ReactMapGL>
       </Paper>
     </Grid>
