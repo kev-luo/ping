@@ -20,6 +20,27 @@ module.exports = {
         throw new Error(err);
       }
     },
+    async getPingsByLocation() {
+      try {
+        const pings = await Ping.find({location: {
+          $near: {
+           $maxDistance: 100000000000,
+           $geometry: {
+            type: "Point",
+            coordinates: [-122.13944319999999, 37.4669312]
+           }
+          }
+         }})
+          .populate("author")
+          .populate({ path: "support", populate: { path: "user" } })
+          .sort({ createdAt: -1 });
+          pings.map(ping => console.log(ping.location));
+        return pings;
+
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
     async getPing(_, { pingId }) {
       try {
         const ping = await Ping.findById(pingId)
@@ -34,6 +55,7 @@ module.exports = {
         throw new Error(err);
       }
     },
+    
     // NOTE: might not need this...
     async getSupportedPings(_, { userId }) {
       try {
@@ -55,7 +77,6 @@ module.exports = {
     async createPing(_, { body, imageUrl, lat, long }, context) {
       const user = checkAuth(context);
 
-      console.log("coords are here:", lat, long);
       console.log(body);
 
       if (body.trim() === "") {
@@ -67,6 +88,9 @@ module.exports = {
       const ping = await new Ping({
         body,
         imageUrl,
+        location:{
+          coordinates:[long, lat]
+        },
         author: user.id,
       }).save();
 
