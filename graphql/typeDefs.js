@@ -5,12 +5,17 @@ module.exports = gql`
     id: ID!
     body: String!
     imageUrl: String
+    location: Location!
     createdAt: String
     author: User! #NOTE: new
     comments: [Comment!]
     support: [Support!]
     supportCount: Int!
     commentCount: Int!
+  }
+  type Location {
+    type: String!
+    coordinates: [Float!]
   }
   type Comment {
     id: ID!
@@ -47,6 +52,7 @@ module.exports = gql`
   }
   type Query {
     getPings: [Ping!] #NOTE: checked
+    getPingsByLocation: [Ping!] #NOTE: checking
     getPing(pingId: ID!): Ping #NOTE: checked
     getSupportedPings(userId: ID!): [Ping!] #NOTE: new
     getUsers: [User!] #NOTE: checked
