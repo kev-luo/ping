@@ -18,8 +18,10 @@ export default function Map({ data }) {
     getUserPosition();
   }, []);
 
+  // data && console.log(data.getPingsByLocation[0].id);
+
   const PingPinsComponents = data ? data?.getPingsByLocation.map(ping => {
-    return (<PingPin key={ping.usernam} long={ping.location.coordinates[0]} latt={ping.location.coordinates[1]} />)
+    return (<PingPin key={ping.id} pingId={ping.id} long={ping.location.coordinates[0]} latt={ping.location.coordinates[1]} />)
   }) : Loading;
 
   const getUserPosition = () => {

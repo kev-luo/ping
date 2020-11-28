@@ -78,7 +78,7 @@ export default function Feed({ data, feedType }) {
                     <Typography variant="subtitle2">
                       {`${ping.supportCount} Supported |`}
                     </Typography>
-                    <Link to={`/ping/${ping.id}`} onClick={()=> console.log("TEST")} className={classes.meta}>
+                    <Link to={`/ping/${ping.id}`} onClick={()=> dispatch({ type: Actions.UPDATE_VIEWPORT})} className={classes.meta}>
                       <Typography variant="subtitle2" onClick={() => displayProfile(ping.author)}>
                         {`${ping.commentCount} Comments`}
                       </Typography>
