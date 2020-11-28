@@ -4,10 +4,28 @@ import { Grid } from "@material-ui/core";
 
 import UserContainer from "../components/User/UserContainer";
 import Map from "../components/Map/Map";
+import NewPing from "../components/Feed/NewPing";
 import Ping from "../components/SinglePing/Ping";
+
+import { useQuery } from "@apollo/client";
+import { useDashboardContext } from "../utils/useDashboardContext";
+import { FETCH_PINGS_BY_LOCATION } from "../utils/graphql";
 
 export default function SinglePing() {
   const classes = useStyles();
+  const [{ userPosition }] = useDashboardContext();
+  let long;
+  let latt;
+
+  if(userPosition) {
+    long = userPosition.longitude;
+    latt = userPosition.latitude;
+  }
+
+  const { subscribeToMore, data } = useQuery(FETCH_PINGS_BY_LOCATION,
+    { skip: !userPosition, variables: { long, latt } });
+
+
   return (
     <div className={classes.root}>
       <div className={classes.grid}>
@@ -20,7 +38,7 @@ export default function SinglePing() {
             justify="space-between"
           >
             <UserContainer />
-            <Map />
+            <Map data={data}/>
           </Grid>
 
           <Grid item container direction="column" lg={8}>
