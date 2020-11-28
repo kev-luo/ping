@@ -25,7 +25,7 @@ module.exports = {
       try {
         const pings = await Ping.find({location: {
           $near: {
-           $maxDistance: 100,
+           $maxDistance: 10000000,
            $geometry: {
             type: "Point",
             coordinates: [long, latt]
