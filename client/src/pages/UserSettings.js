@@ -42,10 +42,10 @@ export default function UserSettings() {
           Go Back
         </Button>
         {userProfile}
-        <Button color="secondary" endIcon={<FiImage />} onClick={handleClick}>
+        <Button endIcon={<FiImage />} onClick={handleClick}>
           Update Profile Picture
         </Button>
-        <Button color="secondary" endIcon={<MdDelete />} onClick={handleClick}>
+        <Button endIcon={<MdDelete />} onClick={handleClick}>
           Delete Profile
         </Button>
       </Paper>
@@ -82,6 +82,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "50% 50%",
     backroundSize: "cover",
     borderRadius: "50%",
-    margin: "0 auto",
+    margin: "1rem auto",
   },
 }));
