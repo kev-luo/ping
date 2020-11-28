@@ -13,8 +13,8 @@ const theme = createMuiTheme({
     },
     secondary: {
       light: red[500],
-      main: "#B81C1C",
-      dark: "#C13838", // deep red
+      main: "#B81C1C", // red
+      dark: "#C13838", // red
       contrastText: "#fff",
     },
   },
@@ -26,7 +26,7 @@ const themeDark = createMuiTheme({
     primary: {
       light: grey[800],
       main: grey[900],
-      contrastText: "#C44714"
+      contrastText: "#C44714" // dark orange
     },
     secondary: {
       main: amber[500],

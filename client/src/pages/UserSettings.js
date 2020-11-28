@@ -37,15 +37,15 @@ export default function UserSettings() {
 
   return (
     <div className={classes.root}>
-      <Paper>
-        <Button color="primary" onClick={() => history.goBack()}>
+      <Paper className={classes.paper}>
+        <Button color="primary" variant="contained" onClick={() => history.goBack()}>
           Go Back
         </Button>
         {userProfile}
-        <Button endIcon={<FiImage />} onClick={handleClick}>
+        <Button color="secondary" endIcon={<FiImage />} onClick={handleClick}>
           Update Profile Picture
         </Button>
-        <Button endIcon={<MdDelete />} onClick={handleClick}>
+        <Button color="secondary" endIcon={<MdDelete />} onClick={handleClick}>
           Delete Profile
         </Button>
       </Paper>
@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
       height: "auto",
     },
     textAlign: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.primary.main
   },
   media: {
     display: "block",

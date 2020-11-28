@@ -7,7 +7,7 @@ export default function About() {
   const classes = useStyles();
   return (
     <Grid item>
-      <Paper style={{ backgroundColor: "#fcf8f2" }} className={classes.paper}>
+      <Paper className={classes.paper}>
         <Typography variant="h4">Welcome to Ping</Typography>
         <Typography variant="body1">
           Ping helps the community by keeping users informed of local events.
@@ -15,8 +15,8 @@ export default function About() {
           web of real-time event announcements. Pings are automatically deleted
           after 24 hours to keep the information fresh.
         </Typography>
-        <Button>
-          <Link to="/portal">Login or Register Here</Link>
+        <Button variant="contained" color="primary">
+          <Link to="/portal">Get Started!</Link>
         </Button>
       </Paper>
     </Grid>
@@ -26,6 +26,6 @@ export default function About() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    // color: theme.palette.text.secondary,
+    color: theme.palette.text.main,
   },
 }));

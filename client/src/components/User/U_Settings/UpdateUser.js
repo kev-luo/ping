@@ -37,10 +37,10 @@ export default function UpdateUser(props) {
           name="imageUrl"
           accept="image/*"
         />
-        <label className={classes.fileBtn} htmlFor="file">
+        <Button component="label" htmlFor="file">
           Choose a file
-        </label>
-        <Button type="submit" endIcon={<FiImage />}>
+        </Button>
+        <Button type="submit" disabled={values.imageUrl ? false : true} endIcon={<FiImage />}>
           Set Picture
         </Button>
         {values.imageUrl && (
@@ -61,10 +61,6 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-  },
-  fileBtn: {
-    border: "2px solid black",
-    padding: "10px",
   },
   imgPrev: {
     height: "250px",
