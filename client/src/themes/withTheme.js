@@ -22,7 +22,7 @@ const themeDark = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
-      light: grey[800],
+      light: "#313131",
       main: grey[900],
       contrastText: "#C44714", // dark orange
     },
@@ -48,10 +48,8 @@ const themeOverrides = {
       "&:hover": {
         color: themeDark.palette.error.light,
       },
-      fontWeight: 600,
-    },
-    containedSecondary: {
-      fontWeight: 700,
+      fontWeight: 500,
+      backgroundColor: themeDark.palette.primary.light
     },
   },
   MuiInput: {

@@ -131,6 +131,7 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
       border: "none",
       fontSize: "17px",
+      margin: "0 0.2rem"
     },
   },
   activeFeedButton: {
