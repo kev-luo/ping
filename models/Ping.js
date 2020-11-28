@@ -5,8 +5,18 @@ const pingSchema = new Schema(
   {
     body: String,
     imageUrl: String,
-    longitude: Number,
-    latitude: Number,
+    location: {
+      type: {
+        type: String, 
+        enum: ['Point'],
+        required: true
+      },
+      coordinates: {
+        type: [Number],
+        default: [0, 0],
+        required: true
+      }
+    },
     author: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -39,6 +49,8 @@ const pingSchema = new Schema(
   },
   { timestamps: true }
 );
+
+pingSchema.indexes({location: '2dsphere'});
 
 const Ping = mongoose.model("Ping", pingSchema);
 
