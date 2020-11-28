@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Avatar, Grid } from "@material-ui/core";
+import { Typography, Avatar, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
@@ -45,7 +45,7 @@ export default function ProfileBox({ userData }) {
               : ""
           }
         >
-          <button>New Pings</button>
+          <Button variant="contained" color="primary">New Pings</Button>
         </Link>
       );
     }
@@ -85,7 +85,7 @@ export default function ProfileBox({ userData }) {
                   highlightFeed === "supported" ? classes.activeFeedButton : ""
                 }
               >
-                <button>Supported Pings</button>
+                <Button variant="contained" color="primary">Supported Pings</Button>
               </Link>
               <Link
                 to={`/user/pinged/${userData.id}`}
@@ -93,7 +93,7 @@ export default function ProfileBox({ userData }) {
                   highlightFeed === "pinged" ? classes.activeFeedButton : ""
                 }
               >
-                <button>Posted Pings</button>
+                <Button variant="contained" color="primary">Posted Pings</Button>
               </Link>
               {seeNewPings()}
             </Grid>
@@ -114,7 +114,7 @@ const useStyles = makeStyles((themes) => ({
   missingPic: {
     width: "6rem",
     height: "6rem",
-    "& > *": {
+    "& *": {
       width: "4rem",
       height: "4rem",
     },
@@ -127,23 +127,14 @@ const useStyles = makeStyles((themes) => ({
   },
   feedButtons: {
     marginTop: "1rem",
-    "& button": {
+    "& *": {
       textDecoration: "none",
-      backgroundColor: "transparent",
       border: "none",
       fontSize: "17px",
-      "&:focus": {
-        outline: 0,
-      },
-      "&:hover": {
-        cursor: "pointer",
-        color: "#DC143C",
-      },
     },
   },
   activeFeedButton: {
-    borderBottom: "2px solid red",
-    "& > *": {
+    "& *": {
       color: "#DC143C",
     },
   }
